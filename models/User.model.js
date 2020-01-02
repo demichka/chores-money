@@ -48,6 +48,29 @@ const userSchema = new Schema(
 	}
 );
 
+const checkIfAdmin = user => {
+	user.isAdmin = user._id;
+	if (user.role === "admin") {
+		user.isAdmin = "-1";
+	}
+};
+
+userSchema.pre("save", function() {
+	checkIfAdmin(this);
+});
+
+userSchema.post("save", (error, doc, next) => {
+	if (
+		error.name === "MongoError" &&
+		error.code === 11000 &&
+		error.errmsg.includes("isAdmin")
+	) {
+		next(new Error("Admin already exists"));
+	} else {
+		next();
+	}
+});
+
 userSchema.virtual("chores", {
 	ref: "Chore",
 	localField: "_id",

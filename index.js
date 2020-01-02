@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const createRoutes = require("./routes/common-routes");
 const connectionDB = require("./config/connectionDB");
 
 const app = express();
@@ -20,6 +21,8 @@ mongoose
 			console.error(err);
 		}
 	);
+
+createRoutes(app);
 
 app.listen(port, () => {
 	console.log("Server is listening to", port);
