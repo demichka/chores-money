@@ -59,6 +59,9 @@ const routes = (app, prefix, key, Model) => {
 		}
 	});
 	app.post(route, async (req, res) => {
+		if (key === "user") {
+			return res.status(400).json({ error: "Page not found" });
+		}
 		try {
 			let result = await new Model(req.body).save();
 			res.status(200).json(result);

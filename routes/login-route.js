@@ -1,4 +1,5 @@
 const User = require("../models/User.model");
+const encryptPassword = require("../helpers/encrypt-password");
 
 module.exports = useLogin = app => {
 	//when user is logging in
@@ -8,7 +9,7 @@ module.exports = useLogin = app => {
 		let user = await User.findOne({ email: email });
 
 		if (user) {
-			if (user.password === password) {
+			if (user.password === encryptPassword(password)) {
 				if (!user.isActive) {
 					return res.status(400).json({ error: "User is inactive" });
 				} else {

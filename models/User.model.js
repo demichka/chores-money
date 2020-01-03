@@ -25,7 +25,8 @@ const userSchema = new Schema(
 		},
 		isParent: {
 			type: Boolean,
-			default: true
+			default: true,
+			immutable: true
 		},
 		isAdmin: {
 			type: String,
