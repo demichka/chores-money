@@ -28,12 +28,17 @@ const choreSchema = new Schema({
 		default: false,
 		required: true
 	},
-	recipient: {
+	performer: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
 		required: true
 	},
-	sender: {
+	payer: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true
+	},
+	author: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
 		required: true

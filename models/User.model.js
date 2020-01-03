@@ -19,9 +19,13 @@ const userSchema = new Schema(
 		role: {
 			type: String,
 			required: true,
-			default: "parent",
-			enum: ["parent", "child", "admin"],
+			default: "user",
+			enum: ["user", "admin"],
 			immutable: true
+		},
+		isParent: {
+			type: Boolean,
+			default: true
 		},
 		isAdmin: {
 			type: String,
@@ -71,11 +75,23 @@ userSchema.post("save", (error, doc, next) => {
 	}
 });
 
-userSchema.virtual("chores", {
+userSchema.virtual("myChores", {
 	ref: "Chore",
 	localField: "_id",
-	foreignField: "recipient"
+	foreignField: "author"
 });
 
+userSchema.virtual("assignedChores", {
+	ref: "Chore",
+	localField: "_id",
+	foreignField: "performer"
+});
+
+userSchema.methods.toJSON = function() {
+	var obj = this.toObject();
+	delete obj.password;
+	delete obj.isAdmin;
+	return obj;
+};
 const userModel = new model("User", userSchema);
 module.exports = userModel;

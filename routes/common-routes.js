@@ -17,33 +17,45 @@ const createModels = () => {
 const routes = (app, prefix, key, Model) => {
 	let route = prefix + key + "s/";
 	app.get(route, async (req, res) => {
-		try {
-			let result = await Model.find();
-			res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			res.status(400).send(error);
+		if (req.session.user) {
+			try {
+				let result = await Model.find();
+				res.status(200).json(result);
+			} catch (error) {
+				console.error(error);
+				res.status(400).send(error);
+			}
+		} else {
+			res.status(400).json({ error: "Not logged in" });
 		}
 	});
 	app.get(route + ":id", async (req, res) => {
-		try {
-			let result = await Model.findById(req.params.id);
-			res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			res.status(400).send(error);
+		if (req.session.user) {
+			try {
+				let result = await Model.findById(req.params.id);
+				res.status(200).json(result);
+			} catch (error) {
+				console.error(error);
+				res.status(400).send(error);
+			}
+		} else {
+			res.status(400).json({ error: "Not logged in" });
 		}
 	});
 	app.put(route + ":id", async (req, res) => {
-		try {
-			let result = await Model.updateOne(
-				{ _id: req.params.id },
-				req.body
-			);
-			res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			res.status(400).send(error);
+		if (req.session.user) {
+			try {
+				let result = await Model.updateOne(
+					{ _id: req.params.id },
+					req.body
+				);
+				res.status(200).json(result);
+			} catch (error) {
+				console.error(error);
+				res.status(400).send(error);
+			}
+		} else {
+			res.status(400).json({ error: "Not logged in" });
 		}
 	});
 	app.post(route, async (req, res) => {
@@ -56,12 +68,19 @@ const routes = (app, prefix, key, Model) => {
 		}
 	});
 	app.delete(route + ":id", async (req, res) => {
-		try {
-			let result = await Model.deleteOne({ _id: req.params.id });
-			res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			res.status(400).send(error);
+		if (key === "user") {
+			return res.status(400).json({ error: "Page not found" });
+		}
+		if (req.session.user) {
+			try {
+				let result = await Model.deleteOne({ _id: req.params.id });
+				res.status(200).json(result);
+			} catch (error) {
+				console.error(error);
+				res.status(400).send(error);
+			}
+		} else {
+			res.status(400).json({ error: "Not logged in" });
 		}
 	});
 };
