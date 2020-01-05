@@ -10,12 +10,15 @@ const createChore = app => {
 		}
 		let author = await User.findById(user._id);
 		let { desc, isDonation, cost, phone } = req.body;
+		var isDone = false;
+		var isConfirmed = false;
 
 		if (author.isParent) {
 			performer = await User.findOne({ phone: String(phone) });
 			payer = author;
 			if (isDonation) {
-				var isDone = true;
+				isDone = true;
+				isConfirmed = true;
 			}
 		} else {
 			performer = author;
@@ -25,11 +28,12 @@ const createChore = app => {
 		const chore = new Chore({
 			desc: desc,
 			isDonation: isDonation,
-			isDone: isDone || false,
+			isDone: isDone,
 			cost: cost,
 			payer: payer._id,
 			performer: performer._id,
-			author: author._id
+			author: author._id,
+			isConfirmed: isConfirmed
 		});
 
 		try {
@@ -38,6 +42,51 @@ const createChore = app => {
 		} catch (error) {
 			res.status(500).json(error);
 		}
+	});
+
+	app.put("/api/confirm-chore/:id", async (req, res) => {
+		const { user } = req.session;
+		if (!user) {
+			return res.status(400).json({ error: "You are not logged in" });
+		}
+		try {
+			var chore = await Chore.findById(req.params.id);
+		} catch (error) {
+			return res.status(400).json(error);
+		}
+		if (!chore) {
+			return res.status(500).json({ error: "Chore not found" });
+		}
+
+		try {
+			await chore.updateOne({ isConfirmed: true });
+			await chore.save();
+		} catch (error) {
+			return res.status(500).json(error);
+		}
+		res.status(200).json(chore);
+	});
+
+	app.delete("/api/reject-chore/:id", async (req, res) => {
+		const { user } = req.session;
+		if (!user) {
+			return res.status(400).json({ error: "You are not logged in" });
+		}
+		try {
+			var chore = await Chore.findById(req.params.id);
+		} catch (error) {
+			return res.status(400).json(error);
+		}
+		if (!chore) {
+			return res.status(500).json({ error: "Chore not found" });
+		}
+
+		try {
+			await chore.deleteOne({ _id: req.params.id });
+		} catch (error) {
+			return res.status(500).json(error);
+		}
+		res.status(200).end();
 	});
 
 	app.put("/api/edit-chore/:id", async (req, res) => {
@@ -89,9 +138,12 @@ const createChore = app => {
 			});
 		}
 
+		let payer = await User.findById(chore.payer);
 		try {
 			await chore.updateOne({ isDone: true });
 			await chore.save();
+			payer.balance -= chore.cost;
+			await payer.save();
 			return res.status(200).json(chore);
 		} catch (error) {
 			res.status(400).json(error);
@@ -124,10 +176,17 @@ const createChore = app => {
 				error: "Chore is not done and can't be paid now"
 			});
 		}
+		let payer = await User.findById(chore.payer);
+		let performer = await User.findById(chore.performer);
 
 		try {
 			await chore.updateOne({ isPaid: true });
 			await chore.save();
+			payer.balance += chore.cost;
+			await payer.save();
+			performer.balance += chore.cost;
+			await performer.save();
+
 			return res.status(200).json(chore);
 		} catch (error) {
 			res.status(400).json(error);

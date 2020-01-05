@@ -46,6 +46,11 @@ const choreSchema = new Schema({
 	date: {
 		type: Date,
 		default: Date.now()
+	},
+	isConfirmed: {
+		type: Boolean,
+		default: true,
+		required: true
 	}
 });
 

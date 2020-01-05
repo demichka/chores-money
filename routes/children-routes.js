@@ -137,6 +137,23 @@ const registerChild = app => {
 		}
 		res.status(200).end();
 	});
+
+	app.get("/api/my-children", async (req, res) => {
+		const { user } = req.session;
+		if (!user) {
+			return res.status(400).send("You are not logged in");
+		}
+
+		try {
+			const parent = await User.findById(user._id).populate(
+				"children",
+				"name phone"
+			);
+			res.status(200).json(parent.children);
+		} catch (error) {
+			res.status(500).json(error);
+		}
+	});
 };
 
 module.exports = registerChild;
