@@ -88,6 +88,18 @@ userSchema.virtual("assignedChores", {
 	foreignField: "performer"
 });
 
+userSchema.virtual("choresForPayment", {
+	ref: "Chore",
+	localField: "_id",
+	foreignField: "payer"
+});
+
+userSchema.virtual("transactions", {
+	ref: "Transaction",
+	localField: "_id",
+	foreignField: "author"
+});
+
 userSchema.methods.toJSON = function() {
 	var obj = this.toObject();
 	delete obj.password;

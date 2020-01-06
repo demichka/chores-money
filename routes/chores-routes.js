@@ -224,6 +224,52 @@ const createChore = app => {
 		}
 		res.status(200).json({ message: "This chore is removed" });
 	});
+
+	app.get("/api/my-chores", async (req, res) => {
+		const { user } = req.session;
+		if (!user) {
+			return res.status(400).json({ error: "You are not logged in" });
+		}
+
+		try {
+			let childChores = await User.findById(user._id)
+				.populate({
+					path: "myChores",
+					populate: {
+						path: "author",
+						model: "User"
+					}
+				})
+				.populate({
+					path: "assignedChores",
+					populate: {
+						path: "performer",
+						model: "User"
+					}
+				});
+
+			let parentChores = await User.findById(user._id).populate({
+				path: "choresForPayment",
+				populate: {
+					path: "payer",
+					model: "User"
+				}
+			});
+
+			if (user.isParent) {
+				return res.status(200).json({
+					choresForPayment: parentChores.choresForPayment
+				});
+			} else {
+				return res.status(200).json({
+					myChores: childChores.myChores,
+					assignedChores: childChores.assignedChores
+				});
+			}
+		} catch (error) {
+			return res.status(500).json(error);
+		}
+	});
 };
 
 module.exports = createChore;
