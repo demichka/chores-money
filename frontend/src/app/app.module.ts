@@ -6,15 +6,19 @@ import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DemoMaterialModule } from "./material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { LoginComponent } from "./components/login/login.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MainPageComponent } from './components/main-page/main-page.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoginComponent, MainPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

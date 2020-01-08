@@ -1,0 +1,39 @@
+@import "../../../assets/scss/custom-variables";
+
+.containerf {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+h1.app-name {
+  margin-left: 8px;
+}
+
+.sidenav-container {
+  flex: 1;
+  & > * {
+    min-width: 20%;
+  }
+  @media (max-width: 812px) {
+    & > * {
+      min-width: 70%;
+    }
+  }
+}
+
+.btn-menu {
+  color: #fff;
+}
+.non-mobile-container {
+  background-color: $primary-color;
+  min-height: 100vh;
+  color: #fff;
+  & > * {
+    text-align: center;
+  }
+}
