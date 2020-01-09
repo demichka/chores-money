@@ -8,19 +8,19 @@ import { DemoMaterialModule } from "./material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoginComponent } from "./components/login/login.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { MainPageComponent } from './components/main-page/main-page.component';
+import { MainPageComponent } from "./components/main-page/main-page.component";
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, MainPageComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    DemoMaterialModule,
-    FlexLayoutModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent, LoginComponent, MainPageComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        ReactiveFormsModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
