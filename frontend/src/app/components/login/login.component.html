@@ -1,5 +1,5 @@
 <section class="fx-container-center">
-  <form [formGroup]="loginForm" class="login-form">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" novalidate>
     <h3>Login</h3>
     <div>
       <mat-form-field>
@@ -9,9 +9,10 @@
     </div>
     <div>
       <mat-form-field>
-        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
+        <input formControlName="password" required matInput placeholder="Enter your password"
+          [type]="hide ? 'password' : 'text'">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide">
+          [attr.aria-pressed]="hide" type="button">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>

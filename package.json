@@ -4,7 +4,7 @@
 	"description": "app to manage chores and pocket money",
 	"main": "index.js",
 	"scripts": {
-		"start": "concurrently \"npm:backend\" \"npm:frontend\"",
+		"start": "set NODE_ENV=development && concurrently \"npm:backend\" \"npm:frontend\"",
 		"backend": "nodemon index",
 		"frontend": "cd frontend && ng serve --watch",
 		"test": "echo \"Error: no test specified\" && exit 1"

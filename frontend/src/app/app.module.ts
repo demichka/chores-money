@@ -9,6 +9,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoginComponent } from "./components/login/login.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MainPageComponent } from "./components/main-page/main-page.component";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     declarations: [AppComponent, LoginComponent, MainPageComponent],
@@ -18,7 +19,8 @@ import { MainPageComponent } from "./components/main-page/main-page.component";
         BrowserAnimationsModule,
         DemoMaterialModule,
         FlexLayoutModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]
