@@ -15,3 +15,11 @@ export class User {
     choresForPayment: [];
     transactions: [];
 }
+
+export class UserInterface {
+    name: string;
+    phone: string;
+    email: string;
+    password: string;
+    isParent: boolean;
+}

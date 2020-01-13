@@ -1,13 +1,9 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
+import { UserInterface } from "src/app/models/user.model";
+import { ApiService } from "src/app/services/api.service";
+import { Router } from "@angular/router";
 
-export interface UserInterface {
-    name: string;
-    phone: string;
-    email: string;
-    password: string;
-    isParent: boolean;
-}
 @Component({
     selector: "app-register-form",
     templateUrl: "./register-form.component.html",
@@ -22,6 +18,7 @@ export class RegisterFormComponent implements OnInit {
     parent = new FormControl(false);
     hide = true;
     data: UserInterface;
+    errors: {};
 
     registerForm = new FormGroup({
         name: this.name,
@@ -39,16 +36,28 @@ export class RegisterFormComponent implements OnInit {
             : "";
     }
 
+    constructor(private apiService: ApiService, private router: Router) {}
+
     onSubmit() {
         if (this.registerForm.invalid) {
             throw "form is invalid";
         }
         this.data = this.registerForm.value;
         console.log(this.data);
+        this.apiService.registerAccount(this.data).subscribe(
+            res => {
+                this.router.navigate(["login"]);
+            },
+            error => {
+                this.errors = error.error;
+                console.log(this.errors, "errors");
+            }
+        );
     }
-    constructor() {}
 
     ngOnInit() {
         this.parent.setValue(this.isParent);
     }
+
+    redirectUrl() {}
 }

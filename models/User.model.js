@@ -4,7 +4,9 @@ const userSchema = new Schema(
 	{
 		name: {
 			type: String,
-			required: true
+			required: true,
+			max: 10,
+			min: 3
 		},
 		email: {
 			type: String,
@@ -14,7 +16,9 @@ const userSchema = new Schema(
 		phone: {
 			type: String,
 			required: true,
-			unique: true
+			unique: true,
+			max: 10,
+			min: 3
 		},
 		role: {
 			type: String,

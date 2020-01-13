@@ -9,7 +9,5 @@ export class RegisterPageComponent implements OnInit {
     isParent: boolean = true;
     constructor() {}
 
-    ngOnInit() {
-        console.log(this.isParent);
-    }
+    ngOnInit() {}
 }
