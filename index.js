@@ -5,6 +5,7 @@ const createRoutes = require("./routes/common-routes");
 const connectionDB = require("./config/connectionDB");
 const connectMongo = require("connect-mongo")(session);
 const useCustomRoutes = require("./routes/custom-routes");
+const cors = require('cors')
 
 const app = express();
 const salt = "Not a big secret";
@@ -31,28 +32,19 @@ app.use(
 		secret: salt,
 		resave: false,
 		saveUninitialized: true,
-		cookie: { secure: false }, //true on https
+		cookie: { secure: false, httpOnly: true,  }, //true on https
 		store: new connectMongo({ mongooseConnection: mongoose.connection })
 	})
 );
 
-app.use((req, res, next) => {
-	
-	// Website you wish to allow to connect
-	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-	// Request methods you wish to allow
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//Add middleware to get access to send request from frontend server to backend server
+app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
 
-	// Request headers you wish to allow
-	res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
-  
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  
-	// Pass to next layer of middleware
-	next();
-})
 
+//create common REST routes according with Mongoose models
 createRoutes(app);
+
+//create custom REST routes
 useCustomRoutes(app);
 
 

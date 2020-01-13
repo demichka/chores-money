@@ -27,7 +27,11 @@ export class LoginComponent implements OnInit {
             ? "Not a valid email"
             : "";
     }
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {
+        if (this.authService.currentUserValue) {
+            this.router.navigate(["/"]);
+        }
+    }
 
     ngOnInit() {}
 

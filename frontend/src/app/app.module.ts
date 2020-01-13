@@ -9,10 +9,13 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoginComponent } from "./components/login/login.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MainPageComponent } from "./components/main-page/main-page.component";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
+import { AuthService } from "./services/auth.service";
+import { AuthGuardService } from "./services/auth-guard.service";
+import { StartPageComponent } from './components/start-page/start-page.component';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, MainPageComponent],
+    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -22,7 +25,7 @@ import { HttpClient, HttpClientModule } from "@angular/common/http";
         ReactiveFormsModule,
         HttpClientModule
     ],
-    providers: [],
+    providers: [AuthService, AuthGuardService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

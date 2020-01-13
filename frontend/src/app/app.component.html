@@ -1,1 +1,7 @@
-<router-outlet></router-outlet>
+<div *ngIf="currentUser">
+	<router-outlet></router-outlet>
+</div>
+
+<div class="fx-container-center" *ngIf="!currentUser">
+	<mat-spinner></mat-spinner>
+</div>
