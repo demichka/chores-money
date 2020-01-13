@@ -3,6 +3,7 @@ import { MediaMatcher } from "@angular/cdk/layout";
 import { User } from "src/app/models/user.model";
 import { Subscription } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-main-page",
@@ -29,7 +30,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     constructor(
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) {
         if (window.localStorage.getItem("saveChoice") === null) {
             window.localStorage.setItem("saveChoice", "false");
@@ -66,5 +68,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.mobileQuery.removeListener(this._mobileQueryListener);
+    }
+
+    logout() {
+        this.authService
+            .logout()
+            .subscribe(result => this.router.navigate(["/login"]));
     }
 }

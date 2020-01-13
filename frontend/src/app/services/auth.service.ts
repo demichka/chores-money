@@ -63,4 +63,11 @@ export class AuthService {
                 })
             );
     }
+
+    logout() {
+        let path = restPath + "/api/logout";
+        return this.http
+            .get(path, { withCredentials: true })
+            .pipe(map(res => this.userSubject.next(null)));
+    }
 }
