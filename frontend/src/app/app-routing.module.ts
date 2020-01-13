@@ -4,6 +4,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { MainPageComponent } from "./components/main-page/main-page.component";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { StartPageComponent } from "./components/start-page/start-page.component";
+import { RegisterPageComponent } from "./components/register-page/register-page.component";
 
 const routes: Routes = [
     {
@@ -19,6 +20,7 @@ const routes: Routes = [
         ]
     },
     { path: "login", component: LoginComponent },
+    { path: "register", component: RegisterPageComponent },
     { path: "**", redirectTo: "" }
 ];
 

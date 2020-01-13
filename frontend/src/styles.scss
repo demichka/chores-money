@@ -29,3 +29,27 @@ h3 {
     text-align: center;
     color: $primary-color;
 }
+
+form {
+    width: 320px;
+    margin: auto;
+    padding: 0 15px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
+    & > * > * {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 20px;
+        white-space: nowrap;
+    }
+    a {
+        display: block;
+        white-space: nowrap;
+    }
+}
