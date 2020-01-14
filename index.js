@@ -31,7 +31,7 @@ app.use(
 	session({
 		secret: salt,
 		resave: false,
-		saveUninitialized: true,
+		saveUninitialized: false,
 		cookie: { secure: false, httpOnly: true,  }, //true on https
 		store: new connectMongo({ mongooseConnection: mongoose.connection })
 	})

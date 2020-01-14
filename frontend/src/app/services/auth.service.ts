@@ -18,19 +18,23 @@ export class AuthService {
         headers: new HttpHeaders({
             "Content-Type": "application/json"
         }),
-        withCredentials: true
+        withCredentials: true,
+        Accept: "application/json"
     };
 
     constructor(private http: HttpClient) {
-        this.userSubject = new BehaviorSubject<User>(this.user);
+        this.userSubject = new BehaviorSubject<User>(
+            JSON.parse(localStorage.getItem("user"))
+        );
         this.currentUser$ = this.userSubject.asObservable();
         this.checkLogin()
             .pipe(first())
             .subscribe(data => {
                 if (data) {
                     this.userSubject.next(data);
-                    return data;
+                    localStorage.setItem("user", JSON.stringify(data));
                 } else {
+                    localStorage.removeItem("user");
                     return false;
                 }
             });
@@ -56,16 +60,16 @@ export class AuthService {
             .pipe(
                 map(user => {
                     if (user) {
-                        this.user = user;
-                        this.userSubject.next(this.user);
+                        localStorage.setItem("user", JSON.stringify(user));
+                        this.userSubject.next(user);
                     }
-                    return user;
                 })
             );
     }
 
     logout() {
         let path = restPath + "/api/logout";
+        localStorage.removeItem("user");
         return this.http
             .get(path, { withCredentials: true })
             .pipe(map(res => this.userSubject.next(null)));
