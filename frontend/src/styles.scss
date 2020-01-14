@@ -23,6 +23,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .register-form {
+        width: 320px;
+        margin: auto;
+        padding: 0 15px;
+    }
 }
 
 h3 {
@@ -31,9 +36,11 @@ h3 {
 }
 
 form {
-    width: 320px;
-    margin: auto;
-    padding: 0 15px;
+    &.login-form {
+        width: 320px;
+        margin: auto;
+        padding: 0 15px;
+    }
 
     & > * > * {
         width: 100%;
@@ -67,4 +74,8 @@ a {
 
 .d-block {
     display: block;
+}
+
+.m-auto {
+    margin: auto;
 }

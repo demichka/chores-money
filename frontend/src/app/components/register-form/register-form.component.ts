@@ -108,7 +108,6 @@ export class RegisterFormComponent implements OnInit {
         } else {
             this.apiService.registerChildAccount(this.data).subscribe(
                 res => {
-                    console.log(res, "res");
                     this.router.navigate(["children"]);
                 },
                 error => {
@@ -116,7 +115,6 @@ export class RegisterFormComponent implements OnInit {
                     this.openSnackBar(this.errors.error, "close");
                 }
             );
-            console.log("child is created!");
         }
     }
 

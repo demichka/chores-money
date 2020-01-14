@@ -58,13 +58,13 @@ const registerChild = app => {
 		});
 	});
 
-	app.get("/api/add-child", async (req, res) => {
+	app.post("/api/add-child", async (req, res) => {
 		const { user } = req.session;
 		if (!user) {
 			return res.status(400).send("You are not logged in");
 		}
 		if (!user.isParent && user.role !== "admin") {
-			return res.status(400).send("You are not parent");
+			return res.status(400).json({error: "You are not parent"});
 		}
 
 		const { phone } = req.body;

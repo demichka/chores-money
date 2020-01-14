@@ -1,1 +1,19 @@
-<div class="my-1"><a routerLink="/children/register-child" class="w100" mat-raised-button>Register a child</a></div>
+<div class="row">
+	<div class="col l8 push-l2">
+		<form [formGroup]="addChildForm" (ngSubmit)="onSubmit()">
+			<h3>Add a child by phone number:</h3>
+			<div>
+				<mat-form-field>
+					<input matInput placeholder="Phone number" #phoneInput formControlName="phone" maxlength="10"
+						minlength="5"
+						required>
+					<mat-error *ngIf="phone.invalid">{{getErrorMessagePhone()}}</mat-error>
+				</mat-form-field>
+			</div>
+			<button mat-raised-button color=primary title="Register account">Add a child</button>
+		</form>
+
+		<div class="my-1"><a routerLink="/children/register-child" class="w100" mat-raised-button>Register a child</a>
+		</div>
+	</div>
+</div>

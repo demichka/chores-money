@@ -60,4 +60,15 @@ export class ApiService {
             )
             .pipe(retry(2));
     }
+
+    //add a child from existed users
+    addChild(data): Observable<any> {
+        return this.http
+            .post<any>(
+                restPath + "/api/add-child",
+                JSON.stringify(data),
+                this.httpOptions
+            )
+            .pipe(retry(2));
+    }
 }
