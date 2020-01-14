@@ -9,12 +9,12 @@
 		</mat-toolbar>
 		<mat-sidenav-container class="sidenav-container">
 
-			<mat-sidenav #snav>
+			<mat-sidenav class="sidenav-custom" #snav>
 				<p>User: {{user ? user.name : ''}}</p>
-				<mat-nav-list>
-					nav-list
-					<button mat-button (click)="logout()">Log out</button>
-				</mat-nav-list>
+				<app-menu></app-menu>
+				<a class="logout-btn" (click)="logout()"><i class="material-icons">
+						exit_to_app
+					</i><span>Log out</span></a>
 			</mat-sidenav>
 			<mat-sidenav-content class="row">
 				<div class="col s12 m12 l6 push-l4 xl4 push-xl4">

@@ -1,39 +1,65 @@
 @import "../../../assets/scss/custom-variables";
 
 .containerf {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 h1.app-name {
-  margin-left: 8px;
+    margin-left: 8px;
 }
 
 .sidenav-container {
-  flex: 1;
-  & > * {
-    min-width: 20%;
-  }
-  @media (max-width: 812px) {
-    & > * {
-      min-width: 70%;
+    flex: 1;
+}
+
+.sidenav-custom {
+    min-width: 25%;
+    padding: 15px;
+
+    @media (min-width: 1025px) {
+        min-width: 15%;
+        padding: 15px 25px 0 50px;
     }
-  }
+    @media (max-width: 400px) {
+        width: 70%;
+        padding: 15px;
+    }
 }
 
 .btn-menu {
-  color: #fff;
+    color: #fff;
 }
 .non-mobile-container {
-  background-color: $primary-color;
-  min-height: 100vh;
-  color: #fff;
-  & > * {
-    text-align: center;
-  }
+    background-color: $primary-color;
+    min-height: 100vh;
+    color: #fff;
+    & > * {
+        text-align: center;
+    }
+}
+
+.logout-btn {
+    display: flex;
+    width: 100%;
+    line-height: 1.6rem;
+    padding: 7px 0;
+    white-space: nowrap;
+    cursor: pointer;
+    i {
+        vertical-align: baseline;
+        padding-right: 10px;
+    }
+
+    &:hover,
+    &.active {
+        & > * {
+            color: $secondary-color;
+        }
+    }
 }

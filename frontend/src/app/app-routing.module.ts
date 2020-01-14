@@ -5,6 +5,7 @@ import { MainPageComponent } from "./components/main-page/main-page.component";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { StartPageComponent } from "./components/start-page/start-page.component";
 import { RegisterPageComponent } from "./components/register-page/register-page.component";
+import { ProfilePageComponent } from "./components/profile-page/profile-page.component";
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
             {
                 path: "",
                 component: StartPageComponent
+            },
+            {
+                path: "profile",
+                component: ProfilePageComponent
             }
         ]
     },

@@ -15,9 +15,11 @@ import { AuthGuardService } from "./services/auth-guard.service";
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent],
+    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

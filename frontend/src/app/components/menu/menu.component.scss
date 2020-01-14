@@ -1,0 +1,20 @@
+@import "../../../assets/scss/custom-variables";
+
+.menu-item {
+    display: flex;
+    width: 100%;
+    line-height: 1.6rem;
+    padding: 7px 0;
+    white-space: nowrap;
+    i {
+        vertical-align: baseline;
+        padding-right: 10px;
+    }
+
+    &:hover,
+    &.active {
+        & > * {
+            color: $secondary-color;
+        }
+    }
+}
