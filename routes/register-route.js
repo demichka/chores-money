@@ -12,19 +12,19 @@ const registerUser = app => {
 		let notUniqueEmail = await User.findOne({ email: email });
 
 		if (notUniqueEmail) {
-			return res.status(500).json({ error: "email" });
+			return res.status(500).json({ error: "Email address is already exists." });
 		}
 
 		let notUniquePhone = await User.findOne({ phone: phone });
 
 		if (notUniquePhone) {
-			return res.status(500).json({ error: "phone" });
+			return res.status(500).json({ error: "Phone number is already exists." });
 		}
 
 		try {
 			await user.save();
 			res.status(200).json({
-				message: `User is successfully registered`,
+				message: `Account is successfully registered`,
 				user: user,
 				email: user.email
 			});

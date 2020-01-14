@@ -3,7 +3,7 @@
 	<div>
 		<mat-form-field hintLabel="Max 10 characters">
 			<input matInput placeholder="Name" #nameInput formControlName="name" required>
-			<mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
+			<mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
 			<mat-hint align="end">{{nameInput.value?.length || 0}}/10</mat-hint>
 		</mat-form-field>
 	</div>
@@ -15,14 +15,17 @@
 	</div>
 	<div>
 		<mat-form-field>
-			<input matInput placeholder="Phone number" #phoneInput formControlName="phone" required>
-			<mat-error *ngIf="phone.invalid">{{getErrorMessage()}}</mat-error>
+			<input matInput placeholder="Phone number" #phoneInput formControlName="phone" maxlength="10" minlength="5"
+				required>
+			<mat-error *ngIf="phone.invalid">{{getErrorMessagePhone()}}</mat-error>
 		</mat-form-field>
 	</div>
 	<div>
 		<mat-form-field>
-			<input formControlName="password" required matInput placeholder="Password"
+			<input formControlName="password" maxlength="12" minlength="5" required matInput placeholder="Password"
 				[type]="hide ? 'password' : 'text'">
+			<mat-error *ngIf="password.invalid">{{getErrorMessagePwd()}}</mat-error>
+
 			<button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
 				[attr.aria-pressed]="hide" type="button">
 				<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -30,5 +33,4 @@
 		</mat-form-field>
 	</div>
 	<button mat-raised-button color=primary title="Register account">Register account</button>
-
 </form>
