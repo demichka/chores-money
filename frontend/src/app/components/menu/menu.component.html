@@ -1,19 +1,24 @@
 <mat-nav-list>
-	<a class="menu-item" routerLink="profile" routerLinkActive="active"><i class="material-icons">
+	<a class="menu-item" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><i
+			class="material-icons">
 			account_circle
 		</i><span>Profile</span></a>
-	<a class="menu-item" routerLink="chores" routerLinkActive="active"><i class="material-icons">
+	<a class="menu-item" routerLink="//chores" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><i
+			class="material-icons">
 			list
 		</i><span>Chores</span></a>
-	<a class="menu-item" routerLink="chores/add-chore" routerLinkActive="active"><i
+	<a class="menu-item" routerLink="chores/add-chore" routerLinkActive="active"
+		[routerLinkActiveOptions]="{exact: true}"><i
 			class="material-icons">
 			note_add
 		</i><span>Add chore</span></a>
-	<a class="menu-item" routerLink="children" routerLinkActive="active"><i class="material-icons">
+	<a class="menu-item" routerLink="/children" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><i
+			class="material-icons">
 			group
 		</i><span>Children</span></a>
-	<a class="menu-item" routerLink="children/register-child" routerLinkActive="active"><i
+	<a class="menu-item" routerLink="/children/add-child" routerLinkActive="active"
+		[routerLinkActiveOptions]="{exact: true}"><i
 			class="material-icons">
 			face
-		</i><span>Register child</span></a>
+		</i><span>Add child</span></a>
 </mat-nav-list>

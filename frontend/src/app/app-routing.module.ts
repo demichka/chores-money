@@ -6,6 +6,9 @@ import { AuthGuardService } from "./services/auth-guard.service";
 import { StartPageComponent } from "./components/start-page/start-page.component";
 import { RegisterPageComponent } from "./components/register-page/register-page.component";
 import { ProfilePageComponent } from "./components/profile-page/profile-page.component";
+import { AddChildComponent } from "./components/add-child/add-child.component";
+import { RegisterChildComponent } from "./components/register-child/register-child.component";
+import { ChildrenListComponent } from "./components/children-list/children-list.component";
 
 const routes: Routes = [
     {
@@ -21,6 +24,18 @@ const routes: Routes = [
             {
                 path: "profile",
                 component: ProfilePageComponent
+            },
+            {
+                path: "children/add-child",
+                component: AddChildComponent
+            },
+            {
+                path: "children/register-child",
+                component: RegisterChildComponent
+            },
+            {
+                path: "children",
+                component: ChildrenListComponent
             }
         ]
     },

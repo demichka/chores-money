@@ -95,15 +95,29 @@ export class RegisterFormComponent implements OnInit {
         }
         this.errors.error = "";
         this.data = this.registerForm.value;
-        this.apiService.registerAccount(this.data).subscribe(
-            res => {
-                this.router.navigate(["login"]);
-            },
-            error => {
-                this.errors = error.error;
-                this.openSnackBar(this.errors.error, "close");
-            }
-        );
+        if (this.isParent) {
+            this.apiService.registerAccount(this.data).subscribe(
+                res => {
+                    this.router.navigate(["login"]);
+                },
+                error => {
+                    this.errors = error.error;
+                    this.openSnackBar(this.errors.error, "close");
+                }
+            );
+        } else {
+            this.apiService.registerChildAccount(this.data).subscribe(
+                res => {
+                    console.log(res, "res");
+                    this.router.navigate(["children"]);
+                },
+                error => {
+                    this.errors = error.error;
+                    this.openSnackBar(this.errors.error, "close");
+                }
+            );
+            console.log("child is created!");
+        }
     }
 
     //func to open snackbar (material component) to show error which returns as response from server
@@ -117,5 +131,7 @@ export class RegisterFormComponent implements OnInit {
         // set isParent as true if this form is a child to registration-page
         //otherwise it means that form is for creating child account (another parent component)
         this.parent.setValue(this.isParent);
+
+        console.log(this.isParent);
     }
 }

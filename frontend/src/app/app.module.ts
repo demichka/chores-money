@@ -17,9 +17,12 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { AddChildComponent } from './components/add-child/add-child.component';
+import { RegisterChildComponent } from './components/register-child/register-child.component';
+import { ChildrenListComponent } from './components/children-list/children-list.component';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent],
+    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent, AddChildComponent, RegisterChildComponent, ChildrenListComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

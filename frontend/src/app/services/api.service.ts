@@ -48,4 +48,16 @@ export class ApiService {
             )
             .pipe(retry(2));
     }
+
+    //register new account for a child
+
+    registerChildAccount(user): Observable<any> {
+        return this.http
+            .post<UserInterface>(
+                restPath + "/api/register-child",
+                JSON.stringify(user),
+                this.httpOptions
+            )
+            .pipe(retry(2));
+    }
 }
