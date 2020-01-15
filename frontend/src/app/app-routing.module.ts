@@ -9,6 +9,7 @@ import { ProfilePageComponent } from "./components/profile-page/profile-page.com
 import { AddChildComponent } from "./components/add-child/add-child.component";
 import { RegisterChildComponent } from "./components/register-child/register-child.component";
 import { ChildrenListComponent } from "./components/children-list/children-list.component";
+import { ParentGuardService } from "./services/parent-guard.service";
 
 const routes: Routes = [
     {
@@ -27,15 +28,18 @@ const routes: Routes = [
             },
             {
                 path: "children/add-child",
-                component: AddChildComponent
+                component: AddChildComponent,
+                canActivate: [ParentGuardService]
             },
             {
                 path: "children/register-child",
-                component: RegisterChildComponent
+                component: RegisterChildComponent,
+                canActivate: [ParentGuardService]
             },
             {
                 path: "children",
-                component: ChildrenListComponent
+                component: ChildrenListComponent,
+                canActivate: [ParentGuardService]
             }
         ]
     },

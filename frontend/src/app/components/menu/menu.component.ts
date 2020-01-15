@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ParentGuardService } from "src/app/services/parent-guard.service";
 
 @Component({
     selector: "app-menu",
@@ -6,7 +7,10 @@ import { Component, OnInit } from "@angular/core";
     styleUrls: ["./menu.component.scss"]
 })
 export class MenuComponent implements OnInit {
-    constructor() {}
+    isParent: boolean;
+    constructor(private parentGuard: ParentGuardService) {
+        this.isParent = this.parentGuard.canActivate();
+    }
 
     ngOnInit() {}
 }

@@ -12,13 +12,19 @@
 			class="material-icons">
 			note_add
 		</i><span>Add chore</span></a>
-	<a class="menu-item" routerLink="/children" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><i
+	<a class="menu-item" *ngIf="isParent" routerLink="/children" routerLinkActive="active"
+		[routerLinkActiveOptions]="{exact: true}"><i
 			class="material-icons">
 			group
 		</i><span>Children</span></a>
-	<a class="menu-item" routerLink="/children/add-child" routerLinkActive="active"
+	<a class="menu-item" *ngIf="isParent" routerLink="/children/add-child" routerLinkActive="active"
 		[routerLinkActiveOptions]="{exact: true}"><i
 			class="material-icons">
 			face
 		</i><span>Add child</span></a>
+	<a class="menu-item" *ngIf="!isParent" routerLink="/parents" routerLinkActive="active"
+		[routerLinkActiveOptions]="{exact: true}"><i
+			class="material-icons">
+			group
+		</i><span>Parents</span></a>
 </mat-nav-list>
