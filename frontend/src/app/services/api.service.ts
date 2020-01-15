@@ -71,4 +71,12 @@ export class ApiService {
             )
             .pipe(retry(2));
     }
+
+    //get children list
+
+    getChildrenList(): Observable<any> {
+        return this.http
+            .get<any>(restPath + "/api/my-children", this.httpOptions)
+            .pipe(retry(2));
+    }
 }

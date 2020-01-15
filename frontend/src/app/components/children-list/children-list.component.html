@@ -1,1 +1,6 @@
-<p>children-list works!</p>
+<div class="row">
+	<h2 class="col s12">Children list</h2>
+</div>
+<mat-list>
+	<app-child *ngFor="let childEl of childrenList" [item]="childEl"></app-child>
+</mat-list>

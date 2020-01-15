@@ -20,9 +20,10 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
 import { AddChildComponent } from './components/add-child/add-child.component';
 import { RegisterChildComponent } from './components/register-child/register-child.component';
 import { ChildrenListComponent } from './components/children-list/children-list.component';
+import { ChildComponent } from './components/child/child.component';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent, AddChildComponent, RegisterChildComponent, ChildrenListComponent],
+    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent, AddChildComponent, RegisterChildComponent, ChildrenListComponent, ChildComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
