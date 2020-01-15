@@ -21,9 +21,11 @@ import { AddChildComponent } from './components/add-child/add-child.component';
 import { RegisterChildComponent } from './components/register-child/register-child.component';
 import { ChildrenListComponent } from './components/children-list/children-list.component';
 import { ChildComponent } from './components/child/child.component';
+import { AddChoreComponent } from './components/add-chore/add-chore.component';
+import { ChoreFormComponent } from './components/chore-form/chore-form.component';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent, AddChildComponent, RegisterChildComponent, ChildrenListComponent, ChildComponent],
+    declarations: [AppComponent, LoginComponent, MainPageComponent, StartPageComponent, RegisterPageComponent, RegisterFormComponent, MenuComponent, ProfilePageComponent, AddChildComponent, RegisterChildComponent, ChildrenListComponent, ChildComponent, AddChoreComponent, ChoreFormComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

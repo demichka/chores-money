@@ -1,0 +1,17 @@
+<form [formGroup]="choreForm" (ngSubmit)="onSubmit()">
+	<h3>Add a chore</h3>
+	<mat-form-field>
+		<textarea matInput placeholder="Description" formControlName="desc" required></textarea>
+		<mat-error *ngIf="desc.invalid">{{getErrorMessage()}}</mat-error>
+	</mat-form-field>
+	<mat-form-field>
+		<input matInput placeholder="Cost" type="number" formControlName="cost" required>
+		<mat-error *ngIf="cost.invalid">{{getErrorMessage()}}</mat-error>
+	</mat-form-field>
+	<div>
+		<mat-checkbox formControlName="isDonation">Donation</mat-checkbox>
+	</div>
+	<div class="my-1">
+		<button mat-raised-button color=primary title="Register account">Create chore</button>
+	</div>
+</form>

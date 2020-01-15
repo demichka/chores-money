@@ -10,6 +10,7 @@ import { AddChildComponent } from "./components/add-child/add-child.component";
 import { RegisterChildComponent } from "./components/register-child/register-child.component";
 import { ChildrenListComponent } from "./components/children-list/children-list.component";
 import { ParentGuardService } from "./services/parent-guard.service";
+import { AddChoreComponent } from "./components/add-chore/add-chore.component";
 
 const routes: Routes = [
     {
@@ -40,6 +41,10 @@ const routes: Routes = [
                 path: "children",
                 component: ChildrenListComponent,
                 canActivate: [ParentGuardService]
+            },
+            {
+                path: "chores/add-chore",
+                component: AddChoreComponent
             }
         ]
     },

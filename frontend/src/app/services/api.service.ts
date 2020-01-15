@@ -8,6 +8,7 @@ import {
 import { throwError, Observable } from "rxjs";
 import { User, UserInterface } from "../models/user.model";
 import { retry, catchError } from "rxjs/operators";
+import { ChoreInterface } from "../models/chore.model";
 
 @Injectable({
     providedIn: "root"
@@ -77,6 +78,17 @@ export class ApiService {
     getChildrenList(): Observable<any> {
         return this.http
             .get<any>(restPath + "/api/my-children", this.httpOptions)
+            .pipe(retry(2));
+    }
+
+    //add a chore
+    addChore(data): Observable<any> {
+        return this.http
+            .post<ChoreInterface>(
+                restPath + "/api/create-chore",
+                JSON.stringify(data),
+                this.httpOptions
+            )
             .pipe(retry(2));
     }
 }
