@@ -68,6 +68,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.mobileQuery.removeListener(this._mobileQueryListener);
+        this.userSubscription.unsubscribe();
     }
 
     logout() {

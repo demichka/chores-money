@@ -11,7 +11,7 @@
 
 			<mat-sidenav class="sidenav-custom" #snav>
 				<p>User: {{user ? user.name : ''}}</p>
-				<app-menu></app-menu>
+				<app-menu [isParent]='user.isParent'></app-menu>
 				<a class="logout-btn" (click)="logout()"><i class="material-icons">
 						exit_to_app
 					</i><span>Log out</span></a>

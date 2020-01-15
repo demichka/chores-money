@@ -1,20 +1,19 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { User } from "src/app/models/user.model";
 import { ChoreInterface } from "src/app/models/chore.model";
 import { ApiService } from "src/app/services/api.service";
-import { ParentGuardService } from "src/app/services/parent-guard.service";
-import { AuthGuardService } from "src/app/services/auth-guard.service";
 import { AuthService } from "src/app/services/auth.service";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: "app-chore-form",
     templateUrl: "./chore-form.component.html",
     styleUrls: ["./chore-form.component.scss"]
 })
-export class ChoreFormComponent implements OnInit, AfterViewInit {
+export class ChoreFormComponent implements OnInit, OnDestroy {
     relatives: User[];
-    isParent: boolean;
+    user: User;
     desc = new FormControl("", [Validators.required]);
     cost = new FormControl(10, [Validators.required]);
     isDonation = new FormControl(false);
@@ -26,6 +25,8 @@ export class ChoreFormComponent implements OnInit, AfterViewInit {
     });
 
     data: ChoreInterface;
+    userSubscription: Subscription;
+    isLoading: boolean = false;
 
     errors = { error: "" };
 
@@ -35,18 +36,27 @@ export class ChoreFormComponent implements OnInit, AfterViewInit {
     constructor(
         private apiService: ApiService,
         private authService: AuthService
-    ) {}
-
-    ngOnInit() {
-        this.authService.currentUser$.subscribe(data => {
-            console.log(data, "data");
-            if (data.isParent) {
-                this.getChildren();
+    ) {
+        this.isLoading = true;
+        this.userSubscription = this.authService.currentUser$.subscribe(
+            user => {
+                this.user = user;
+                this.isLoading = false;
             }
-        });
+        );
     }
 
-    ngAfterViewInit() {}
+    ngOnInit() {
+        if (!this.isLoading && this.user.isParent) {
+            this.getChildren();
+        } else {
+            this.getParents();
+        }
+    }
+
+    ngOnDestroy() {
+        this.userSubscription.unsubscribe();
+    }
 
     getChildren() {
         this.apiService.getChildrenList().subscribe(
@@ -56,6 +66,20 @@ export class ChoreFormComponent implements OnInit, AfterViewInit {
             },
             error => {
                 this.errors.error = error.error;
+                console.error(this.errors);
+            }
+        );
+    }
+
+    getParents() {
+        this.apiService.getParentsList().subscribe(
+            data => {
+                this.relatives = data;
+                console.log(this.relatives, "parents");
+            },
+            error => {
+                this.errors.error = error.error;
+                console.error(this.errors);
             }
         );
     }

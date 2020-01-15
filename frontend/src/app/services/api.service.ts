@@ -91,4 +91,11 @@ export class ApiService {
             )
             .pipe(retry(2));
     }
+
+    //get parents list
+    getParentsList(): Observable<any> {
+        return this.http
+            .get<any>(restPath + "/api/my-parents", this.httpOptions)
+            .pipe(retry(2));
+    }
 }
