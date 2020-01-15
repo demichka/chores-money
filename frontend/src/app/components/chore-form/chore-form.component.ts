@@ -115,10 +115,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         this.data = this.choreForm.value;
         this.apiService.addChore(this.data).subscribe(
             res => {
-                this.openSnackBar(
-                    `Created chore is assigned to ${res.name}`,
-                    "Done"
-                );
+                this.openSnackBar(`New chore is created`, "Done");
                 console.log(res);
             },
             error => {
