@@ -5,6 +5,7 @@ import { ChoreInterface } from "src/app/models/chore.model";
 import { ApiService } from "src/app/services/api.service";
 import { AuthService } from "src/app/services/auth.service";
 import { Subscription } from "rxjs";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: "app-chore-form",
@@ -14,14 +15,16 @@ import { Subscription } from "rxjs";
 export class ChoreFormComponent implements OnInit, OnDestroy {
     relatives: User[];
     user: User;
-    desc = new FormControl("", [Validators.required]);
-    cost = new FormControl(10, [Validators.required]);
+    desc = new FormControl("", [Validators.required, Validators.maxLength(50)]);
+    cost = new FormControl(10, [Validators.required, Validators.max(300)]);
+    receiver = new FormControl("");
     isDonation = new FormControl(false);
+
     choreForm = new FormGroup({
         desc: this.desc,
         cost: this.cost,
         isDonation: this.isDonation,
-        phone: new FormControl("")
+        phone: this.receiver
     });
 
     data: ChoreInterface;
@@ -30,12 +33,33 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
 
     errors = { error: "" };
 
-    getErrorMessage() {
-        return this.desc.hasError("required") ? "You must enter a value" : "";
+    getErrorMessageDesc() {
+        return this.desc.hasError("required")
+            ? "You must enter a value"
+            : this.desc.hasError("maxlength")
+            ? "Max length 50 characters"
+            : this.cost.hasError("max")
+            ? "Max cost 300 SEK"
+            : "";
+    }
+
+    getErrorMessageCost() {
+        return this.cost.hasError("required")
+            ? "You must enter a value"
+            : this.cost.hasError("max")
+            ? "Max cost 300 SEK"
+            : "";
+    }
+
+    getErrorMessageReceiver() {
+        return this.receiver.hasError("required")
+            ? "You must select a value"
+            : "";
     }
     constructor(
         private apiService: ApiService,
-        private authService: AuthService
+        private authService: AuthService,
+        private _snackBar: MatSnackBar
     ) {
         this.isLoading = true;
         this.userSubscription = this.authService.currentUser$.subscribe(
@@ -75,7 +99,6 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         this.apiService.getParentsList().subscribe(
             data => {
                 this.relatives = data;
-                console.log(this.relatives, "parents");
             },
             error => {
                 this.errors.error = error.error;
@@ -90,6 +113,26 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         }
         this.errors.error = "";
         this.data = this.choreForm.value;
-        console.log(this.data);
+        this.apiService.addChore(this.data).subscribe(
+            res => {
+                this.openSnackBar(
+                    `Created chore is assigned to ${res.name}`,
+                    "Done"
+                );
+                console.log(res);
+            },
+            error => {
+                this.errors.error = error.error;
+                this.openSnackBar(`Something went wrong. Try later`, "Close");
+                console.error(this.errors);
+            }
+        );
+    }
+
+    //func to open snackbar (material component) to show message which returns as response from server
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action, {
+            duration: 5000
+        });
     }
 }
