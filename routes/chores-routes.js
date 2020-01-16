@@ -149,6 +149,19 @@ const createChore = app => {
 			await chore.save();
 			payer.balance -= chore.cost;
 			await payer.save();
+
+			//save updated user to session
+
+			if(user._id == payer._id) {
+				req.session.user = payer;
+				req.session.save(function(err) {
+					console.log(req.session.user, 'user updated')
+					if(err) {
+						throw error(err);
+					}
+				});
+			}
+			
 			return res.status(200).json(chore);
 		} catch (error) {
 			res.status(400).json(error);
@@ -191,6 +204,24 @@ const createChore = app => {
 			await payer.save();
 			performer.balance += chore.cost;
 			await performer.save();
+
+			//save updated user to session
+			if(user._id == payer._id) {
+				req.session.user = payer;
+				req.session.save(function(err) {
+					if(err) {
+						throw error(err);
+					}
+				});
+			}
+			if(user._id == performer._id) {
+				req.session.user = performer;
+				req.session.save(function(err) {
+					if(err) {
+						throw error(err);
+					}
+				});
+			}
 
 			return res.status(200).json(chore);
 		} catch (error) {

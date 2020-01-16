@@ -30,7 +30,7 @@ module.exports = useLogin = app => {
 
 	//check if user is logged in already
 	app.get("/api/login", async (req, res) => {
-		res.json(req.session.user ? req.session.user : false);
+		res.json(req.session.user ? req.session.user : null);
 	});
 
 	app.get("/api/logout", async (req, res) => {

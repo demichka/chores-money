@@ -90,7 +90,7 @@ export class ApiService {
                 JSON.stringify(data),
                 this.httpOptions
             )
-            .pipe(retry(2));
+            .pipe(retry(1));
     }
 
     //get parents list
@@ -115,14 +115,14 @@ export class ApiService {
                 { isConfirmed: true },
                 this.httpOptions
             )
-            .pipe(retry(2));
+            .pipe(retry(1));
     }
 
     //reject a chore
     rejectChore(id): Observable<any> {
         return this.http
             .delete<any>(restPath + "/api/reject-chore/" + id, this.httpOptions)
-            .pipe(retry(2));
+            .pipe(retry(1));
     }
 
     //set a chore as Done
@@ -133,7 +133,7 @@ export class ApiService {
                 { isDone: true },
                 this.httpOptions
             )
-            .pipe(retry(2));
+            .pipe(retry(1));
     }
 
     //set a chore as Paid
@@ -144,7 +144,7 @@ export class ApiService {
                 { isPaid: true },
                 this.httpOptions
             )
-            .pipe(retry(2));
+            .pipe(retry(1));
     }
 
     //create transaction
@@ -155,6 +155,13 @@ export class ApiService {
                 JSON.stringify(data),
                 this.httpOptions
             )
-            .pipe(retry(2));
+            .pipe(retry(1));
+    }
+
+    //get transactions
+    getTransactions(): Observable<any> {
+        return this.http
+            .get<any>(restPath + "/api/my-transactions", this.httpOptions)
+            .pipe(retry(1));
     }
 }

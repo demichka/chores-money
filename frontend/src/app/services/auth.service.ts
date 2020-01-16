@@ -24,7 +24,7 @@ export class AuthService {
 
     constructor(private http: HttpClient) {
         this.userSubject = new BehaviorSubject<User>(
-            JSON.parse(localStorage.getItem("user"))
+            JSON.parse(localStorage.getItem("user")) || null
         );
         this.currentUser$ = this.userSubject.asObservable();
         this.checkLogin()
@@ -33,6 +33,7 @@ export class AuthService {
                 if (data) {
                     this.userSubject.next(data);
                     localStorage.setItem("user", JSON.stringify(data));
+                    console.log(data, "data from auth");
                 } else {
                     localStorage.removeItem("user");
                     return false;
@@ -48,6 +49,7 @@ export class AuthService {
         let path = restPath + "/api/login";
         return this.http.get<User>(path, this.httpOptions).pipe(
             map(data => {
+                console.log(data, "data, auth check");
                 return data;
             })
         );

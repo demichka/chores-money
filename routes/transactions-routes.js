@@ -23,6 +23,13 @@ const transactionsRoutes = app => {
 			}
 			author.balance -= transaction.amount;
 			await author.save();
+			req.session.user = author;
+			req.session.save(function(err) {
+				console.log(req.session.user)
+				if(err) {
+					throw error(err);
+				}
+			});
 			let result = await transaction.save();
 			res.status(200).json(result);
 		} catch (error) {
