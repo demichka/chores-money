@@ -20,6 +20,7 @@ const createChore = app => {
 			if (isDonation) {
 				isDone = true;
 				isConfirmed = true;
+				payer.balance -= cost;
 			}
 		} else {
 			performer = author;
@@ -39,6 +40,18 @@ const createChore = app => {
 
 		try {
 			const result = await chore.save();
+			await payer.save();
+
+			//save updated user to session
+
+			if(user._id == payer._id) {
+				req.session.user = payer;
+				req.session.save(function(err) {
+					if(err) {
+						throw error(err);
+					}
+				});
+			}
 			res.status(200).json(result);
 		} catch (error) {
 			res.status(500).json(error);
@@ -60,12 +73,26 @@ const createChore = app => {
 			return res.status(500).json({ error: "Chore not found" });
 		}
 
+		const payer = await User.findById(chore.payer._id);
+
 		try {
 			await chore.updateOne({ isConfirmed: true });
 			if(chore.isDonation) {
 				await chore.updateOne({ isDone: true });
+				payer.balance -= chore.cost;
 			}
 			await chore.save();
+			await payer.save();
+			//save updated user to session
+
+			if(user._id == payer._id) {
+				req.session.user = payer;
+				req.session.save(function(err) {
+					if(err) {
+						throw error(err);
+					}
+				});
+			}
 		} catch (error) {
 			return res.status(500).json(error);
 		}
@@ -155,7 +182,6 @@ const createChore = app => {
 			if(user._id == payer._id) {
 				req.session.user = payer;
 				req.session.save(function(err) {
-					console.log(req.session.user, 'user updated')
 					if(err) {
 						throw error(err);
 					}

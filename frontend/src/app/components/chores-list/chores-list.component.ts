@@ -113,19 +113,6 @@ export class ChoresListComponent implements OnInit {
     }
 
     setPaid($event) {
-        // const transaction: TransactionInterface = {
-        //     amount: $event.cost,
-        //     desc: $event.desc
-        // };
-        // this.apiService.createTransaction(transaction).subscribe(
-        //     res => {
-        //         console.log(res);
-        //     },
-        //     error => {
-        //         this.errors.error = error;
-        //         this._snackBar.open(this.errors.error, "close");
-        //     }
-        // );
         this.apiService.setChorePaid($event._id).subscribe(res => {
             this.getChoresList();
             this._snackBar.open("Chore is paid and archived", "close");

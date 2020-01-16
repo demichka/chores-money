@@ -3,6 +3,7 @@ import { ApiService } from "src/app/services/api.service";
 import { Transaction } from "src/app/models/transaction.model";
 import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
+import { Chore } from "src/app/models/chore.model";
 
 @Component({
     selector: "app-balance-page",
@@ -13,24 +14,19 @@ export class BalancePageComponent implements OnInit {
     user: User;
     transactions: Transaction[] = [];
     isLoading: boolean;
+    calculations = {};
+    choresList: Chore[];
     constructor(
         private apiService: ApiService,
         private authService: AuthService
-    ) {
-        // this.authService.currentUser$.subscribe(user => {
-        //     this.user = user;
-        //     console.log(this.user);
-        //     this.getTransactions();
-        //     this.isLoading = false;
-        // });
-    }
+    ) {}
 
     ngOnInit() {
         this.isLoading = true;
         this.authService.checkLogin().subscribe(user => {
-            console.log(user, "user on Init");
             this.user = user;
             this.getTransactions();
+            this.getChores();
             this.isLoading = false;
         });
     }
@@ -45,5 +41,35 @@ export class BalancePageComponent implements OnInit {
                 console.error(error);
             }
         );
+    }
+
+    getChores() {
+        this.apiService.getChoresList().subscribe(
+            data => {
+                let keys = Object.keys(data);
+                this.choresList = data[keys[0]];
+                console.log(this.choresList, "chore list");
+                this.calculations = {
+                    ...this.calculateChores(this.choresList)
+                };
+                console.log(this.calculations, "calculated");
+            },
+            error => {
+                console.error(error);
+            }
+        );
+    }
+
+    calculateChores(data: Chore[]) {
+        let result = { isPaid: 0, toPay: 0 };
+        data.forEach(item => {
+            if (item.isPaid) {
+                result.isPaid += item.cost;
+            }
+            if (!item.isPaid && item.isConfirmed) {
+                result.toPay += item.cost;
+            }
+        });
+        return result;
     }
 }
