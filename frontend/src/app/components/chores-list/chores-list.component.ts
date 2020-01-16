@@ -104,6 +104,13 @@ export class ChoresListComponent implements OnInit {
         }
     }
 
+    setDone($event) {
+        this.apiService.setChoreDone($event).subscribe(res => {
+            this.getChoresList();
+            this._snackBar.open("Chore is completed", "close");
+        });
+    }
+
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
             duration: 5000

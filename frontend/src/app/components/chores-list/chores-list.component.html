@@ -6,7 +6,8 @@
 	<mat-tab label="To do">
 		<p *ngIf="_filteredChores.toDo.length === 0">Nothing to do!</p>
 		<mat-list>
-			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent">
+			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent"
+				(setDoneEvent)="setDone($event)">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -38,7 +39,8 @@
 	<mat-tab label="Doing">
 		<p *ngIf="_filteredChores.toDo.length === 0">No chores in Doing</p>
 		<mat-list>
-			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent">
+			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent"
+				(setDoneEvent)="setDone($event)">
 			</app-chore>
 		</mat-list>
 	</mat-tab>

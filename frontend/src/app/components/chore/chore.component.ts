@@ -10,11 +10,18 @@ export class ChoreComponent implements OnInit {
     @Input() item: Chore;
     @Input() isParent: boolean;
     @Output() confirmEvent: EventEmitter<any> = new EventEmitter<any>();
+    @Output() setDoneEvent: EventEmitter<any> = new EventEmitter<any>();
     constructor() {}
 
     ngOnInit() {}
 
+    //emit event to pass to chore-list as a parent to reject(false) or confirm(true) clicked chore
     confirmMe($event) {
         this.confirmEvent.emit({ confirm: $event, chore: this.item._id });
+    }
+
+    //emit event to pass to chore-list as a parent to set this chore to Done
+    setDone() {
+        this.setDoneEvent.emit(this.item._id);
     }
 }

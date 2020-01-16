@@ -119,4 +119,12 @@ export class ApiService {
             .delete<any>(restPath + "/api/reject-chore/" + id, this.httpOptions)
             .pipe(retry(2));
     }
+
+    //set a chore as Done
+
+    setChoreDone(id): Observable<any> {
+        return this.http
+            .get<any>(restPath + "/api/set-chore-done/" + id, this.httpOptions)
+            .pipe(retry(2));
+    }
 }
