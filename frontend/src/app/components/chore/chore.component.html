@@ -11,5 +11,10 @@
 		<mat-icon>remove_circle_outline
 		</mat-icon>
 	</button>
+	<button mat-icon-button title="Paid" *ngIf="isParent && item.isDone && !item.isPaid" (click)="payMe()">
+		<mat-icon>check_circle_outline
+
+		</mat-icon>
+	</button>
 	<mat-divider></mat-divider>
 </mat-list-item>

@@ -109,7 +109,11 @@ export class ApiService {
     //confirm a chore
     confirmChore(id): Observable<any> {
         return this.http
-            .get<any>(restPath + "/api/confirm-chore/" + id, this.httpOptions)
+            .put<any>(
+                restPath + "/api/confirm-chore/" + id,
+                { isConfirmed: true },
+                this.httpOptions
+            )
             .pipe(retry(2));
     }
 
@@ -121,10 +125,24 @@ export class ApiService {
     }
 
     //set a chore as Done
-
     setChoreDone(id): Observable<any> {
         return this.http
-            .get<any>(restPath + "/api/set-chore-done/" + id, this.httpOptions)
+            .put<any>(
+                restPath + "/api/set-chore-done/" + id,
+                { isDone: true },
+                this.httpOptions
+            )
+            .pipe(retry(2));
+    }
+
+    //set a chore as Paid
+    setChorePaid(id): Observable<any> {
+        return this.http
+            .put<any>(
+                restPath + "/api/set-chore-paid/" + id,
+                { isPaid: true },
+                this.httpOptions
+            )
             .pipe(retry(2));
     }
 }

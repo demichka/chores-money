@@ -45,7 +45,7 @@ const createChore = app => {
 		}
 	});
 
-	app.get("/api/confirm-chore/:id", async (req, res) => {
+	app.put("/api/confirm-chore/:id", async (req, res) => {
 		const { user } = req.session;
 		console.log(req.session)
 		if (!user) {
@@ -123,7 +123,7 @@ const createChore = app => {
 		res.status(200).json(chore);
 	});
 
-	app.get("/api/set-chore-done/:id", async (req, res) => {
+	app.put("/api/set-chore-done/:id", async (req, res) => {
 		const { user } = req.session;
 		if (!user) {
 			return res.status(400).json({ error: "You are not logged in" });

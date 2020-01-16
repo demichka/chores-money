@@ -11,6 +11,7 @@ export class ChoreComponent implements OnInit {
     @Input() isParent: boolean;
     @Output() confirmEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setDoneEvent: EventEmitter<any> = new EventEmitter<any>();
+    @Output() setPaidEvent: EventEmitter<any> = new EventEmitter<any>();
     constructor() {}
 
     ngOnInit() {}
@@ -23,5 +24,8 @@ export class ChoreComponent implements OnInit {
     //emit event to pass to chore-list as a parent to set this chore to Done
     setDone() {
         this.setDoneEvent.emit(this.item._id);
+    }
+    payMe() {
+        this.setPaidEvent.emit(this.item._id);
     }
 }

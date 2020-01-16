@@ -48,7 +48,7 @@
 		<p *ngIf="_filteredChores.doneNotPaidChores.length === 0">All chores are paid</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"
-				[isParent]="user.isParent"></app-chore>
+				[isParent]="user.isParent" (setPaidEvent)="setPaid($event)"></app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="To confirm">
