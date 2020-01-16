@@ -9,6 +9,7 @@ import { throwError, Observable } from "rxjs";
 import { User, UserInterface } from "../models/user.model";
 import { retry, catchError } from "rxjs/operators";
 import { ChoreInterface } from "../models/chore.model";
+import { TransactionInterface } from "../models/transaction.model";
 
 @Injectable({
     providedIn: "root"
@@ -141,6 +142,17 @@ export class ApiService {
             .put<any>(
                 restPath + "/api/set-chore-paid/" + id,
                 { isPaid: true },
+                this.httpOptions
+            )
+            .pipe(retry(2));
+    }
+
+    //create transaction
+    createTransaction(data): Observable<any> {
+        return this.http
+            .post<TransactionInterface>(
+                restPath + "/api/create-transaction",
+                JSON.stringify(data),
                 this.httpOptions
             )
             .pipe(retry(2));

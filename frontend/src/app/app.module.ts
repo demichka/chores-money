@@ -26,6 +26,7 @@ import { ChoreFormComponent } from "./components/chore-form/chore-form.component
 import { ChoresPageComponent } from './components/chores-page/chores-page.component';
 import { ChoresListComponent } from './components/chores-list/chores-list.component';
 import { ChoreComponent } from './components/chore/chore.component';
+import { BalancePageComponent } from './components/balance-page/balance-page.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,8 @@ import { ChoreComponent } from './components/chore/chore.component';
         ChoreFormComponent,
         ChoresPageComponent,
         ChoresListComponent,
-        ChoreComponent
+        ChoreComponent,
+        BalancePageComponent
     ],
     imports: [
         BrowserModule,

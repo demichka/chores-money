@@ -26,6 +26,6 @@ export class ChoreComponent implements OnInit {
         this.setDoneEvent.emit(this.item._id);
     }
     payMe() {
-        this.setPaidEvent.emit(this.item._id);
+        this.setPaidEvent.emit(this.item);
     }
 }

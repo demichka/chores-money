@@ -4,6 +4,7 @@ import { ApiService } from "src/app/services/api.service";
 import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { TransactionInterface } from "src/app/models/transaction.model";
 
 @Component({
     selector: "app-chores-list",
@@ -112,7 +113,20 @@ export class ChoresListComponent implements OnInit {
     }
 
     setPaid($event) {
-        this.apiService.setChorePaid($event).subscribe(res => {
+        const transaction: TransactionInterface = {
+            amount: $event.cost,
+            desc: $event.desc
+        };
+        this.apiService.createTransaction(transaction).subscribe(
+            res => {
+                console.log(res);
+            },
+            error => {
+                this.errors.error = error;
+                this._snackBar.open(this.errors.error, "close");
+            }
+        );
+        this.apiService.setChorePaid($event._id).subscribe(res => {
             this.getChoresList();
             this._snackBar.open("Chore is paid and archived", "close");
         });

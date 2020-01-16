@@ -13,6 +13,7 @@ import { ParentGuardService } from "./services/parent-guard.service";
 import { AddChoreComponent } from "./components/add-chore/add-chore.component";
 import { ChoresPageComponent } from "./components/chores-page/chores-page.component";
 import { ChoresListComponent } from "./components/chores-list/chores-list.component";
+import { BalancePageComponent } from "./components/balance-page/balance-page.component";
 
 const routes: Routes = [
     {
@@ -57,6 +58,10 @@ const routes: Routes = [
                         component: AddChoreComponent
                     }
                 ]
+            },
+            {
+                path: "balance",
+                component: BalancePageComponent
             }
         ]
     },
