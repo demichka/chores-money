@@ -45,8 +45,9 @@ const createChore = app => {
 		}
 	});
 
-	app.put("/api/confirm-chore/:id", async (req, res) => {
+	app.get("/api/confirm-chore/:id", async (req, res) => {
 		const { user } = req.session;
+		console.log(req.session)
 		if (!user) {
 			return res.status(400).json({ error: "You are not logged in" });
 		}
@@ -61,6 +62,9 @@ const createChore = app => {
 
 		try {
 			await chore.updateOne({ isConfirmed: true });
+			if(chore.isDonation) {
+				await chore.updateOne({ isDone: true });
+			}
 			await chore.save();
 		} catch (error) {
 			return res.status(500).json(error);

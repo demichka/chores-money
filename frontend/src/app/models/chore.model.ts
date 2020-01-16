@@ -1,7 +1,7 @@
 import { User } from "./user.model";
 
 export class Chore {
-    id: string;
+    _id: string;
     desc: string;
     isDonation: boolean;
     cost: number;

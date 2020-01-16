@@ -1,7 +1,15 @@
 <mat-list-item>
 	<h4 mat-line>{{item.desc}}</h4>
-	<a mat-icon-button title="Done">
+	<button mat-icon-button title="Done" *ngIf="item.isConfirmed">
 		<mat-icon>done</mat-icon>
-	</a>
+	</button>
+	<button mat-icon-button title="Confirm" *ngIf="isParent && !item.isConfirmed" (click)="confirmMe(true)">
+		<mat-icon>check_circle_outline
+		</mat-icon>
+	</button>
+	<button mat-icon-button title="Reject" *ngIf="isParent && !item.isConfirmed" (click)="confirmMe(false)">
+		<mat-icon>remove_circle_outline
+		</mat-icon>
+	</button>
 	<mat-divider></mat-divider>
 </mat-list-item>

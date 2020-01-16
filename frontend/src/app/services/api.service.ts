@@ -105,4 +105,11 @@ export class ApiService {
             .get<any>(restPath + "/api/my-chores", this.httpOptions)
             .pipe(retry(2));
     }
+
+    //confirm a chore
+    confirmChore(id): Observable<any> {
+        return this.http
+            .get<any>(restPath + "/api/confirm-chore/" + id, this.httpOptions)
+            .pipe(retry(2));
+    }
 }

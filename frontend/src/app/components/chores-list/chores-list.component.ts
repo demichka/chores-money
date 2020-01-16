@@ -60,7 +60,7 @@ export class ChoresListComponent implements OnInit {
         console.log(keys, "keys");
         console.log(this.user);
         const toDo = this.choresList[keys[0]].filter(
-            item => item.isConfirmed && !item.isPaid
+            item => item.isConfirmed && !item.isPaid && !item.isDone
         );
         const doneNotPaidChores = this.choresList[keys[0]].filter(
             item => item.isDone && !item.isPaid
@@ -79,5 +79,20 @@ export class ChoresListComponent implements OnInit {
             archivedChores,
             toDo
         };
+    }
+
+    confirmChore($event) {
+        if ($event.confirm) {
+            this.apiService.confirmChore($event.chore).subscribe(
+                res => {
+                    this.getChoresList();
+                },
+                error => {
+                    console.error(error.error);
+                }
+            );
+        } else {
+            console.log("It will be rejected");
+        }
     }
 }
