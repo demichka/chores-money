@@ -98,4 +98,11 @@ export class ApiService {
             .get<any>(restPath + "/api/my-parents", this.httpOptions)
             .pipe(retry(2));
     }
+
+    //get chores list
+    getChoresList(): Observable<any> {
+        return this.http
+            .get<any>(restPath + "/api/my-chores", this.httpOptions)
+            .pipe(retry(2));
+    }
 }

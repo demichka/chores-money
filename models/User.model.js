@@ -80,12 +80,6 @@ userSchema.post("save", (error, doc, next) => {
 	}
 });
 
-userSchema.virtual("myChores", {
-	ref: "Chore",
-	localField: "_id",
-	foreignField: "author"
-});
-
 userSchema.virtual("assignedChores", {
 	ref: "Chore",
 	localField: "_id",

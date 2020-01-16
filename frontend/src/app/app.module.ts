@@ -23,6 +23,9 @@ import { ChildrenListComponent } from "./components/children-list/children-list.
 import { ChildComponent } from "./components/child/child.component";
 import { AddChoreComponent } from "./components/add-chore/add-chore.component";
 import { ChoreFormComponent } from "./components/chore-form/chore-form.component";
+import { ChoresPageComponent } from './components/chores-page/chores-page.component';
+import { ChoresListComponent } from './components/chores-list/chores-list.component';
+import { ChoreComponent } from './components/chore/chore.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +42,10 @@ import { ChoreFormComponent } from "./components/chore-form/chore-form.component
         ChildrenListComponent,
         ChildComponent,
         AddChoreComponent,
-        ChoreFormComponent
+        ChoreFormComponent,
+        ChoresPageComponent,
+        ChoresListComponent,
+        ChoreComponent
     ],
     imports: [
         BrowserModule,

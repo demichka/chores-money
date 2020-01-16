@@ -11,6 +11,8 @@ import { RegisterChildComponent } from "./components/register-child/register-chi
 import { ChildrenListComponent } from "./components/children-list/children-list.component";
 import { ParentGuardService } from "./services/parent-guard.service";
 import { AddChoreComponent } from "./components/add-chore/add-chore.component";
+import { ChoresPageComponent } from "./components/chores-page/chores-page.component";
+import { ChoresListComponent } from "./components/chores-list/chores-list.component";
 
 const routes: Routes = [
     {
@@ -43,8 +45,18 @@ const routes: Routes = [
                 canActivate: [ParentGuardService]
             },
             {
-                path: "chores/add-chore",
-                component: AddChoreComponent
+                path: "chores",
+                component: ChoresPageComponent,
+                children: [
+                    {
+                        path: "",
+                        component: ChoresListComponent
+                    },
+                    {
+                        path: "add-chore",
+                        component: AddChoreComponent
+                    }
+                ]
             }
         ]
     },

@@ -1,0 +1,52 @@
+<!-- <div class="row">
+	<h2 class="col s12">Chore list</h2>
+</div>
+ -->
+<mat-tab-group *ngIf="!isLoading && !user.isParent">
+	<mat-tab label="To do">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+	<mat-tab label="Pending">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+	<mat-tab label="Wait for pay">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+
+	<mat-tab label="Archive">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.archivedChores" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+
+
+</mat-tab-group>
+
+<mat-tab-group *ngIf="!isLoading && user.isParent">
+	<mat-tab label="Doing">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+	<mat-tab label="To pay">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+	<mat-tab label="To confirm">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+	<mat-tab label="Archive">
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.archivedChores" [item]="choreEl"></app-chore>
+		</mat-list>
+	</mat-tab>
+</mat-tab-group>

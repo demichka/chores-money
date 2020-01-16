@@ -16,6 +16,7 @@ const createChore = app => {
 		if (author.isParent) {
 			performer = await User.findOne({ phone: String(phone) });
 			payer = author;
+			isConfirmed = true;
 			if (isDonation) {
 				isDone = true;
 				isConfirmed = true;
@@ -233,13 +234,13 @@ const createChore = app => {
 
 		try {
 			let childChores = await User.findById(user._id)
-				.populate({
-					path: "myChores",
-					populate: {
-						path: "author",
-						model: "User"
-					}
-				})
+				// .populate({
+				// 	path: "myChores",
+				// 	populate: {
+				// 		path: "author",
+				// 		model: "User"
+				// 	}
+				// })
 				.populate({
 					path: "assignedChores",
 					populate: {
