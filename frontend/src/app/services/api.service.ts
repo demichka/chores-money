@@ -112,4 +112,11 @@ export class ApiService {
             .get<any>(restPath + "/api/confirm-chore/" + id, this.httpOptions)
             .pipe(retry(2));
     }
+
+    //reject a chore
+    rejectChore(id): Observable<any> {
+        return this.http
+            .delete<any>(restPath + "/api/reject-chore/" + id, this.httpOptions)
+            .pipe(retry(2));
+    }
 }

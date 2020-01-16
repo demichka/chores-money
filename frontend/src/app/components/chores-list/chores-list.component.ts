@@ -3,6 +3,7 @@ import { Chore } from "src/app/models/chore.model";
 import { ApiService } from "src/app/services/api.service";
 import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: "app-chores-list",
@@ -31,7 +32,8 @@ export class ChoresListComponent implements OnInit {
     }
     constructor(
         private apiService: ApiService,
-        private authService: AuthService
+        private authService: AuthService,
+        private _snackBar: MatSnackBar
     ) {
         this.authService.currentUser$.subscribe(user => (this.user = user));
         this.getChoresList();
@@ -46,19 +48,16 @@ export class ChoresListComponent implements OnInit {
                 this.choresList = data;
                 this.filterChores();
                 this.isLoading = false;
-                console.log(this.choresList);
             },
             error => {
                 this.errors.error = error.error;
-                console.error(this.errors);
+                this._snackBar.open(this.errors.error, "close");
             }
         );
     }
 
     filterChores() {
         let keys = Object.keys(this.choresList);
-        console.log(keys, "keys");
-        console.log(this.user);
         const toDo = this.choresList[keys[0]].filter(
             item => item.isConfirmed && !item.isPaid && !item.isDone
         );
@@ -81,18 +80,33 @@ export class ChoresListComponent implements OnInit {
         };
     }
 
-    confirmChore($event) {
+    onChoreReview($event) {
         if ($event.confirm) {
             this.apiService.confirmChore($event.chore).subscribe(
                 res => {
                     this.getChoresList();
+                    this._snackBar.open("Chore was confirmed", "close");
                 },
                 error => {
                     console.error(error.error);
                 }
             );
         } else {
-            console.log("It will be rejected");
+            this.apiService.rejectChore($event.chore).subscribe(
+                res => {
+                    this.getChoresList();
+                    this._snackBar.open("Chore was rejected", "close");
+                },
+                error => {
+                    console.log(error.error);
+                }
+            );
         }
+    }
+
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action, {
+            duration: 5000
+        });
     }
 }

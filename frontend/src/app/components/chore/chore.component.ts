@@ -17,7 +17,4 @@ export class ChoreComponent implements OnInit {
     confirmMe($event) {
         this.confirmEvent.emit({ confirm: $event, chore: this.item._id });
     }
-    rejectMe($event) {
-        this.confirmEvent.emit($event);
-    }
 }

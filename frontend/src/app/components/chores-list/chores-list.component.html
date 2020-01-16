@@ -48,7 +48,7 @@
 	<mat-tab label="To confirm">
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
-				[isParent]="user.isParent" (confirmEvent)="confirmChore($event)"></app-chore>
+				[isParent]="user.isParent" (confirmEvent)="onChoreReview($event)"></app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="Archive">
