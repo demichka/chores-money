@@ -61,13 +61,16 @@ export class BalancePageComponent implements OnInit {
     }
 
     calculateChores(data: Chore[]) {
-        let result = { isPaid: 0, toPay: 0 };
+        let result = { isPaid: 0, toPay: 0, isDoing: 0 };
         data.forEach(item => {
             if (item.isPaid) {
                 result.isPaid += item.cost;
             }
             if (!item.isPaid && item.isConfirmed) {
                 result.toPay += item.cost;
+            }
+            if (!item.isDone && item.isConfirmed) {
+                result.isDoing += item.cost;
             }
         });
         return result;

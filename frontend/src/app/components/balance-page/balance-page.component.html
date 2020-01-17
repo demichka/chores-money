@@ -1,4 +1,22 @@
 <div *ngIf="!isLoading">
-	<h3>Balance</h3>
-	<p>Rest: {{user.balance}}</p>
+	<mat-list class="flex-list">
+		<mat-list-item *ngIf="!user.isParent">
+			<p mat-line><span>Balance:</span> <span>{{user.balance}}</span></p>
+			<mat-divider></mat-divider>
+		</mat-list-item>
+		<mat-list-item *ngIf="user.isParent">
+			<p mat-line><span>Paid out:</span> <span>{{calculations.isPaid}}</span></p>
+			<mat-divider></mat-divider>
+		</mat-list-item>
+		<mat-list-item>
+			<p mat-line><span>{{user.isParent ? 'Ready to pay:' : 'Incoming soon:'}}</span>
+				<span>{{calculations.toPay}}</span></p>
+			<mat-divider></mat-divider>
+		</mat-list-item>
+		<mat-list-item>
+			<p mat-line><span>Waiting to be done:</span>
+				<span>{{calculations.isDoing}}</span></p>
+			<mat-divider></mat-divider>
+		</mat-list-item>
+	</mat-list>
 </div>
