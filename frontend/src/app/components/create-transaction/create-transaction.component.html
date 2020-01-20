@@ -1,0 +1,16 @@
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+	<h3>Create a transaction</h3>
+	<p>If you spent money, please create a transaction to balance your count</p>
+	<mat-form-field>
+		<textarea matInput placeholder="Description" formControlName="desc"></textarea>
+		<mat-error *ngIf="desc.invalid">{{getErrorMessageDesc()}}</mat-error>
+	</mat-form-field>
+	<mat-form-field>
+		<input matInput placeholder="Amount" type="number" formControlName="amount">
+		<mat-error *ngIf="amount.invalid">{{getErrorMessageAmount()}}</mat-error>
+	</mat-form-field>
+	<div class="my-1">
+		<button [disabled]="transactionForm.dirty ? false : true" mat-raised-button color=primary
+			title="Create new chore">Create Transaction</button>
+	</div>
+</form>

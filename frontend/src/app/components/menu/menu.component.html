@@ -27,4 +27,9 @@
 			class="material-icons">
 			account_balance_wallet
 		</i><span>Balance</span></a>
+	<a class="menu-item" *ngIf="!isParent" routerLink="/create-transaction" routerLinkActive="active"
+		[routerLinkActiveOptions]="{exact: true}"><i
+			class="material-icons">
+			face
+		</i><span>Add transaction</span></a>
 </mat-nav-list>

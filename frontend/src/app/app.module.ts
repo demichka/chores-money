@@ -23,10 +23,12 @@ import { ChildrenListComponent } from "./components/children-list/children-list.
 import { ChildComponent } from "./components/child/child.component";
 import { AddChoreComponent } from "./components/add-chore/add-chore.component";
 import { ChoreFormComponent } from "./components/chore-form/chore-form.component";
-import { ChoresPageComponent } from './components/chores-page/chores-page.component';
-import { ChoresListComponent } from './components/chores-list/chores-list.component';
-import { ChoreComponent } from './components/chore/chore.component';
-import { BalancePageComponent } from './components/balance-page/balance-page.component';
+import { ChoresPageComponent } from "./components/chores-page/chores-page.component";
+import { ChoresListComponent } from "./components/chores-list/chores-list.component";
+import { ChoreComponent } from "./components/chore/chore.component";
+import { BalancePageComponent } from "./components/balance-page/balance-page.component";
+import { TransactionComponent } from "./components/transaction/transaction.component";
+import { CreateTransactionComponent } from "./components/create-transaction/create-transaction.component";
 
 @NgModule({
     declarations: [
@@ -47,7 +49,9 @@ import { BalancePageComponent } from './components/balance-page/balance-page.com
         ChoresPageComponent,
         ChoresListComponent,
         ChoreComponent,
-        BalancePageComponent
+        BalancePageComponent,
+        TransactionComponent,
+        CreateTransactionComponent
     ],
     imports: [
         BrowserModule,

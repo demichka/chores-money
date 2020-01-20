@@ -38,8 +38,6 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
             ? "You must enter a value"
             : this.desc.hasError("maxlength")
             ? "Max length 50 characters"
-            : this.cost.hasError("max")
-            ? "Max cost 300 SEK"
             : "";
     }
 

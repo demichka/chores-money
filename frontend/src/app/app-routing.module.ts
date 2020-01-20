@@ -14,6 +14,7 @@ import { AddChoreComponent } from "./components/add-chore/add-chore.component";
 import { ChoresPageComponent } from "./components/chores-page/chores-page.component";
 import { ChoresListComponent } from "./components/chores-list/chores-list.component";
 import { BalancePageComponent } from "./components/balance-page/balance-page.component";
+import { CreateTransactionComponent } from "./components/create-transaction/create-transaction.component";
 
 const routes: Routes = [
     {
@@ -58,6 +59,10 @@ const routes: Routes = [
                         component: AddChoreComponent
                     }
                 ]
+            },
+            {
+                path: "create-transaction",
+                component: CreateTransactionComponent
             },
             {
                 path: "balance",
