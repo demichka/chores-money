@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "../models/user.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Login } from "../models/login.model";
-import { map, first } from "rxjs/operators";
+import { map, first, retry } from "rxjs/operators";
 import { restPath } from "../../../../config/path.config";
 
 @Injectable({
@@ -47,12 +47,7 @@ export class AuthService {
 
     checkLogin() {
         let path = restPath + "/api/login";
-        return this.http.get<User>(path, this.httpOptions).pipe(
-            map(data => {
-                console.log(data, "data, auth check");
-                return data;
-            })
-        );
+        return this.http.get<User>(path, this.httpOptions).pipe(retry(2));
     }
 
     login(login: Login) {
@@ -61,10 +56,8 @@ export class AuthService {
             .post<User>(path, JSON.stringify(login), this.httpOptions)
             .pipe(
                 map(user => {
-                    if (user) {
-                        localStorage.setItem("user", JSON.stringify(user));
-                        this.userSubject.next(user);
-                    }
+                    localStorage.setItem("user", JSON.stringify(user));
+                    this.userSubject.next(user);
                 })
             );
     }
