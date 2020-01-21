@@ -3,7 +3,6 @@ import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { User } from "src/app/models/user.model";
 import { ApiService } from "src/app/services/api.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { AuthService } from "src/app/services/auth.service";
 
 @Component({
     selector: "app-create-transaction",
@@ -21,11 +20,8 @@ export class CreateTransactionComponent implements OnInit {
 
     constructor(
         private apiService: ApiService,
-        private _snackBar: MatSnackBar,
-        private authService: AuthService
-    ) {
-        this.author = authService.currentUserValue;
-    }
+        private _snackBar: MatSnackBar
+    ) {}
 
     ngOnInit() {}
 
@@ -39,11 +35,10 @@ export class CreateTransactionComponent implements OnInit {
 
         let transaction = {
             ...this.transactionForm.value
-            // receiver: this.author._id
         };
         this.apiService.createTransaction(transaction).subscribe(
             res => {
-                this._snackBar.open(
+                this.openSnackBar(
                     `Your account is debited with ${this.amount.value} SEK`,
                     "close"
                 );
@@ -54,7 +49,7 @@ export class CreateTransactionComponent implements OnInit {
                     });
             },
             error => {
-                this._snackBar.open(error.error.error, "close");
+                this.openSnackBar(error.error.error, "close");
             }
         );
     }
@@ -80,8 +75,13 @@ export class CreateTransactionComponent implements OnInit {
     }
 
     openSnackBar(message: string, action: string) {
-        this._snackBar.open(message, action, {
-            duration: 5000
-        });
+        this._snackBar
+            .open(message, action, {
+                duration: 1500
+            })
+            .afterOpened()
+            .subscribe(done => {
+                this.resetForm();
+            });
     }
 }

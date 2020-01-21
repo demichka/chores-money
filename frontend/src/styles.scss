@@ -95,3 +95,12 @@ a {
         }
     }
 }
+
+.item-desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-amount {
+    white-space: nowrap;
+}

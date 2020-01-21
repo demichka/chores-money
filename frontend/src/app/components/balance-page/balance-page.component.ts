@@ -26,7 +26,6 @@ export class BalancePageComponent implements OnInit {
         this.isLoading = true;
         this.authService.checkLogin().subscribe(user => {
             this.user = user;
-            console.log(user, "user balance");
             this.getTransactions();
             this.getChores();
             this.isLoading = false;
@@ -36,10 +35,7 @@ export class BalancePageComponent implements OnInit {
     getTransactions() {
         this.apiService.getTransactions().subscribe(
             data => {
-                console.log(data, "data trans");
-
                 this.transactions = data;
-                console.log(this.transactions, "transactions");
             },
             error => {
                 console.error(error);
@@ -47,25 +43,14 @@ export class BalancePageComponent implements OnInit {
         );
     }
 
-    sortTransactions(data: Transaction[]) {
-        data.sort((a: Transaction, b: Transaction) => {
-            if (a.date > b.date) {
-                return 1;
-            }
-            return -1;
-        });
-    }
-
     getChores() {
         this.apiService.getChoresList().subscribe(
             data => {
                 let keys = Object.keys(data);
                 this.choresList = data[keys[0]];
-                console.log(this.choresList, "chore list");
                 this.calculations = {
                     ...this.calculateChores(this.choresList)
                 };
-                console.log(this.calculations, "calculated");
             },
             error => {
                 console.error(error);

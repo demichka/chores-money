@@ -39,7 +39,6 @@ const transactionsRoutes = app => {
 			
 			req.session.user = author;
 			req.session.save(function(err) {
-				console.log(req.session.user)
 				if(err) {
 					throw error(err);
 				}
@@ -47,7 +46,6 @@ const transactionsRoutes = app => {
 			let result = await transaction.save();
 			res.status(200).json(result);
 		} catch (error) {
-			console.log(error)
 			res.status(500).json({error: error});
 		}
 	});

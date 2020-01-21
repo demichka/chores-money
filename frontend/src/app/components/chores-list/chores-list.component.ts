@@ -85,8 +85,7 @@ export class ChoresListComponent implements OnInit {
         if ($event.confirm) {
             this.apiService.confirmChore($event.chore).subscribe(
                 res => {
-                    this.getChoresList();
-                    this._snackBar.open("Chore was confirmed", "close");
+                    this.openSnackBar("Chore was confirmed", "close");
                 },
                 error => {
                     console.error(error.error);
@@ -95,8 +94,7 @@ export class ChoresListComponent implements OnInit {
         } else {
             this.apiService.rejectChore($event.chore).subscribe(
                 res => {
-                    this.getChoresList();
-                    this._snackBar.open("Chore was rejected", "close");
+                    this.openSnackBar("Chore was rejected", "close");
                 },
                 error => {
                     console.log(error.error);
@@ -107,15 +105,13 @@ export class ChoresListComponent implements OnInit {
 
     setDone($event) {
         this.apiService.setChoreDone($event).subscribe(res => {
-            this.getChoresList();
-            this._snackBar.open("Chore is completed", "close");
+            this.openSnackBar("Chore is completed", "close");
         });
     }
 
     setPaid($event) {
         this.apiService.setChorePaid($event._id).subscribe(res => {
-            this.getChoresList();
-            this._snackBar.open("Chore is paid and archived", "close");
+            this.openSnackBar("Chore is paid and archived", "close");
         });
     }
 
@@ -126,19 +122,10 @@ export class ChoresListComponent implements OnInit {
             receiver: $event.performer
         };
 
-        console.log(this.user.isParent, "isparent");
-
-        // this.user.isParent
-        //     ? null
-        //     : (transaction.receiver = $event.chore.performer);
-
-        console.log(transaction, "transaction");
         this.apiService.createTransaction(transaction).subscribe(
-            res => {
-                this._snackBar.open("Transaction is created", "close");
-            },
+            res => {},
             error => {
-                this._snackBar.open(error.error.error, "close");
+                this.openSnackBar(error.error.error, "close");
             }
         );
     }
@@ -148,8 +135,11 @@ export class ChoresListComponent implements OnInit {
     }
 
     openSnackBar(message: string, action: string) {
-        this._snackBar.open(message, action, {
-            duration: 5000
-        });
+        this._snackBar
+            .open(message, action, {
+                duration: 1500
+            })
+            .afterDismissed()
+            .subscribe(done => this.getChoresList());
     }
 }

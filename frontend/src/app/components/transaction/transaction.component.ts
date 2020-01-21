@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Transaction } from "src/app/models/transaction.model";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
     selector: "app-transaction",
@@ -8,7 +9,10 @@ import { Transaction } from "src/app/models/transaction.model";
 })
 export class TransactionComponent implements OnInit {
     @Input() item: Transaction;
-    constructor() {}
+    currency: string;
+    constructor(private authService: AuthService) {
+        this.currency = this.authService.currentUserValue.currency;
+    }
 
     ngOnInit() {}
 }

@@ -84,11 +84,9 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         this.apiService.getChildrenList().subscribe(
             data => {
                 this.relatives = data;
-                console.log(this.relatives);
             },
             error => {
                 this.errors.error = error.error;
-                console.error(this.errors);
             }
         );
     }
@@ -105,6 +103,13 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         );
     }
 
+    resetForm() {
+        this.choreForm.reset();
+        this.desc.setErrors(null);
+        this.cost.setErrors(null);
+        this.receiver.setErrors(null);
+    }
+
     onSubmit() {
         if (this.choreForm.invalid) {
             throw "form is invalid";
@@ -114,7 +119,6 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         this.apiService.addChore(this.data).subscribe(
             res => {
                 this.openSnackBar(`New chore is created`, "Done");
-                console.log(res);
             },
             error => {
                 this.errors.error = error.error;
@@ -126,8 +130,13 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
 
     //func to open snackbar (material component) to show message which returns as response from server
     openSnackBar(message: string, action: string) {
-        this._snackBar.open(message, action, {
-            duration: 5000
-        });
+        this._snackBar
+            .open(message, action, {
+                duration: 1500
+            })
+            .afterOpened()
+            .subscribe(done => {
+                this.resetForm();
+            });
     }
 }

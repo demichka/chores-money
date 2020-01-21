@@ -10,6 +10,7 @@ export class User {
     parents: [];
     password: string;
     isActive: boolean;
+    currency: string;
     myChores: [];
     assignedChores: [];
     choresForPayment: [];

@@ -28,21 +28,16 @@ module.exports = useLogin = app => {
 		}
 	});
 
-	//check if user is logged in already
-	// app.get("/api/login", async (req, res) => {
-	// 	res.json(req.session.user ? req.session.user : null);
-	// });
+
 	app.get("/api/login", async (req, res) => {
 		if(req.session.user) {
 			const user = await User.findById(req.session.user._id);
 			req.session.user = user;
 			req.session.save(function(err) {
-				console.log(req.session.user)
 				if(err) {
 					throw error(err);
 				}
 			});
-			console.log(user, 'user login');
 			res.status(200).json(user);
 		}
 		else {
