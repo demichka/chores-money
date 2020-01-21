@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { User } from "src/app/models/user.model";
 import { ApiService } from "src/app/services/api.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
     selector: "app-create-transaction",
@@ -17,7 +19,13 @@ export class CreateTransactionComponent implements OnInit {
         desc: this.desc
     });
 
-    constructor(private apiService: ApiService) {}
+    constructor(
+        private apiService: ApiService,
+        private _snackBar: MatSnackBar,
+        private authService: AuthService
+    ) {
+        this.author = authService.currentUserValue;
+    }
 
     ngOnInit() {}
 
@@ -28,13 +36,25 @@ export class CreateTransactionComponent implements OnInit {
         if (this.desc.value == "") {
             this.desc.setValue("Transaction");
         }
-        this.apiService.createTransaction(this.transactionForm.value).subscribe(
+
+        let transaction = {
+            ...this.transactionForm.value
+            // receiver: this.author._id
+        };
+        this.apiService.createTransaction(transaction).subscribe(
             res => {
-                console.log(res);
-                this.resetForm();
+                this._snackBar.open(
+                    `Your account is debited with ${this.amount.value} SEK`,
+                    "close"
+                );
+                this._snackBar._openedSnackBarRef
+                    .afterOpened()
+                    .subscribe(res => {
+                        this.resetForm();
+                    });
             },
             error => {
-                console.error(error);
+                this._snackBar.open(error.error.error, "close");
             }
         );
     }
@@ -44,7 +64,6 @@ export class CreateTransactionComponent implements OnInit {
         this.transactionForm.reset();
         this.desc.setErrors(null);
         this.amount.setErrors(null);
-        s;
     }
 
     getErrorMessageDesc() {
@@ -58,5 +77,11 @@ export class CreateTransactionComponent implements OnInit {
             : this.amount.hasError("min")
             ? "Amount must be more than 0"
             : "";
+    }
+
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action, {
+            duration: 5000
+        });
     }
 }

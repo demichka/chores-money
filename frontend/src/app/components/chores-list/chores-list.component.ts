@@ -119,6 +119,34 @@ export class ChoresListComponent implements OnInit {
         });
     }
 
+    createTransactionAfterPaid($event) {
+        let transaction: TransactionInterface = {
+            desc: $event.desc,
+            amount: $event.cost,
+            receiver: $event.performer
+        };
+
+        console.log(this.user.isParent, "isparent");
+
+        // this.user.isParent
+        //     ? null
+        //     : (transaction.receiver = $event.chore.performer);
+
+        console.log(transaction, "transaction");
+        this.apiService.createTransaction(transaction).subscribe(
+            res => {
+                this._snackBar.open("Transaction is created", "close");
+            },
+            error => {
+                this._snackBar.open(error.error.error, "close");
+            }
+        );
+    }
+    onChorePayment($event) {
+        this.setPaid($event);
+        this.createTransactionAfterPaid($event);
+    }
+
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
             duration: 5000

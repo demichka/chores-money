@@ -50,6 +50,10 @@ const userSchema = new Schema(
 		isActive: {
 			type: Boolean,
 			default: true
+		},
+		currency: {
+			type: String,
+			default: 'SEK'
 		}
 	},
 	{
@@ -92,10 +96,19 @@ userSchema.virtual("choresForPayment", {
 	foreignField: "payer"
 });
 
-userSchema.virtual("transactions", {
+userSchema.virtual("outgoingTransactions", {
 	ref: "Transaction",
 	localField: "_id",
-	foreignField: "author"
+	foreignField: "author",
+	options: { sort: { date: 'desc' } }
+
+});
+
+userSchema.virtual("incomingTransactions", {
+	ref: "Transaction",
+	localField: "_id",
+	foreignField: "receiver",
+	options: { sort: { date: 'desc' } }
 });
 
 userSchema.methods.toJSON = function() {

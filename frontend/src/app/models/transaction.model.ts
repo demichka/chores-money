@@ -6,9 +6,11 @@ export class Transaction {
     desc: string;
     date: Date;
     author: User;
+    receiver?: User;
 }
 
 export class TransactionInterface {
     amount: number;
     desc: string;
+    receiver?: User;
 }

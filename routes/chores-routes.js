@@ -20,7 +20,6 @@ const createChore = app => {
 			if (isDonation) {
 				isDone = true;
 				isConfirmed = true;
-				payer.balance -= cost;
 			}
 		} else {
 			performer = author;
@@ -79,7 +78,6 @@ const createChore = app => {
 			await chore.updateOne({ isConfirmed: true });
 			if(chore.isDonation) {
 				await chore.updateOne({ isDone: true });
-				payer.balance -= chore.cost;
 			}
 			await chore.save();
 			await payer.save();
@@ -174,7 +172,7 @@ const createChore = app => {
 		try {
 			await chore.updateOne({ isDone: true });
 			await chore.save();
-			payer.balance -= chore.cost;
+			payer.balance += chore.cost;
 			await payer.save();
 
 			//save updated user to session
@@ -225,11 +223,17 @@ const createChore = app => {
 
 		try {
 			await chore.updateOne({ isPaid: true });
+			console.log(chore.amount,'chore.amount');
+
 			await chore.save();
-			payer.balance += chore.cost;
-			await payer.save();
+			// payer.balance += chore.cost;
+			// await payer.save();
+			console.log(performer.balance, 'balance before');
+
 			performer.balance += chore.cost;
 			await performer.save();
+
+			console.log(performer.balance, 'balance');
 
 			//save updated user to session
 			if(user._id == payer._id) {
@@ -240,14 +244,7 @@ const createChore = app => {
 					}
 				});
 			}
-			if(user._id == performer._id) {
-				req.session.user = performer;
-				req.session.save(function(err) {
-					if(err) {
-						throw error(err);
-					}
-				});
-			}
+			
 
 			return res.status(200).json(chore);
 		} catch (error) {

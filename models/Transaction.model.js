@@ -19,6 +19,11 @@ const transactionSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: "User",
 		required: true
+	},
+	receiver: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: false
 	}
 });
 

@@ -27,24 +27,29 @@ export class AuthService {
             JSON.parse(localStorage.getItem("user")) || null
         );
         this.currentUser$ = this.userSubject.asObservable();
-        this.checkLogin()
-            .pipe(first())
-            .subscribe(data => {
-                if (data) {
-                    this.userSubject.next(data);
-                    localStorage.setItem("user", JSON.stringify(data));
-                    console.log(data, "data from auth");
-                } else {
-                    localStorage.removeItem("user");
-                    return false;
-                }
-            });
+        this.checkAuth();
+        setInterval(() => {
+            this.checkAuth();
+        }, 60000);
     }
 
     public get currentUserValue(): User {
         return this.userSubject.value;
     }
 
+    private checkAuth() {
+        this.checkLogin()
+            .pipe(first())
+            .subscribe(data => {
+                if (data) {
+                    this.userSubject.next(data);
+                    localStorage.setItem("user", JSON.stringify(data));
+                } else {
+                    localStorage.removeItem("user");
+                    return false;
+                }
+            });
+    }
     checkLogin() {
         let path = restPath + "/api/login";
         return this.http.get<User>(path, this.httpOptions).pipe(retry(2));

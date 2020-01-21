@@ -29,6 +29,7 @@ import { ChoreComponent } from "./components/chore/chore.component";
 import { BalancePageComponent } from "./components/balance-page/balance-page.component";
 import { TransactionComponent } from "./components/transaction/transaction.component";
 import { CreateTransactionComponent } from "./components/create-transaction/create-transaction.component";
+import { FormatMinusValue } from "./helpers/formatMinusValue.pipe";
 
 @NgModule({
     declarations: [
@@ -51,7 +52,8 @@ import { CreateTransactionComponent } from "./components/create-transaction/crea
         ChoreComponent,
         BalancePageComponent,
         TransactionComponent,
-        CreateTransactionComponent
+        CreateTransactionComponent,
+        FormatMinusValue
     ],
     imports: [
         BrowserModule,

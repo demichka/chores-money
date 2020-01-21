@@ -8,21 +8,35 @@ const transactionsRoutes = app => {
 			return res.status(400).send("You are not logged in");
 		}
 
-		let author = await User.findById(user._id);
+		const { amount, desc = "", receiver } = req.body;
+		console.log(req.body)
 
-		const { amount, desc = "" } = req.body;
+		let author = await User.findById(user._id);
+		let receiverUser = await User.findById(receiver);
+
 		let transaction = new Transaction({
 			amount: amount,
 			desc: desc,
-			author: author._id
+			author: author._id,
+			receiver: receiver ? receiver : null
 		});
 
 		try {
-			if (author.balance < transaction.amount) {
+			if (!author.isParent && author.balance < transaction.amount) {
 				return res.status(400).json({ error: "Not enough money" });
 			}
-			author.balance -= transaction.amount;
+			if(!author.isParent) {
+				author.balance -= transaction.amount;
+			}
+			else {
+				receiverUser.balance += transaction.amount;
+				await receiverUser.save();
+				author.balance -= transaction.amount;
+			}
+			
 			await author.save();
+			
+			
 			req.session.user = author;
 			req.session.save(function(err) {
 				console.log(req.session.user)
@@ -33,7 +47,8 @@ const transactionsRoutes = app => {
 			let result = await transaction.save();
 			res.status(200).json(result);
 		} catch (error) {
-			res.status(500).json(error);
+			console.log(error)
+			res.status(500).json({error: error});
 		}
 	});
 
@@ -45,10 +60,21 @@ const transactionsRoutes = app => {
 
 		try {
 			const result = await User.findById(user._id).populate({
-				path: "transactions"
+				path: "outgoingTransactions",
+				populate: {
+					path: 'author',
+					model: 'User'
+				}
+				
+			}).populate({
+				path: "incomingTransactions",
+				populate: {
+					path: 'receiver',
+					model: 'User'
+				}
 			});
 
-			res.status(200).json(result.transactions);
+			res.status(200).json({incoming: result.incomingTransactions, outgoing: result.outgoingTransactions});
 		} catch (error) {
 			res.status(500).json(error);
 		}

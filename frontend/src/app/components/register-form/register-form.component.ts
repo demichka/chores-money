@@ -129,7 +129,5 @@ export class RegisterFormComponent implements OnInit {
         // set isParent as true if this form is a child to registration-page
         //otherwise it means that form is for creating child account (another parent component)
         this.parent.setValue(this.isParent);
-
-        console.log(this.isParent);
     }
 }

@@ -1,22 +1,51 @@
 <div *ngIf="!isLoading">
+	<h3>Summary</h3>
 	<mat-list class="flex-list">
-		<mat-list-item *ngIf="!user.isParent">
-			<p mat-line><span>Balance:</span> <span>{{user.balance}}</span></p>
-			<mat-divider></mat-divider>
-		</mat-list-item>
-		<mat-list-item *ngIf="user.isParent">
-			<p mat-line><span>Paid out:</span> <span>{{calculations.isPaid}}</span></p>
+		<mat-list-item>
+			<p mat-line><span>{{user.isParent ? 'Paid out:' : 'Balance:'}}</span>
+				<span>{{user.balance | formatMinusValue}}
+					{{ user.currency}}</span></p>
 			<mat-divider></mat-divider>
 		</mat-list-item>
 		<mat-list-item>
 			<p mat-line><span>{{user.isParent ? 'Ready to pay:' : 'Incoming soon:'}}</span>
-				<span>{{calculations.toPay}}</span></p>
+				<span>{{calculations.toPay}} {{ user.currency}}</span></p>
 			<mat-divider></mat-divider>
 		</mat-list-item>
 		<mat-list-item>
 			<p mat-line><span>Waiting to be done:</span>
-				<span>{{calculations.isDoing}}</span></p>
+				<span>{{calculations.isDoing}} {{ user.currency}}</span></p>
 			<mat-divider></mat-divider>
 		</mat-list-item>
 	</mat-list>
+
+	<h3>Transactions</h3>
+	<mat-expansion-panel *ngIf="!user.isParent">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Incoming transactions
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+
+		<mat-list>
+			<app-transaction *ngFor="let transactionEl of transactions.incoming"
+				[item]="transactionEl">
+			</app-transaction>
+		</mat-list>
+
+	</mat-expansion-panel>
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Outgoing transactions
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+
+		<mat-list>
+			<app-transaction *ngFor="let transactionEl of transactions.outgoing"
+				[item]="transactionEl">
+			</app-transaction>
+		</mat-list>
+
+	</mat-expansion-panel>
 </div>
