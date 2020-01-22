@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from "@angular/core";
 export class ShortcutButtonComponent implements OnInit {
     @Input() title: String;
     @Input() link: String;
-    @Input() params: String;
+    @Input() params: [];
     @Input() icon: String;
     constructor() {}
 

@@ -5,7 +5,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { TransactionInterface } from "src/app/models/transaction.model";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-chores-list",
@@ -17,6 +17,8 @@ export class ChoresListComponent implements OnInit {
     errors: { error: "" };
     isLoading: boolean;
     user: User;
+    selectedTab: number;
+
     private _filteredChores: {
         doneNotPaidChores: Chore[];
         choresToConfirm: Chore[];
@@ -36,15 +38,18 @@ export class ChoresListComponent implements OnInit {
         private apiService: ApiService,
         private authService: AuthService,
         private _snackBar: MatSnackBar,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.authService.currentUser$.subscribe(user => (this.user = user));
         this.getChoresList();
+        this.selectedTab = +this.route.snapshot.queryParams.tab;
+        if (!this.route.snapshot.queryParams.tab) {
+            this.updateParams(0);
+        }
     }
 
-    ngOnInit() {
-        console.log(this.route.snapshot.queryParams)
-    }
+    ngOnInit() {}
 
     getChoresList() {
         this.isLoading = true;
@@ -59,6 +64,15 @@ export class ChoresListComponent implements OnInit {
                 this._snackBar.open(this.errors.error, "close");
             }
         );
+    }
+
+    //method to update route params if it doesn't contain params
+    //route should have params to provide good working tabs after click on them
+    updateParams(tabIndex: number) {
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { tab: tabIndex }
+        });
     }
 
     filterChores() {

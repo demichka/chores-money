@@ -1,0 +1,12 @@
+.params-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.mat-tab-label {
+    &.mat-tab-label-content {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}

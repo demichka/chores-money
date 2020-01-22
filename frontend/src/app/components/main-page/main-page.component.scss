@@ -10,8 +10,13 @@
     right: 0;
 }
 
-h1.app-name {
+.app-name {
     margin-left: 8px;
+    text-decoration: none;
+    color: #fff;
+    &:hover {
+        color: $secondary-color;
+    }
 }
 
 .sidenav-container {
