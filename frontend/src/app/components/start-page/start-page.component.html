@@ -1,1 +1,14 @@
-<app-balance-page></app-balance-page>
+<div class="row my-1">
+	<div class="col s4">
+		<app-shortcut-button [link]="'/chores'" [params]="'toPay'" [icon]="'attach_money'" [title]="'Ready to pay'">
+		</app-shortcut-button>
+	</div>
+	<div class="col s4">
+		<app-shortcut-button [link]="'/chores'" [params]="'toReview'" [icon]="'assignment_ind'" [title]="'To confirm'">
+		</app-shortcut-button>
+	</div>
+	<div class="col s4">
+		<app-shortcut-button [link]="'/chores'" [params]="'toDo'" [icon]="'assignment'" [title]="'In progress'">
+		</app-shortcut-button>
+	</div>
+</div>

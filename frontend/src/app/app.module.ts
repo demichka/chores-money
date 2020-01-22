@@ -30,6 +30,7 @@ import { BalancePageComponent } from "./components/balance-page/balance-page.com
 import { TransactionComponent } from "./components/transaction/transaction.component";
 import { CreateTransactionComponent } from "./components/create-transaction/create-transaction.component";
 import { FormatMinusValue } from "./helpers/formatMinusValue.pipe";
+import { ShortcutButtonComponent } from './components/shortcut-button/shortcut-button.component';
 
 @NgModule({
     declarations: [
@@ -53,7 +54,8 @@ import { FormatMinusValue } from "./helpers/formatMinusValue.pipe";
         BalancePageComponent,
         TransactionComponent,
         CreateTransactionComponent,
-        FormatMinusValue
+        FormatMinusValue,
+        ShortcutButtonComponent
     ],
     imports: [
         BrowserModule,

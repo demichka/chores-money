@@ -1,0 +1,19 @@
+.shortcut-btn {
+    .mat-fab {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        .mat-badge-content {
+            top: -3px;
+            right: -3px;
+        }
+    }
+    .shortcut-btn-text {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        margin-top: 5px;
+    }
+}

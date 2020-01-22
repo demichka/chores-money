@@ -5,6 +5,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { TransactionInterface } from "src/app/models/transaction.model";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: "app-chores-list",
@@ -34,13 +35,16 @@ export class ChoresListComponent implements OnInit {
     constructor(
         private apiService: ApiService,
         private authService: AuthService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private route: ActivatedRoute
     ) {
         this.authService.currentUser$.subscribe(user => (this.user = user));
         this.getChoresList();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        console.log(this.route.snapshot.queryParams)
+    }
 
     getChoresList() {
         this.isLoading = true;
