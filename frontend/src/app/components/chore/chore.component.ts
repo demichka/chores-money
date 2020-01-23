@@ -9,6 +9,7 @@ import { Chore } from "src/app/models/chore.model";
 export class ChoreComponent implements OnInit {
     @Input() item: Chore;
     @Input() isParent: boolean;
+    @Input() currency: String;
     @Output() confirmEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setDoneEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setPaidEvent: EventEmitter<any> = new EventEmitter<any>();

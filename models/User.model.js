@@ -87,13 +87,15 @@ userSchema.post("save", (error, doc, next) => {
 userSchema.virtual("assignedChores", {
 	ref: "Chore",
 	localField: "_id",
-	foreignField: "performer"
+	foreignField: "performer",
+	options: { sort: { date: 'desc' } }
 });
 
 userSchema.virtual("choresForPayment", {
 	ref: "Chore",
 	localField: "_id",
-	foreignField: "payer"
+	foreignField: "payer",
+	options: { sort: { date: 'desc' } }
 });
 
 userSchema.virtual("outgoingTransactions", {

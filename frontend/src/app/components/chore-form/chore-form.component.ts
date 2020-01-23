@@ -6,6 +6,7 @@ import { ApiService } from "src/app/services/api.service";
 import { AuthService } from "src/app/services/auth.service";
 import { Subscription } from "rxjs";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: "app-chore-form",
@@ -57,7 +58,8 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
     constructor(
         private apiService: ApiService,
         private authService: AuthService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private route: ActivatedRoute
     ) {
         this.isLoading = true;
         this.userSubscription = this.authService.currentUser$.subscribe(
@@ -71,6 +73,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (!this.isLoading && this.user.isParent) {
             this.getChildren();
+            this.receiver.setValue(this.route.snapshot.queryParams.child);
         } else {
             this.getParents();
         }

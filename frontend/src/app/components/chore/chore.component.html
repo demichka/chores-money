@@ -1,19 +1,28 @@
 <mat-list-item>
 	<h4 mat-line>{{item.desc}}</h4>
-	<button mat-icon-button title="Done" *ngIf="item.isConfirmed && !item.isDone" (click)="setDone()">
+	<p class="item-amount">{{item.cost }} {{currency}}</p>
+
+	<button mat-icon-button matTooltip="Set as Done" aria-label="Done" color="primary" title="Done"
+		*ngIf="item.isConfirmed && !item.isDone"
+		(click)="setDone()">
 		<mat-icon>done</mat-icon>
 	</button>
-	<button mat-icon-button title="Confirm" *ngIf="isParent && !item.isConfirmed" (click)="confirmMe(true)">
+	<button mat-icon-button matTooltip="Confirm" aria-label="Confirm" color="primary" title="Confirm"
+		*ngIf="isParent && !item.isConfirmed"
+		(click)="confirmMe(true)">
 		<mat-icon>check_circle_outline
 		</mat-icon>
 	</button>
-	<button mat-icon-button title="Reject" *ngIf="isParent && !item.isConfirmed" (click)="confirmMe(false)">
+	<button mat-icon-button matTooltip="Reject" aria-label="Reject" color="warn" title="Reject"
+		*ngIf="isParent && !item.isConfirmed"
+		(click)="confirmMe(false)">
 		<mat-icon>remove_circle_outline
 		</mat-icon>
 	</button>
-	<button mat-icon-button title="Paid" *ngIf="isParent && item.isDone && !item.isPaid" (click)="payMe()">
+	<button mat-icon-button matTooltip="Set as Paid" aria-label="Pay" color="primary" title="Pay"
+		*ngIf="isParent && item.isDone && !item.isPaid"
+		(click)="payMe()">
 		<mat-icon>check_circle_outline
-
 		</mat-icon>
 	</button>
 	<mat-divider></mat-divider>

@@ -1,14 +1,12 @@
-<!-- <div class="row">
-	<h2 class="col s12">Chore list</h2>
-</div>
- -->
-<mat-tab-group [selectedIndex]="selectedTab" *ngIf="!isLoading" (selectedIndexChange)="updateParams($event)">
+<!-- Tabs for user as a child -->
+<mat-tab-group [selectedIndex]="selectedTab" *ngIf="!isLoading && !user.isParent"
+	(selectedIndexChange)="updateParams($event)">
 	<mat-tab label="To do">
 
 		<p *ngIf="_filteredChores.toDo.length === 0">Nothing to do!</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent"
-				(setDoneEvent)="setDone($event)">
+				(setDoneEvent)="setDone($event)" [currency]="user.currency">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -17,7 +15,7 @@
 		<p *ngIf="_filteredChores.choresToConfirm.length === 0">No chores in Pending</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
-				[isParent]="user.isParent"></app-chore>
+				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="Wait for pay">
@@ -25,29 +23,31 @@
 		<p *ngIf="_filteredChores.doneNotPaidChores.length === 0">All chores are paid</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"
-				[isParent]="user.isParent"></app-chore>
+				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
 		</mat-list>
 	</mat-tab>
-
 	<mat-tab label="Archive">
-
 		<p *ngIf="_filteredChores.archivedChores.length === 0">Archive is empty</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.archivedChores" [item]="choreEl"
-				[isParent]="user.isParent"></app-chore>
+				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
 		</mat-list>
 	</mat-tab>
 </mat-tab-group>
 
-<!-- <mat-tab-group *ngIf="!isLoading && user.isParent">
+
+<!-- ****************************************************************************************************** -->
+
+<!-- Tabs for user as a parent -->
+
+<mat-tab-group [selectedIndex]="selectedTab" (selectedIndexChange)="updateParams($event)"
+	*ngIf="!isLoading && user.isParent">
 	<mat-tab label="Doing">
-		<ng-template mat-tab-label>
-			<span (click)="updateParams(2)">Wait for pay</span>
-		</ng-template>
+
 		<p *ngIf="_filteredChores.toDo.length === 0">No chores in Doing</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent"
-				(setDoneEvent)="setDone($event)">
+				(setDoneEvent)="setDone($event)" [currency]="user.currency">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -55,21 +55,23 @@
 		<p *ngIf="_filteredChores.doneNotPaidChores.length === 0">All chores are paid</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"
-				[isParent]="user.isParent" (setPaidEvent)="onChorePayment($event)"></app-chore>
+				[isParent]="user.isParent" (setPaidEvent)="onChorePayment($event)" [currency]="user.currency">
+			</app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="To confirm">
 		<p *ngIf="_filteredChores.choresToConfirm.length === 0">No chores to confirm</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
-				[isParent]="user.isParent" (confirmEvent)="onChoreReview($event)"></app-chore>
+				[isParent]="user.isParent" (confirmEvent)="onChoreReview($event)" [currency]="user.currency">
+			</app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="Archive">
 		<p *ngIf="_filteredChores.archivedChores.length === 0">Archive is empty</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.archivedChores" [item]="choreEl"
-				[isParent]="user.isParent"></app-chore>
+				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
 		</mat-list>
 	</mat-tab>
-</mat-tab-group> -->
+</mat-tab-group>

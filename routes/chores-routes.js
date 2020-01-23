@@ -59,7 +59,6 @@ const createChore = app => {
 
 	app.put("/api/confirm-chore/:id", async (req, res) => {
 		const { user } = req.session;
-		console.log(req.session)
 		if (!user) {
 			return res.status(400).json({ error: "You are not logged in" });
 		}
@@ -223,17 +222,11 @@ const createChore = app => {
 
 		try {
 			await chore.updateOne({ isPaid: true });
-			console.log(chore.amount,'chore.amount');
 
 			await chore.save();
-			// payer.balance += chore.cost;
-			// await payer.save();
-			console.log(performer.balance, 'balance before');
 
 			performer.balance += chore.cost;
 			await performer.save();
-
-			console.log(performer.balance, 'balance');
 
 			//save updated user to session
 			if(user._id == payer._id) {
@@ -292,13 +285,6 @@ const createChore = app => {
 
 		try {
 			let childChores = await User.findById(user._id)
-				// .populate({
-				// 	path: "myChores",
-				// 	populate: {
-				// 		path: "author",
-				// 		model: "User"
-				// 	}
-				// })
 				.populate({
 					path: "assignedChores",
 					populate: {
