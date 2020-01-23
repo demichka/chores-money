@@ -13,20 +13,24 @@ export class ChoreComponent implements OnInit {
     @Output() confirmEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setDoneEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setPaidEvent: EventEmitter<any> = new EventEmitter<any>();
+    hideBtn: boolean = false;
     constructor() {}
 
     ngOnInit() {}
 
     //emit event to pass to chore-list as a parent to reject(false) or confirm(true) clicked chore
     confirmMe($event) {
+        this.hideBtn = true;
         this.confirmEvent.emit({ confirm: $event, chore: this.item._id });
     }
 
     //emit event to pass to chore-list as a parent to set this chore to Done
     setDone() {
+        this.hideBtn = true;
         this.setDoneEvent.emit(this.item._id);
     }
     payMe() {
+        this.hideBtn = true;
         this.setPaidEvent.emit(this.item);
     }
 }

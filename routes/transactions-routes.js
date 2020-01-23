@@ -9,7 +9,6 @@ const transactionsRoutes = app => {
 		}
 
 		const { amount, desc = "", receiver } = req.body;
-		console.log(req.body)
 
 		let author = await User.findById(user._id);
 		let receiverUser = await User.findById(receiver);

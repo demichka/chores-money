@@ -28,6 +28,7 @@ export class BalancePageComponent implements OnInit {
             this.user = user;
             this.getTransactions();
             this.getChores();
+            console.log(user);
             this.isLoading = false;
         });
     }
@@ -46,8 +47,7 @@ export class BalancePageComponent implements OnInit {
     getChores() {
         this.apiService.getChoresList().subscribe(
             data => {
-                let keys = Object.keys(data);
-                this.choresList = data[keys[0]];
+                this.choresList = data["choresFromParent"];
                 this.calculations = {
                     ...this.calculateChores(this.choresList)
                 };
@@ -61,7 +61,7 @@ export class BalancePageComponent implements OnInit {
     calculateChores(data: Chore[]) {
         let result = { toPay: 0, isDoing: 0 };
         data.forEach(item => {
-            if (!item.isPaid && item.isConfirmed) {
+            if (!item.isPaid && item.isConfirmed && item.isDone) {
                 result.toPay += item.cost;
             }
             if (!item.isDone && item.isConfirmed) {

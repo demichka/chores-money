@@ -91,7 +91,7 @@ userSchema.virtual("assignedChores", {
 	options: { sort: { date: 'desc' } }
 });
 
-userSchema.virtual("choresForPayment", {
+userSchema.virtual("choresFromParent", {
 	ref: "Chore",
 	localField: "_id",
 	foreignField: "payer",

@@ -1,6 +1,7 @@
 <div class="shortcut-btn">
 	<a mat-fab color="primary"
-		matBadge="8" matBadgePosition="after" matBadgeColor="accent" routerLink='{{link}}'
+		matBadge="{{amount}}" matBadgePosition="after" [matBadgeHidden]="amount === 0" matBadgeColor="accent"
+		routerLink='{{link}}'
 		[queryParams]="{actions: params[0], tab: params[1]}">
 		<mat-icon>{{icon}}</mat-icon>
 	</a>

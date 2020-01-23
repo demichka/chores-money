@@ -39,18 +39,17 @@ const createChore = app => {
 
 		try {
 			const result = await chore.save();
-			await payer.save();
 
-			//save updated user to session
+			// //save updated user to session
 
-			if(user._id == payer._id) {
-				req.session.user = payer;
-				req.session.save(function(err) {
-					if(err) {
-						throw error(err);
-					}
-				});
-			}
+			// if(user._id == payer._id) {
+			// 	req.session.user = payer;
+			// 	req.session.save(function(err) {
+			// 		if(err) {
+			// 			throw error(err);
+			// 		}
+			// 	});
+			// }
 			res.status(200).json(result);
 		} catch (error) {
 			res.status(500).json(error);
@@ -167,23 +166,9 @@ const createChore = app => {
 			});
 		}
 
-		let payer = await User.findById(chore.payer);
 		try {
 			await chore.updateOne({ isDone: true });
 			await chore.save();
-			payer.balance += chore.cost;
-			await payer.save();
-
-			//save updated user to session
-
-			if(user._id == payer._id) {
-				req.session.user = payer;
-				req.session.save(function(err) {
-					if(err) {
-						throw error(err);
-					}
-				});
-			}
 			
 			return res.status(200).json(chore);
 		} catch (error) {
@@ -224,9 +209,6 @@ const createChore = app => {
 			await chore.updateOne({ isPaid: true });
 
 			await chore.save();
-
-			performer.balance += chore.cost;
-			await performer.save();
 
 			//save updated user to session
 			if(user._id == payer._id) {
@@ -294,7 +276,7 @@ const createChore = app => {
 				});
 
 			let parentChores = await User.findById(user._id).populate({
-				path: "choresForPayment",
+				path: "choresFromParent",
 				populate: {
 					path: "payer",
 					model: "User"
@@ -303,12 +285,12 @@ const createChore = app => {
 
 			if (user.isParent) {
 				return res.status(200).json({
-					choresForPayment: parentChores.choresForPayment
+					choresFromParent: parentChores.choresFromParent
 				});
 			} else {
 				return res.status(200).json({
 					myChores: childChores.myChores,
-					assignedChores: childChores.assignedChores
+					choresFromParent: childChores.assignedChores
 				});
 			}
 		} catch (error) {

@@ -1,15 +1,19 @@
-<div class="row my-1">
+<div class="row my-1" *ngIf="!isLoading">
 	<div class="col s4">
-		<app-shortcut-button [link]="'/chores'" [params]="[toPay, 2]" [icon]="'attach_money'" [title]="'Ready to pay'">
+		<app-shortcut-button [link]="'/chores'" [params]="[toDo, 0]" [icon]="'assignment'"
+			[title]="isParent ? 'In progress' : 'To do'"
+			[amount]="choresHighights.toDo">
 		</app-shortcut-button>
 	</div>
 	<div class="col s4">
-		<app-shortcut-button [link]="'/chores'" [params]="[toReview, 1]" [icon]="'assignment_ind'"
-			[title]="'To confirm'">
+		<app-shortcut-button [link]="'/chores'" [params]="[toPay, 1]" [icon]="'attach_money'"
+			[title]="isParent ? 'Ready to pay' : 'Paying soon'"
+			[amount]="choresHighights.toPay">
 		</app-shortcut-button>
 	</div>
 	<div class="col s4">
-		<app-shortcut-button [link]="'/chores'" [params]="[toDo, 0]" [icon]="'assignment'" [title]="'In progress'">
+		<app-shortcut-button [link]="'/chores'" [params]="[toReview, 2]" [icon]="'assignment_ind'"
+			[title]="isParent ? 'To confirm' : 'Waiting acception'" [amount]="choresHighights.toConfirm">
 		</app-shortcut-button>
 	</div>
 </div>

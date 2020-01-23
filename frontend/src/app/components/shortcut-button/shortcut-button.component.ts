@@ -10,6 +10,7 @@ export class ShortcutButtonComponent implements OnInit {
     @Input() link: String;
     @Input() params: [];
     @Input() icon: String;
+    @Input() amount: number;
     constructor() {}
 
     ngOnInit() {}

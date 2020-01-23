@@ -10,19 +10,19 @@
 			</app-chore>
 		</mat-list>
 	</mat-tab>
-	<mat-tab label="Pending">
 
-		<p *ngIf="_filteredChores.choresToConfirm.length === 0">No chores in Pending</p>
-		<mat-list>
-			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
-				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
-		</mat-list>
-	</mat-tab>
 	<mat-tab label="Wait for pay">
 
 		<p *ngIf="_filteredChores.doneNotPaidChores.length === 0">All chores are paid</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"
+				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
+		</mat-list>
+	</mat-tab>
+	<mat-tab label="Pending">
+		<p *ngIf="_filteredChores.choresToConfirm.length === 0">No chores in Pending</p>
+		<mat-list>
+			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
 				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
 		</mat-list>
 	</mat-tab>
