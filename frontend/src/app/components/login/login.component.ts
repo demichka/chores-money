@@ -3,6 +3,7 @@ import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { AuthService } from "src/app/services/auth.service";
 import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: "app-login",
@@ -27,7 +28,11 @@ export class LoginComponent implements OnInit {
             ? "Not a valid email"
             : "";
     }
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private _snackBar: MatSnackBar
+    ) {
         if (this.authService.currentUserValue) {
             this.router.navigate(["/"]);
         }
@@ -54,8 +59,15 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(["/"]);
                 },
                 error => {
-                    console.error(error);
+                    this.openSnackBar(error.error.error, "close");
                 }
             );
+    }
+
+    //func to open snackbar (material component) to show error which returns as response from server
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action, {
+            duration: 5000
+        });
     }
 }

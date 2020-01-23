@@ -12,13 +12,13 @@ const registerUser = app => {
 		let notUniqueEmail = await User.findOne({ email: email });
 
 		if (notUniqueEmail) {
-			return res.status(500).json({ error: "Email address is already exists.", code: 'duplicateEmail' });
+			return res.status(500).json({ errMsg: "Email address is already exists.", code: 'duplicateEmail' });
 		}
 
 		let notUniquePhone = await User.findOne({ phone: phone });
 
 		if (notUniquePhone) {
-			return res.status(500).json({ error: "Phone number is already exists.", code: "duplicatePhone" });
+			return res.status(500).json({ errMsg: "Phone number is already exists.", code: "duplicatePhone" });
 		}
 
 		try {
