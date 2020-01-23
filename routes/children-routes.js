@@ -26,14 +26,14 @@ const registerChild = app => {
 
 		let notUniqueEmail = await User.findOne({ email: email });
 
-		if (notUniqueEmail === child.email) {
-			return res.status(500).json({ error: "Email already exists" });
+		if (notUniqueEmail && notUniqueEmail.email == child.email) {
+			return res.status(500).json({ errMsg: "Email already exists", code: "duplicateEmail" });
 		}
 
 		let notUniquePhone = await User.findOne({ phone: phone });
 
-		if (notUniquePhone === child.phone) {
-			return res.status(500).json({ error: "Phone already exists" });
+		if (notUniquePhone && notUniquePhone.phone == child.phone) {
+			return res.status(500).json({ errMsg: "Phone already exists", code: "duplicatePhone" });
 		}
 
 		if (child.parents.includes(parent._id)) {

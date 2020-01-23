@@ -7,7 +7,7 @@ const updateProfile = app => {
         } = req.session;
         if (!user) {
             return res.status(400).json({
-                error: "You are not logged in"
+                errorMsg: "You are not logged in"
             });
         }
 
@@ -41,8 +41,6 @@ const updateProfile = app => {
         } catch (error) {
             return res.status(400).json(error);
         }
-        // await userToUpdate.save();
-
     });
 }
 
