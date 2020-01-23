@@ -268,7 +268,7 @@ const createChore = app => {
 		try {
 			let childChores = await User.findById(user._id)
 				.populate({
-					path: "assignedChores",
+					path: "performersChores",
 					populate: {
 						path: "performer",
 						model: "User"
@@ -276,7 +276,7 @@ const createChore = app => {
 				});
 
 			let parentChores = await User.findById(user._id).populate({
-				path: "choresFromParent",
+				path: "payersChores",
 				populate: {
 					path: "payer",
 					model: "User"
@@ -285,12 +285,11 @@ const createChore = app => {
 
 			if (user.isParent) {
 				return res.status(200).json({
-					choresFromParent: parentChores.choresFromParent
+					data: parentChores.payersChores
 				});
 			} else {
 				return res.status(200).json({
-					myChores: childChores.myChores,
-					choresFromParent: childChores.assignedChores
+					data: childChores.performersChores
 				});
 			}
 		} catch (error) {

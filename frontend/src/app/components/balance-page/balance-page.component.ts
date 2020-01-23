@@ -16,7 +16,6 @@ export class BalancePageComponent implements OnInit {
     transactions: Transaction[] = [];
     isLoading: boolean;
     calculations = {};
-    choresList: Chore[];
     constructor(
         private apiService: ApiService,
         private authService: AuthService
@@ -47,9 +46,11 @@ export class BalancePageComponent implements OnInit {
     getChores() {
         this.apiService.getChoresList().subscribe(
             data => {
-                this.choresList = data["choresFromParent"];
+                if (!data.data) {
+                    throw "No data returned";
+                }
                 this.calculations = {
-                    ...this.calculateChores(this.choresList)
+                    ...this.calculateChores(data.data)
                 };
             },
             error => {
@@ -60,6 +61,9 @@ export class BalancePageComponent implements OnInit {
 
     calculateChores(data: Chore[]) {
         let result = { toPay: 0, isDoing: 0 };
+        if (!data.length) {
+            return result;
+        }
         data.forEach(item => {
             if (!item.isPaid && item.isConfirmed && item.isDone) {
                 result.toPay += item.cost;

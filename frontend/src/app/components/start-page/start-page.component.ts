@@ -25,10 +25,11 @@ export class StartPageComponent implements OnInit {
     checkData() {
         this.apiService.getChoresList().subscribe(
             data => {
+                if (!data.data) {
+                    throw "No data returned";
+                }
                 this.isLoading = false;
-                this.choresHighights = this.calculateStatistic(
-                    data["choresFromParent"]
-                );
+                this.choresHighights = this.calculateStatistic(data.data);
             },
             error => {
                 console.error(error);
@@ -38,6 +39,9 @@ export class StartPageComponent implements OnInit {
 
     calculateStatistic(data: Chore[]) {
         let result = { toPay: 0, toConfirm: 0, toDo: 0 };
+        if (!data.length) {
+            return result;
+        }
         data.forEach(element => {
             if (element.isDone && !element.isPaid) {
                 result.toPay++;
