@@ -30,7 +30,7 @@ export class RegisterFormComponent implements OnInit {
         Validators.minLength(5)
     ]);
     parent = new FormControl(false);
-    hide = true;
+    hidePwd = true;
     data: UserInterface;
     errors = { error: "" };
 

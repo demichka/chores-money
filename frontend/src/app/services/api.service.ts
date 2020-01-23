@@ -164,4 +164,15 @@ export class ApiService {
             .get<any>(restPath + "/api/my-transactions", this.httpOptions)
             .pipe(retry(1));
     }
+
+    //update user profile
+    updateProfile(data): Observable<any> {
+        return this.http
+            .patch<UserInterface>(
+                restPath + "/api/update-profile",
+                JSON.stringify(data),
+                this.httpOptions
+            )
+            .pipe(retry(1));
+    }
 }

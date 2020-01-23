@@ -1,1 +1,40 @@
-<p>profile-page works!</p>
+<div class="row">
+	<h3>{{title}}</h3>
+	<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()" class="col s12 m8 push-m2">
+		<h3>Registration</h3>
+		<div>
+			<mat-form-field hintLabel="Max 10 characters">
+				<input matInput placeholder="Name" #nameInput formControlName="name" required>
+				<mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+				<mat-hint align="end">{{nameInput.value?.length || 0}}/10</mat-hint>
+			</mat-form-field>
+		</div>
+		<div>
+			<mat-form-field>
+				<input matInput placeholder="Email" formControlName="email" required>
+				<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+			</mat-form-field>
+		</div>
+		<div>
+			<mat-form-field>
+				<input matInput placeholder="Phone number" #phoneInput formControlName="phone" maxlength="10"
+					minlength="5"
+					required>
+				<mat-error *ngIf="phone.invalid">{{getErrorMessagePhone()}}</mat-error>
+			</mat-form-field>
+		</div>
+		<!-- <div>
+			<mat-form-field>
+				<input formControlName="password" maxlength="12" minlength="5" required matInput placeholder="Password"
+					[type]="hidePwd ? 'password' : 'text'">
+				<mat-error *ngIf="password.invalid">{{getErrorMessagePwd()}}</mat-error>
+
+				<button mat-icon-button matSuffix (click)="hidePwd = !hidePwd" [attr.aria-label]="'Hide password'"
+					[attr.aria-pressed]="hide" type="button">
+					<mat-icon>{{hidePwd ? 'visibility_off' : 'visibility'}}</mat-icon>
+				</button>
+			</mat-form-field>
+		</div> -->
+		<button mat-raised-button color=primary title="Save changes">Save changes</button>
+	</form>
+</div>

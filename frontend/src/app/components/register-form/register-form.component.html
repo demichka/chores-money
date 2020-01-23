@@ -25,12 +25,12 @@
 		<div>
 			<mat-form-field>
 				<input formControlName="password" maxlength="12" minlength="5" required matInput placeholder="Password"
-					[type]="hide ? 'password' : 'text'">
+					[type]="hidePwd ? 'password' : 'text'">
 				<mat-error *ngIf="password.invalid">{{getErrorMessagePwd()}}</mat-error>
 
-				<button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+				<button mat-icon-button matSuffix (click)="hidePwd = !hidePwd" [attr.aria-label]="'Hide password'"
 					[attr.aria-pressed]="hide" type="button">
-					<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+					<mat-icon>{{hidePwd ? 'visibility_off' : 'visibility'}}</mat-icon>
 				</button>
 			</mat-form-field>
 		</div>

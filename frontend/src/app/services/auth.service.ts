@@ -37,7 +37,7 @@ export class AuthService {
         return this.userSubject.value;
     }
 
-    private checkAuth() {
+    public checkAuth() {
         this.checkLogin()
             .pipe(first())
             .subscribe(data => {

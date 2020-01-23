@@ -5,6 +5,7 @@ const childrenRoutes = require("./children-routes");
 const transactionsRoutes = require("./transactions-routes");
 const userActivityRoutes = require("./user-activity-route");
 const getParentsList = require("./get-parents-list-route");
+const updateProfile = require('./update-profile');
 
 const routesList = [];
 
@@ -15,6 +16,7 @@ routesList.push(childrenRoutes);
 routesList.push(transactionsRoutes);
 routesList.push(userActivityRoutes);
 routesList.push(getParentsList);
+routesList.push(updateProfile);
 
 const useCustomRoutes = app => {
 	routesList.forEach(useRoute => {
