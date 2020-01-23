@@ -32,7 +32,6 @@ export class RegisterFormComponent implements OnInit {
     parent = new FormControl(false);
     hidePwd = true;
     data: UserInterface;
-    errors = { error: "" };
 
     registerForm = new FormGroup({
         name: this.name,
@@ -93,7 +92,6 @@ export class RegisterFormComponent implements OnInit {
         if (this.registerForm.invalid) {
             throw "form is invalid";
         }
-        this.errors.error = "";
         this.data = this.registerForm.value;
         if (this.isParent) {
             this.apiService.registerAccount(this.data).subscribe(
@@ -101,8 +99,18 @@ export class RegisterFormComponent implements OnInit {
                     this.router.navigate(["login"]);
                 },
                 error => {
-                    this.errors = error.error;
-                    this.openSnackBar(this.errors.error, "close");
+                    if (error.error.code == "duplicatePhone") {
+                        this.phone.setErrors({
+                            errors: error.error.code
+                        });
+                    }
+                    if (error.error.code == "duplicateEmail") {
+                        this.email.setErrors({
+                            errors: error.error.code
+                        });
+                    }
+                    console.log(error);
+                    this.openSnackBar(error.error.errMsg, "close");
                 }
             );
         } else {
@@ -111,8 +119,18 @@ export class RegisterFormComponent implements OnInit {
                     this.router.navigate(["children"]);
                 },
                 error => {
-                    this.errors = error.error;
-                    this.openSnackBar(this.errors.error, "close");
+                    if (error.error.code == "duplicatePhone") {
+                        this.phone.setErrors({
+                            errors: error.error.code
+                        });
+                    }
+                    if (error.error.code == "duplicateEmail") {
+                        this.email.setErrors({
+                            errors: error.error.code
+                        });
+                    }
+                    console.log(error);
+                    this.openSnackBar(error.error.errMsg, "close");
                 }
             );
         }

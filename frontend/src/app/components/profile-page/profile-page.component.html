@@ -20,7 +20,8 @@
 				<input matInput placeholder="Phone number" #phoneInput formControlName="phone" maxlength="10"
 					minlength="5"
 					required>
-				<mat-error *ngIf="phone.invalid">{{getErrorMessagePhone()}}</mat-error>
+				<mat-error *ngIf="phone.invalid">{{getErrorMessagePhone()}}
+				</mat-error>
 			</mat-form-field>
 		</div>
 		<!-- <div>
@@ -35,6 +36,11 @@
 				</button>
 			</mat-form-field>
 		</div> -->
-		<button mat-raised-button color=primary title="Save changes">Save changes</button>
+		<button [disabled]="!updateProfileForm.dirty" mat-raised-button color=primary
+			title="Save changes">Save changes</button>
+		<div class="my-1">
+			<button type="button" mat-stroked-button color=primary
+				title="Cancel" (click)="cancelEdit()">Cancel</button>
+		</div>
 	</form>
 </div>

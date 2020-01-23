@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { AuthService } from "src/app/services/auth.service";
 import { ApiService } from "src/app/services/api.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-profile-page",
@@ -12,8 +13,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 export class ProfilePageComponent implements OnInit {
     title: String = "User profile";
-    // errors: {error: ""};
-
     user: User;
     name = new FormControl("", [
         Validators.required,
@@ -37,17 +36,23 @@ export class ProfilePageComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private apiService: ApiService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private router: Router
     ) {
         this.authService.currentUser$.subscribe(user => (this.user = user));
-        console.log(this.user);
     }
 
     ngOnInit() {
+        if (this.user) {
+            this.fillFormWithUserInfo(this.user);
+        }
+    }
+
+    fillFormWithUserInfo(user: User) {
         this.updateProfileForm.setValue({
-            name: this.user.name,
-            phone: this.user.phone,
-            email: this.user.email
+            name: user.name,
+            phone: user.phone,
+            email: user.email
         });
     }
 
@@ -85,19 +90,33 @@ export class ProfilePageComponent implements OnInit {
         if (this.updateProfileForm.invalid) {
             throw "form is invalid";
         }
-        var errors = {};
-        console.log(this.updateProfileForm.value);
         this.apiService.updateProfile(this.updateProfileForm.value).subscribe(
             res => {
                 this.authService.checkAuth();
                 this.openSnackBar("Profile is updated successfully", "close");
             },
             error => {
-                error = { ...error.error };
+                if (error.error.code == "duplicatePhone") {
+                    this.phone.setErrors({
+                        errors: error.error.code
+                    });
+                }
+                if (error.error.code == "duplicateEmail") {
+                    this.email.setErrors({
+                        errors: error.error.code
+                    });
+                }
                 console.log(error);
-                this.openSnackBar(error.error, "close");
+                this.openSnackBar(error.error.errMsg, "close");
             }
         );
+    }
+
+    //func to reset form to previous state and navigate to root
+
+    cancelEdit() {
+        this.fillFormWithUserInfo(this.user);
+        this.router.navigate(["/"]);
     }
 
     //func to open snackbar (material component) to show message which returns as response from server
