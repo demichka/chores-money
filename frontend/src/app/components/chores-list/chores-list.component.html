@@ -5,8 +5,8 @@
 
 		<p *ngIf="_filteredChores.toDo.length === 0">Nothing to do!</p>
 		<mat-list>
-			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent"
-				(setDoneEvent)="setDone($event)" [currency]="user.currency">
+			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [user]="user"
+				(setDoneEvent)="setDone($event)">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -16,21 +16,21 @@
 		<p *ngIf="_filteredChores.doneNotPaidChores.length === 0">All chores are paid</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"
-				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
+				[user]="user"></app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="Pending">
 		<p *ngIf="_filteredChores.choresToConfirm.length === 0">No chores in Pending</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
-				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
+				[user]="user"></app-chore>
 		</mat-list>
 	</mat-tab>
 	<mat-tab label="Archive">
 		<p *ngIf="_filteredChores.archivedChores.length === 0">Archive is empty</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.archivedChores" [item]="choreEl"
-				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
+				[user]="user"></app-chore>
 		</mat-list>
 	</mat-tab>
 </mat-tab-group>
@@ -46,8 +46,8 @@
 
 		<p *ngIf="_filteredChores.toDo.length === 0">No chores in Doing</p>
 		<mat-list>
-			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [isParent]="user.isParent"
-				(setDoneEvent)="setDone($event)" [currency]="user.currency">
+			<app-chore *ngFor="let choreEl of _filteredChores.toDo" [item]="choreEl" [user]="user"
+				(setDoneEvent)="setDone($event)">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -55,7 +55,7 @@
 		<p *ngIf="_filteredChores.doneNotPaidChores.length === 0">All chores are paid</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.doneNotPaidChores" [item]="choreEl"
-				[isParent]="user.isParent" (setPaidEvent)="onChorePayment($event)" [currency]="user.currency">
+				[user]="user" (setPaidEvent)="onChorePayment($event)">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -63,7 +63,7 @@
 		<p *ngIf="_filteredChores.choresToConfirm.length === 0">No chores to confirm</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.choresToConfirm" [item]="choreEl"
-				[isParent]="user.isParent" (confirmEvent)="onChoreReview($event)" [currency]="user.currency">
+				[user]="user" (confirmEvent)="onChoreReview($event)" [user]="user">
 			</app-chore>
 		</mat-list>
 	</mat-tab>
@@ -71,7 +71,7 @@
 		<p *ngIf="_filteredChores.archivedChores.length === 0">Archive is empty</p>
 		<mat-list>
 			<app-chore *ngFor="let choreEl of _filteredChores.archivedChores" [item]="choreEl"
-				[isParent]="user.isParent" [currency]="user.currency"></app-chore>
+				[user]="user"></app-chore>
 		</mat-list>
 	</mat-tab>
 </mat-tab-group>

@@ -57,6 +57,10 @@ const routes: Routes = [
                     {
                         path: "add-chore",
                         component: AddChoreComponent
+                    },
+                    {
+                        path: "edit-chore",
+                        component: AddChoreComponent
                     }
                 ]
             },

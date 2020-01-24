@@ -1,5 +1,5 @@
 <form *ngIf="!isLoading" [formGroup]="choreForm" (ngSubmit)="onSubmit()">
-	<h3>Add a chore</h3>
+	<h3>{{editMode ? 'Edit chore' : 'Add a chore'}}</h3>
 	<mat-form-field>
 		<textarea matInput placeholder="Description" formControlName="desc" required></textarea>
 		<mat-error *ngIf="desc.invalid">{{getErrorMessageDesc()}}</mat-error>
@@ -10,8 +10,8 @@
 	</mat-form-field>
 	<mat-form-field>
 		<mat-label>Select {{user.isParent ? 'child who works' : 'parent who pays'}}</mat-label>
-		<mat-select formControlName="phone" name="relative" required>
-			<mat-option *ngFor="let relative of relatives" [value]="relative.phone">
+		<mat-select formControlName="receiver" name="relative" required>
+			<mat-option *ngFor="let relative of relatives" [value]="relative._id">
 				{{relative.name}}
 			</mat-option>
 		</mat-select>
@@ -21,6 +21,7 @@
 		<mat-checkbox formControlName="isDonation">Donation</mat-checkbox>
 	</div>
 	<div class="my-1">
-		<button mat-raised-button color=primary title="Create new chore">Create chore</button>
+		<button mat-raised-button color=primary
+			title="editMode ? 'Save changes' : 'Create new chore'">{{editMode ? 'Save changes' : 'Create new chore'}}</button>
 	</div>
 </form>

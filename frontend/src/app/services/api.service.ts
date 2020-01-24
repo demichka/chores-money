@@ -93,6 +93,25 @@ export class ApiService {
             .pipe(retry(1));
     }
 
+    //get a chore by id
+
+    getChoreById(id: string): Observable<any> {
+        return this.http
+            .get(restPath + "/api/chore/" + id, this.httpOptions)
+            .pipe(retry(2));
+    }
+
+    //edit a chore
+    updateChore(id: string, data): Observable<any> {
+        return this.http
+            .put(
+                restPath + "/api/edit-chore/" + id,
+                JSON.stringify(data),
+                this.httpOptions
+            )
+            .pipe(retry(1));
+    }
+
     //get parents list
     getParentsList(): Observable<any> {
         return this.http

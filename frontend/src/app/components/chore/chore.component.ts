@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Chore } from "src/app/models/chore.model";
+import { User } from "src/app/models/user.model";
 
 @Component({
     selector: "app-chore",
@@ -8,8 +9,7 @@ import { Chore } from "src/app/models/chore.model";
 })
 export class ChoreComponent implements OnInit {
     @Input() item: Chore;
-    @Input() isParent: boolean;
-    @Input() currency: String;
+    @Input() user: User;
     @Output() confirmEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setDoneEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() setPaidEvent: EventEmitter<any> = new EventEmitter<any>();

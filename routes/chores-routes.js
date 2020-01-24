@@ -9,12 +9,12 @@ const createChore = app => {
 			return res.status(400).json({ error: "You are not logged in" });
 		}
 		let author = await User.findById(user._id);
-		let { desc, isDonation, cost, phone } = req.body;
+		let { desc, isDonation, cost, receiver } = req.body;
 		var isDone = false;
 		var isConfirmed = false;
 
 		if (author.isParent) {
-			performer = await User.findOne({ phone: String(phone) });
+			performer = await User.findById(receiver);
 			payer = author;
 			isConfirmed = true;
 			if (isDonation) {
@@ -23,7 +23,7 @@ const createChore = app => {
 			}
 		} else {
 			performer = author;
-			payer = await User.findOne({ phone: String(phone) });
+			payer = await User.findById(receiver);
 		}
 
 		const chore = new Chore({
@@ -39,17 +39,6 @@ const createChore = app => {
 
 		try {
 			const result = await chore.save();
-
-			// //save updated user to session
-
-			// if(user._id == payer._id) {
-			// 	req.session.user = payer;
-			// 	req.session.save(function(err) {
-			// 		if(err) {
-			// 			throw error(err);
-			// 		}
-			// 	});
-			// }
 			res.status(200).json(result);
 		} catch (error) {
 			res.status(500).json(error);
@@ -117,6 +106,25 @@ const createChore = app => {
 		res.status(200).end();
 	});
 
+	app.get("/api/chore/:id", async (req, res) => {
+		const { user } = req.session;
+		if (!user) {
+			return res.status(400).json({ error: "You are not logged in" });
+		}
+		try {
+			var chore = await Chore.findById(req.params.id).populate('performer payer');
+		} catch (error) {
+			return res.status(400).json(error);
+		}
+		if (!chore) {
+			return res.status(500).json({ error: "Chore not found" });
+		}
+		if (chore.author != user._id) {
+			return res.status(500).json({ error: "You can't edit this chore" });
+		}
+		res.status(200).json(chore);
+	})
+
 	app.put("/api/edit-chore/:id", async (req, res) => {
 		const { user } = req.session;
 		if (!user) {
@@ -137,8 +145,18 @@ const createChore = app => {
 		if (chore.author != user._id) {
 			return res.status(500).json({ error: "You can't edit this chore" });
 		}
+
+		const {desc, cost, isDonation, receiver} = req.body;
+		const choreToUpdate = {
+			desc: desc,
+			cost: cost,
+			isDonation: isDonation,
+			isDone: isDonation ? true : chore.isDone,
+			payer: user.isParent ? chore.payer : receiver,
+			performer: user.isParent ? receiver : chore.performer
+		}
 		try {
-			await chore.updateOne(req.body);
+			await chore.updateOne(choreToUpdate);
 			await chore.save();
 		} catch (error) {
 			return res.status(500).json(error);
@@ -203,7 +221,6 @@ const createChore = app => {
 			});
 		}
 		let payer = await User.findById(chore.payer);
-		let performer = await User.findById(chore.performer);
 
 		try {
 			await chore.updateOne({ isPaid: true });
@@ -270,7 +287,7 @@ const createChore = app => {
 				.populate({
 					path: "performersChores",
 					populate: {
-						path: "performer",
+						path: "performer payer",
 						model: "User"
 					}
 				});
@@ -278,7 +295,7 @@ const createChore = app => {
 			let parentChores = await User.findById(user._id).populate({
 				path: "payersChores",
 				populate: {
-					path: "payer",
+					path: "payer performer",
 					model: "User"
 				}
 			});

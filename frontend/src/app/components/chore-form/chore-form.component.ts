@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { User } from "src/app/models/user.model";
-import { ChoreInterface } from "src/app/models/chore.model";
+import { Chore } from "src/app/models/chore.model";
 import { ApiService } from "src/app/services/api.service";
 import { AuthService } from "src/app/services/auth.service";
 import { Subscription } from "rxjs";
@@ -20,15 +20,16 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
     cost = new FormControl(10, [Validators.required, Validators.max(300)]);
     receiver = new FormControl("");
     isDonation = new FormControl(false);
+    editableChore: Chore;
+    editMode: boolean = false;
 
     choreForm = new FormGroup({
         desc: this.desc,
         cost: this.cost,
         isDonation: this.isDonation,
-        phone: this.receiver
+        receiver: this.receiver
     });
 
-    data: ChoreInterface;
     userSubscription: Subscription;
     isLoading: boolean = false;
 
@@ -77,6 +78,22 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         } else {
             this.getParents();
         }
+        if (this.route.snapshot.queryParams.chore) {
+            this.editMode = true;
+            this.apiService
+                .getChoreById(this.route.snapshot.queryParams.chore)
+                .subscribe(chore => {
+                    this.editableChore = chore;
+                    this.choreForm.setValue({
+                        desc: chore.desc,
+                        cost: chore.cost,
+                        isDonation: chore.isDonation,
+                        receiver: this.user.isParent
+                            ? chore.performer._id
+                            : chore.payer._id
+                    });
+                });
+        }
     }
 
     ngOnDestroy() {
@@ -118,8 +135,26 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
             throw "form is invalid";
         }
         this.errors.error = "";
-        this.data = this.choreForm.value;
-        this.apiService.addChore(this.data).subscribe(
+        if (this.editMode) {
+            this.apiService
+                .updateChore(this.editableChore._id, this.choreForm.value)
+                .subscribe(
+                    res => {
+                        console.log(res, "come out");
+                        this.openSnackBar(`Chore is updated`, "Done");
+                        this.editMode = false;
+                    },
+                    error => {
+                        this.errors.error = error.error;
+                        this.openSnackBar(
+                            `Something went wrong. Try later`,
+                            "Close"
+                        );
+                    }
+                );
+            return;
+        }
+        this.apiService.addChore(this.choreForm.value).subscribe(
             res => {
                 this.openSnackBar(`New chore is created`, "Done");
             },

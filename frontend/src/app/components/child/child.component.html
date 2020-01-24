@@ -2,7 +2,7 @@
 	<mat-icon mat-list-icon>face</mat-icon>
 	<h4 mat-line>{{item.name}}</h4>
 	<p mat-line>{{item.phone}}</p>
-	<a mat-icon-button title="add a chore" [routerLink]="['/chores/add-chore']" [queryParams]="{child: item.phone}">
+	<a mat-icon-button title="add a chore" [routerLink]="['/chores/add-chore']" [queryParams]="{child: item._id}">
 		<mat-icon>send</mat-icon>
 	</a>
 	<mat-divider></mat-divider>

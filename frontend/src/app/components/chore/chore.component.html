@@ -1,26 +1,33 @@
 <mat-list-item>
 	<h4 mat-line>{{item.desc}}</h4>
-	<p class="item-amount">{{item.cost }} {{currency}}</p>
+	<p mat-line>{{user.isParent ? item.performer.name : item.payer.name}}</p>
+	<p class="item-amount">{{item.cost }} {{user.currency}}</p>
 
 	<button mat-icon-button matTooltip="Set as Done" aria-label="Done" color="primary" title="Done"
 		*ngIf="item.isConfirmed && !item.isDone"
 		(click)="setDone()" [disabled]="hideBtn">
 		<mat-icon>done</mat-icon>
 	</button>
+	<a mat-icon-button matTooltip="Edit" aria-label="Edit" color="primary" title="Edit"
+		*ngIf="(!user.isParent && !item.isConfirmed && item.author == user._id) || (user.isParent && !item.isDone && item.author == user._id)"
+		[disabled]="hideBtn" [routerLink]="['/chores/edit-chore']"
+		[queryParams]="{chore: item._id}">
+		<mat-icon>create</mat-icon>
+	</a>
 	<button mat-icon-button matTooltip="Confirm" aria-label="Confirm" color="primary" title="Confirm"
-		*ngIf="isParent && !item.isConfirmed"
+		*ngIf="user.isParent && !item.isConfirmed"
 		(click)="confirmMe(true)" [disabled]="hideBtn">
 		<mat-icon>check_circle_outline
 		</mat-icon>
 	</button>
 	<button mat-icon-button matTooltip="Reject" aria-label="Reject" color="warn" title="Reject"
-		*ngIf="isParent && !item.isConfirmed"
+		*ngIf="user.isParent && !item.isConfirmed"
 		(click)="confirmMe(false)" [disabled]="hideBtn">
 		<mat-icon>remove_circle_outline
 		</mat-icon>
 	</button>
 	<button mat-icon-button matTooltip="Set as Paid" aria-label="Pay" color="primary" title="Pay"
-		*ngIf="isParent && item.isDone && !item.isPaid"
+		*ngIf="user.isParent && item.isDone && !item.isPaid"
 		(click)="payMe()" [disabled]="hideBtn">
 		<mat-icon>check_circle_outline
 		</mat-icon>
