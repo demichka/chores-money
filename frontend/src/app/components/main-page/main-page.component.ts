@@ -47,11 +47,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.isLoading = true;
+
         this.userSubscription = this.authService.currentUser$.subscribe(
             user => {
                 this.isLoading = false;
                 this.user = user;
-            }
+            },
+            error => {}
         );
     }
 

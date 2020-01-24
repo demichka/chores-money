@@ -48,11 +48,14 @@ export class AuthService {
                     localStorage.removeItem("user");
                     return false;
                 }
-            });
+            }),
+            error => {
+                console.error(error);
+            };
     }
     checkLogin() {
         let path = restPath + "/api/login";
-        return this.http.get<User>(path, this.httpOptions).pipe(retry(2));
+        return this.http.get<User>(path, this.httpOptions).pipe();
     }
 
     login(login: Login) {

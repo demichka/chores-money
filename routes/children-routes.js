@@ -1,5 +1,6 @@
 const User = require("../models/User.model");
 const encryptPassword = require("../helpers/encrypt-password");
+const sendEmail = require('../helpers/sendEmail');
 
 const registerChild = app => {
 	//register and add child to list
@@ -51,11 +52,27 @@ const registerChild = app => {
 
 		parent.children.push(child);
 		await parent.save();
-		res.status(200).json({
+		res.json({
 			message: `Child is successfully registered`,
 			child: child,
 			email: child.email
 		});
+
+		const link = "http://localhost:4200";
+		sendEmail({
+			to: child.email,
+			html: `<body><p>Click on link - <a href="${link}" target=_blank title="Log in on Chores&Money">Log in on Chores&Money</a></p>
+			<p>Your credentials:</p>
+			<dl>
+				<dd>email: ${child.email}</dd>
+				<dd>phone: ${child.phone}</dd>
+				<dd>password: ${password}</dd>
+			</dl>	
+			</body>`,
+			subject: "Chores&Money -Registration email NO REPLY"
+		});
+
+		res.status(200).end();
 	});
 
 	app.post("/api/add-child", async (req, res) => {
