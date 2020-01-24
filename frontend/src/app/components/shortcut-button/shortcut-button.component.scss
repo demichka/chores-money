@@ -1,11 +1,11 @@
 .shortcut-btn {
-    .mat-fab {
+    a {
         display: block;
         margin-left: auto;
         margin-right: auto;
         .mat-badge-content {
-            top: -3px;
-            right: -3px;
+            top: -5px;
+            right: -5px;
         }
     }
     .shortcut-btn-text {

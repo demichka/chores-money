@@ -2,6 +2,9 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { Chore } from "src/app/models/chore.model";
 import { AuthService } from "src/app/services/auth.service";
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
+import { Subscription, Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: "app-start-page",
@@ -10,12 +13,24 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class StartPageComponent implements OnInit {
     choresHighights: {};
+    unreadMessages: Message[];
     isLoading: boolean = true;
     isParent: boolean;
+
+    unreadMessages$: Observable<any>;
     constructor(
         private apiService: ApiService,
         private authService: AuthService
     ) {
+        this.unreadMessages$ = this.apiService.getMessages().pipe(
+            map(data => {
+                if (data.data.length) {
+                    return data.data.filter(item => item.unread);
+                } else {
+                    return [];
+                }
+            })
+        );
         this.checkData();
         this.isParent = this.authService.currentUserValue.isParent;
     }
@@ -28,8 +43,8 @@ export class StartPageComponent implements OnInit {
                 if (!data.data) {
                     throw "No data returned";
                 }
-                this.isLoading = false;
                 this.choresHighights = this.calculateStatistic(data.data);
+                this.isLoading = false;
             },
             error => {
                 console.error(error);

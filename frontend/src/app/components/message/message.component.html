@@ -1,1 +1,17 @@
-<p>message works!</p>
+<mat-list-item *ngIf="!hideItem">
+	<h4 mat-line>{{item.text}}</h4>
+
+	<button mat-icon-button matTooltip="Read" aria-label="Read" color="primary" title="Read"
+		*ngIf="item.unread"
+		(click)="onRead()">
+		<mat-icon>notifications_off</mat-icon>
+	</button>
+	<button mat-icon-button matTooltip="Remove" aria-label="Read" color="warn" title="Remove"
+		*ngIf="!item.unread"
+		(click)="onRemove()">
+		<mat-icon>remove_circle_outline
+		</mat-icon>
+	</button>
+
+	<mat-divider></mat-divider>
+</mat-list-item>

@@ -215,7 +215,7 @@ export class ApiService {
 
     //read message
     readMessage(id: string): Observable<any> {
-        return this.http.patch(
+        return this.http.get(
             restPath + "/api/read-message/" + id,
             this.httpOptions
         );

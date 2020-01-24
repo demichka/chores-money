@@ -33,7 +33,7 @@ const messagesRoutes = app => {
         }
     });
 
-    app.patch("/api/read-message/:id", async (req, res) => {
+    app.get("/api/read-message/:id", async (req, res) => {
         const {
             user
         } = req.session;
@@ -98,25 +98,18 @@ const messagesRoutes = app => {
         }
 
         try {
-            let sentMessages = await User.findById(user._id).populate({
-                path: 'sentMessages',
-                populate: {
-                    path: "sender receiver",
-                    model: 'User'
-                }
-            });
-
-            let receivedMessages = await User.findById(user._id).populate({
+            let messages = await User.findById(user._id).populate({
                 path: 'receivedMessages',
                 populate: {
-                    path: "sender receiver",
+                    path: "sender",
                     model: 'User'
                 }
             });
 
+            let receivedMessages = await User.findById(user._id)
+
             return res.status(200).json({
-                sent: sentMessages,
-                received: receivedMessages
+                data: messages.receivedMessages
             });
 
 

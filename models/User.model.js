@@ -93,12 +93,6 @@ userSchema.virtual('receivedMessages', {
 	options: { sort: { date: 'desc' } }
 });
 
-userSchema.virtual('sentMessages', {
-	ref: "Message",
-	localField: "_id",
-	foreignField: 'sender',
-	options: { sort: { date: 'desc' } }
-});
 
 userSchema.virtual("performersChores", {
 	ref: "Chore",

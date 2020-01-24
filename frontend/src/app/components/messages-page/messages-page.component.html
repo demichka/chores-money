@@ -1,1 +1,7 @@
-<p>messages-page works!</p>
+<div class="row">
+	<h2 class="col s12">Messages</h2>
+</div>
+<mat-list>
+	<app-message *ngFor="let messageEl of messages" [item]="messageEl">
+	</app-message>
+</mat-list>

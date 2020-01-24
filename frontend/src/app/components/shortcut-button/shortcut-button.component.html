@@ -1,9 +1,10 @@
-<div class="shortcut-btn">
-	<a mat-fab color="primary"
+<div class="shortcut-btn my-1">
+	<a mat-stroked-button color="primary"
 		matBadge="{{amount}}" matBadgePosition="after" [matBadgeHidden]="amount === 0" matBadgeColor="accent"
 		routerLink='{{link}}'
 		[queryParams]="{actions: params[0], tab: params[1]}">
 		<mat-icon>{{icon}}</mat-icon>
+		{{title}}
 	</a>
-	<span class="shortcut-btn-text">{{title}}</span>
+	<!-- <span class="shortcut-btn-text">{{title}}</span> -->
 </div>
