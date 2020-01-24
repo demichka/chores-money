@@ -6,6 +6,7 @@ const transactionsRoutes = require("./transactions-routes");
 const userActivityRoutes = require("./user-activity-route");
 const getParentsList = require("./get-parents-list-route");
 const updateProfile = require('./update-profile');
+const messagesRoutes = require('./messages-routes');
 
 const routesList = [];
 
@@ -17,6 +18,7 @@ routesList.push(transactionsRoutes);
 routesList.push(userActivityRoutes);
 routesList.push(getParentsList);
 routesList.push(updateProfile);
+routesList.push(messagesRoutes);
 
 const useCustomRoutes = app => {
 	routesList.forEach(useRoute => {

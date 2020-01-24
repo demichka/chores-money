@@ -31,6 +31,8 @@ import { TransactionComponent } from "./components/transaction/transaction.compo
 import { CreateTransactionComponent } from "./components/create-transaction/create-transaction.component";
 import { FormatMinusValue } from "./helpers/formatMinusValue.pipe";
 import { ShortcutButtonComponent } from './components/shortcut-button/shortcut-button.component';
+import { MessageComponent } from './components/message/message.component';
+import { MessagesPageComponent } from './components/messages-page/messages-page.component';
 
 @NgModule({
     declarations: [
@@ -55,7 +57,9 @@ import { ShortcutButtonComponent } from './components/shortcut-button/shortcut-b
         TransactionComponent,
         CreateTransactionComponent,
         FormatMinusValue,
-        ShortcutButtonComponent
+        ShortcutButtonComponent,
+        MessageComponent,
+        MessagesPageComponent
     ],
     imports: [
         BrowserModule,
