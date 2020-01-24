@@ -156,7 +156,7 @@ export class ApiService {
     }
 
     //set a chore as Paid
-    setChorePaid(id): Observable<any> {
+    setChorePaid(id: string): Observable<any> {
         return this.http
             .put<any>(
                 restPath + "/api/set-chore-paid/" + id,
@@ -167,7 +167,7 @@ export class ApiService {
     }
 
     //create transaction
-    createTransaction(data): Observable<any> {
+    createTransaction(data: any): Observable<any> {
         return this.http
             .post<TransactionInterface>(
                 restPath + "/api/create-transaction",
@@ -185,7 +185,7 @@ export class ApiService {
     }
 
     //update user profile
-    updateProfile(data): Observable<any> {
+    updateProfile(data: any): Observable<any> {
         return this.http
             .patch<UserInterface>(
                 restPath + "/api/update-profile",
@@ -193,5 +193,39 @@ export class ApiService {
                 this.httpOptions
             )
             .pipe(retry(1));
+    }
+
+    //create a message
+    createMessage(data: any): Observable<any> {
+        return this.http
+            .post(
+                restPath + "/api/create-message",
+                JSON.stringify(data),
+                this.httpOptions
+            )
+            .pipe(retry(1));
+    }
+
+    //get messages
+    getMessages(): Observable<any> {
+        return this.http
+            .get(restPath + "/api/my-messages", this.httpOptions)
+            .pipe(retry(2));
+    }
+
+    //read message
+    readMessage(id: string): Observable<any> {
+        return this.http.patch(
+            restPath + "/api/read-message/" + id,
+            this.httpOptions
+        );
+    }
+
+    //remove message
+    removeMessage(id: string): Observable<any> {
+        return this.http.delete(
+            restPath + "/api/remove-message/" + id,
+            this.httpOptions
+        );
     }
 }

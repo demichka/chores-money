@@ -39,7 +39,7 @@ const createChore = app => {
 
 		try {
 			const result = await chore.save();
-			res.status(200).json(result);
+			return res.status(200).json(result);
 		} catch (error) {
 			res.status(500).json(error);
 		}

@@ -4,7 +4,7 @@ const messageSchema = new Schema({
 	text: {
 		type: String,
 		required: true,
-		maxlength: 30
+		maxlength: 100
 	},
 	date: {
 		type: Date,
@@ -23,7 +23,7 @@ const messageSchema = new Schema({
 	receiver: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
-		required: false
+		required: true
 	}
 });
 

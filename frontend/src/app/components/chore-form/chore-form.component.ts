@@ -6,7 +6,7 @@ import { ApiService } from "src/app/services/api.service";
 import { AuthService } from "src/app/services/auth.service";
 import { Subscription } from "rxjs";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-chore-form",
@@ -18,7 +18,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
     user: User;
     desc = new FormControl("", [Validators.required, Validators.maxLength(50)]);
     cost = new FormControl(10, [Validators.required, Validators.max(300)]);
-    receiver = new FormControl("");
+    receiver = new FormControl("", [Validators.required]);
     isDonation = new FormControl(false);
     editableChore: Chore;
     editMode: boolean = false;
@@ -60,7 +60,8 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         private apiService: ApiService,
         private authService: AuthService,
         private _snackBar: MatSnackBar,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.isLoading = true;
         this.userSubscription = this.authService.currentUser$.subscribe(
@@ -74,10 +75,13 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (!this.isLoading && this.user.isParent) {
             this.getChildren();
-            this.receiver.setValue(this.route.snapshot.queryParams.child);
+            if (this.route.snapshot.queryParams.child) {
+                this.receiver.setValue(this.route.snapshot.queryParams.child);
+            }
         } else {
             this.getParents();
         }
+
         if (this.route.snapshot.queryParams.chore) {
             this.editMode = true;
             this.apiService
@@ -134,13 +138,13 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         if (this.choreForm.invalid) {
             throw "form is invalid";
         }
+
         this.errors.error = "";
         if (this.editMode) {
             this.apiService
                 .updateChore(this.editableChore._id, this.choreForm.value)
                 .subscribe(
                     res => {
-                        console.log(res, "come out");
                         this.openSnackBar(`Chore is updated`, "Done");
                         this.editMode = false;
                     },
@@ -156,12 +160,30 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         }
         this.apiService.addChore(this.choreForm.value).subscribe(
             res => {
+                this.sendMessage(
+                    this.receiver.value,
+                    `You've got a new chore from ${this.user.name}. Check chores | To do`
+                );
                 this.openSnackBar(`New chore is created`, "Done");
             },
             error => {
                 this.errors.error = error.error;
                 this.openSnackBar(`Something went wrong. Try later`, "Close");
                 console.error(this.errors);
+            }
+        );
+    }
+
+    sendMessage(receiverId: string, text: string) {
+        let message = {
+            text: text,
+            receiverId: receiverId
+        };
+
+        this.apiService.createMessage(message).subscribe(
+            res => {},
+            error => {
+                console.error(error);
             }
         );
     }
@@ -175,6 +197,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
             .afterOpened()
             .subscribe(done => {
                 this.resetForm();
+                this.router.navigate(["/"]);
             });
     }
 }

@@ -14,14 +14,16 @@ const messagesRoutes = app => {
         let sender = await User.findById(user._id);
         let {
             text,
-            receiver
+            receiverId
         } = req.body;
 
         const message = new Message({
             text: text,
             sender: sender._id,
-            receiver: receiver._id
+            receiver: receiverId
         });
+
+
 
         try {
             const result = await message.save();
@@ -31,7 +33,7 @@ const messagesRoutes = app => {
         }
     });
 
-    app.put("/api/read-message/:id", async (req, res) => {
+    app.patch("/api/read-message/:id", async (req, res) => {
         const {
             user
         } = req.session;
