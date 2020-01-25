@@ -1,5 +1,8 @@
 <mat-list-item *ngIf="!hideItem">
 	<h4 mat-line>{{item.text}}</h4>
+	<a mat-line routerLink="/chores"
+		[queryParams]="{tab: item.choreAction == 'created' ? 0 : item.choreAction == 'donated' ? 1 : item.choreAction == 'review' ? 2 : item.choreAction == 'confirmed' ? 0 : item.choreAction == 'done' ? 1 : item.choreAction == 'paid' ? 3 : ''}"
+		(click)="onRead()">Check</a>
 
 	<button mat-icon-button matTooltip="Read" aria-label="Read" color="primary" title="Read"
 		*ngIf="item.unread"
@@ -7,7 +10,6 @@
 		<mat-icon>notifications_off</mat-icon>
 	</button>
 	<button mat-icon-button matTooltip="Remove" aria-label="Read" color="warn" title="Remove"
-		*ngIf="!item.unread"
 		(click)="onRemove()">
 		<mat-icon>remove_circle_outline
 		</mat-icon>

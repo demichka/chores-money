@@ -7,6 +7,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { Subscription } from "rxjs";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
     selector: "app-chore-form",
@@ -61,7 +62,8 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private _snackBar: MatSnackBar,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private messageService: MessageService
     ) {
         this.isLoading = true;
         this.userSubscription = this.authService.currentUser$.subscribe(
@@ -132,6 +134,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         this.desc.setErrors(null);
         this.cost.setErrors(null);
         this.receiver.setErrors(null);
+        this.isDonation.setValue(false);
     }
 
     onSubmit() {
@@ -140,6 +143,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         }
 
         this.errors.error = "";
+
         if (this.editMode) {
             this.apiService
                 .updateChore(this.editableChore._id, this.choreForm.value)
@@ -160,30 +164,28 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         }
         this.apiService.addChore(this.choreForm.value).subscribe(
             res => {
-                this.sendMessage(
-                    this.receiver.value,
-                    `You've got a new chore from ${this.user.name}. Check chores | To do`
-                );
                 this.openSnackBar(`New chore is created`, "Done");
+                let messageText = `A new chore from ${this.user.name}.`;
+                let choreAction = "created";
+                if (this.choreForm.value.isDonation && this.user.isParent) {
+                    messageText = `A new donation from ${this.user.name}.`;
+                    choreAction = "donated";
+                }
+
+                if (!this.user.isParent) {
+                    messageText = `Chore to review from ${this.user.name}.`;
+                    choreAction = "review";
+                }
+                this.messageService.sendMessage(
+                    this.receiver.value,
+                    messageText,
+                    choreAction
+                );
             },
             error => {
                 this.errors.error = error.error;
                 this.openSnackBar(`Something went wrong. Try later`, "Close");
                 console.error(this.errors);
-            }
-        );
-    }
-
-    sendMessage(receiverId: string, text: string) {
-        let message = {
-            text: text,
-            receiverId: receiverId
-        };
-
-        this.apiService.createMessage(message).subscribe(
-            res => {},
-            error => {
-                console.error(error);
             }
         );
     }
@@ -197,6 +199,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
             .afterOpened()
             .subscribe(done => {
                 this.resetForm();
+
                 this.router.navigate(["/"]);
             });
     }

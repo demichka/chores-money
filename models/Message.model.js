@@ -4,8 +4,13 @@ const messageSchema = new Schema({
 	text: {
 		type: String,
 		required: true,
-		maxlength: 100
-	},
+		maxlength: 70
+    },
+    choreAction: {
+        type: String,
+        maxlength: 80,
+        required: true
+    },
 	date: {
 		type: Date,
 		default: Date.now()

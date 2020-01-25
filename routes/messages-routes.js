@@ -14,13 +14,15 @@ const messagesRoutes = app => {
         let sender = await User.findById(user._id);
         let {
             text,
-            receiverId
+            receiverId,
+            choreAction
         } = req.body;
 
         const message = new Message({
             text: text,
             sender: sender._id,
-            receiver: receiverId
+            receiver: receiverId,
+            choreAction: choreAction
         });
 
 

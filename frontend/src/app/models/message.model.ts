@@ -7,4 +7,5 @@ export class Message {
     receiver: User;
     sender: User;
     unread: boolean;
+    choreAction?: string;
 }

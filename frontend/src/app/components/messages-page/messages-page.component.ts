@@ -3,6 +3,8 @@ import { Message } from "src/app/models/message.model";
 import { AuthService } from "src/app/services/auth.service";
 import { ApiService } from "src/app/services/api.service";
 import { User } from "src/app/models/user.model";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: "app-messages-page",
@@ -10,27 +12,16 @@ import { User } from "src/app/models/user.model";
     styleUrls: ["./messages-page.component.scss"]
 })
 export class MessagesPageComponent implements OnInit {
-    messages: Message[] = [];
-    user: User;
-    constructor(
-        private authService: AuthService,
-        private apiService: ApiService
-    ) {
-        this.user = this.authService.currentUserValue;
-    }
+    messages$: Observable<Message[]>;
+    constructor(private apiService: ApiService) {}
 
     ngOnInit() {
-        this.getMessages();
-    }
-
-    getMessages() {
-        this.apiService.getMessages().subscribe(
-            data => {
-                this.messages = data.data;
-            },
-            error => {
-                console.error(error);
-            }
+        this.messages$ = this.apiService.getMessages().pipe(
+            map(data => {
+                return data.data;
+            })
         );
     }
+
+    getMessages() {}
 }

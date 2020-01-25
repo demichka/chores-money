@@ -21,13 +21,13 @@ export class ChoreComponent implements OnInit {
     //emit event to pass to chore-list as a parent to reject(false) or confirm(true) clicked chore
     confirmMe($event) {
         this.hideBtn = true;
-        this.confirmEvent.emit({ confirm: $event, chore: this.item._id });
+        this.confirmEvent.emit({ confirm: $event, chore: this.item });
     }
 
     //emit event to pass to chore-list as a parent to set this chore to Done
     setDone() {
         this.hideBtn = true;
-        this.setDoneEvent.emit(this.item._id);
+        this.setDoneEvent.emit(this.item);
     }
     payMe() {
         this.hideBtn = true;

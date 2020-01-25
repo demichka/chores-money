@@ -6,6 +6,7 @@ import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { TransactionInterface } from "src/app/models/transaction.model";
 import { ActivatedRoute, Router } from "@angular/router";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
     selector: "app-chores-list",
@@ -39,7 +40,8 @@ export class ChoresListComponent implements OnInit {
         private authService: AuthService,
         private _snackBar: MatSnackBar,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private messageService: MessageService
     ) {
         this.authService.currentUser$.subscribe(user => (this.user = user));
         this.getChoresList();
@@ -101,8 +103,15 @@ export class ChoresListComponent implements OnInit {
 
     onChoreReview($event) {
         if ($event.confirm) {
-            this.apiService.confirmChore($event.chore).subscribe(
+            let choreAction = $event.chore.isDonation ? "done" : "confirmed";
+
+            this.apiService.confirmChore($event.chore._id).subscribe(
                 res => {
+                    this.messageService.sendMessage(
+                        $event.chore.performer,
+                        `${this.user.name} confirmed your chore.`,
+                        choreAction
+                    );
                     this.openSnackBar("Chore was confirmed", "close");
                 },
                 error => {
@@ -110,8 +119,13 @@ export class ChoresListComponent implements OnInit {
                 }
             );
         } else {
-            this.apiService.rejectChore($event.chore).subscribe(
+            this.apiService.rejectChore($event.chore._id).subscribe(
                 res => {
+                    this.messageService.sendMessage(
+                        $event.chore.performer,
+                        `${this.user.name} rejected your chore.`,
+                        "rejected"
+                    );
                     this.openSnackBar("Chore was rejected", "close");
                 },
                 error => {
@@ -122,13 +136,23 @@ export class ChoresListComponent implements OnInit {
     }
 
     setDone($event) {
-        this.apiService.setChoreDone($event).subscribe(res => {
+        this.apiService.setChoreDone($event._id).subscribe(res => {
+            this.messageService.sendMessage(
+                $event.payer,
+                `A chore is done by ${this.user.name}.s`,
+                "done"
+            );
             this.openSnackBar("Chore is completed", "close");
         });
     }
 
     setPaid($event) {
         this.apiService.setChorePaid($event._id).subscribe(res => {
+            this.messageService.sendMessage(
+                $event.performer,
+                `A chore is payed by ${this.user.name}.`,
+                "paid"
+            );
             this.openSnackBar("Chore is paid and archived", "close");
         });
     }
