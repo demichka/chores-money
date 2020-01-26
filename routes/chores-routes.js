@@ -151,7 +151,7 @@ const createChore = app => {
 			desc: desc,
 			cost: cost,
 			isDonation: isDonation,
-			isDone: isDonation ? true : chore.isDone,
+			isDone: isDonation && user.isParent ? true : chore.isDone,
 			payer: user.isParent ? chore.payer : receiver,
 			performer: user.isParent ? receiver : chore.performer
 		}
