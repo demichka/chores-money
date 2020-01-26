@@ -228,4 +228,16 @@ export class ApiService {
             this.httpOptions
         );
     }
+
+    //forgot your password on login page
+
+    resetPassword(email: string): Observable<any> {
+        return this.http
+            .post(
+                restPath + "/api/reset-password",
+                JSON.stringify({ email: email }),
+                this.httpOptions
+            )
+            .pipe();
+    }
 }

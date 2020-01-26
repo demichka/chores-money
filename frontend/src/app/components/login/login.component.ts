@@ -4,6 +4,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ApiService } from "src/app/services/api.service";
 
 @Component({
     selector: "app-login",
@@ -31,7 +32,8 @@ export class LoginComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private router: Router,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private apiService: ApiService
     ) {
         if (this.authService.currentUserValue) {
             this.router.navigate(["/"]);
@@ -61,6 +63,17 @@ export class LoginComponent implements OnInit {
                     this.openSnackBar(error.error.error, "close");
                 }
             );
+    }
+
+    resetPassword() {
+        this.apiService.resetPassword(this.loginForm.value.email).subscribe(
+            res => {
+                console.log(res);
+            },
+            error => {
+                console.error(error);
+            }
+        );
     }
 
     //func to open snackbar (material component) to show error which returns as response from server
