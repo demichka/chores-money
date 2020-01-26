@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { User } from "src/app/models/user.model";
 import { ApiService } from "src/app/services/api.service";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: "app-children-list",
@@ -8,19 +10,14 @@ import { ApiService } from "src/app/services/api.service";
     styleUrls: ["./children-list.component.scss"]
 })
 export class ChildrenListComponent implements OnInit {
-    childrenList: User[] = [];
-    errors: { error: "" };
-    constructor(private apiService: ApiService) {
-        this.apiService.getChildrenList().subscribe(
-            data => {
-                this.childrenList = data;
-                console.log(this.childrenList, "children");
-            },
-            error => {
-                this.errors.error = error.error;
-            }
+    childrenList$: Observable<User[]>;
+    constructor(private apiService: ApiService) {}
+
+    ngOnInit() {
+        this.childrenList$ = this.apiService.getChildrenList().pipe(
+            map(data => {
+                return data;
+            })
         );
     }
-
-    ngOnInit() {}
 }

@@ -1,7 +1,9 @@
 <div class="row">
-	<h2 class="col s12">Messages</h2>
+	<h3 class="col s12">Messages</h3>
 </div>
 <mat-list *ngIf="messages$ | async; let messages">
+	<p *ngIf="!messages.length">You don't have messages</p>
+
 	<app-message *ngFor="let value of messages" [item]="value">
 	</app-message>
 </mat-list>

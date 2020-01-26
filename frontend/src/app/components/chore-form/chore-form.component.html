@@ -22,6 +22,6 @@
 	</div>
 	<div class="my-1">
 		<button mat-raised-button color=primary
-			title="editMode ? 'Save changes' : 'Create new chore'">{{editMode ? 'Save changes' : 'Create new chore'}}</button>
+			[title]="editMode ? 'Save changes' : 'Create new chore'">{{editMode ? 'Save changes' : 'Create new chore'}}</button>
 	</div>
 </form>

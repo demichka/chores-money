@@ -27,12 +27,16 @@ body {
         width: 320px;
         margin: auto;
         padding: 0 15px;
+        button {
+            width: 100%;
+        }
     }
 }
 
 h3 {
     text-align: center;
-    color: $primary-color;
+    color: $primary-text;
+    font-weight: 500;
 }
 
 form {
@@ -40,6 +44,9 @@ form {
         width: 320px;
         margin: auto;
         padding: 0 15px;
+        button {
+            width: 100%;
+        }
     }
 
     & > * > * {
@@ -50,6 +57,10 @@ form {
         width: 100%;
         margin-bottom: 20px;
         white-space: nowrap;
+        @media (min-width: 1280px) {
+            width: 220px;
+            margin: auto;
+        }
     }
     a {
         display: block;

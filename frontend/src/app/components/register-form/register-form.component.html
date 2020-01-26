@@ -1,5 +1,6 @@
 <div class="row">
-	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" [ngClass]="isParent ? 'register-form' : 'col l8 push-l2'">
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
+		[ngClass]="!isParent ? 'col s12' : 'register-form'">
 		<h3>Registration</h3>
 		<div>
 			<mat-form-field hintLabel="Max 10 characters">

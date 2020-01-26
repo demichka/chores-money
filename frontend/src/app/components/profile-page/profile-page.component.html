@@ -1,7 +1,6 @@
 <div class="row">
 	<h3>{{title}}</h3>
 	<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()" class="col s12 m8 push-m2">
-		<h3>Registration</h3>
 		<div>
 			<mat-form-field hintLabel="Max 10 characters">
 				<input matInput placeholder="Name" #nameInput formControlName="name" required>

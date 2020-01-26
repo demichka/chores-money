@@ -139,7 +139,7 @@ export class ChoresListComponent implements OnInit {
         this.apiService.setChoreDone($event._id).subscribe(res => {
             this.messageService.sendMessage(
                 $event.payer,
-                `A chore is done by ${this.user.name}.`,
+                `A chore is marked as Done by ${this.user.name}.`,
                 "done"
             );
             this.openSnackBar("Chore is completed", "close");

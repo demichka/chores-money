@@ -6,7 +6,7 @@
 	<button mat-icon-button matTooltip="Set as Done" aria-label="Done" color="primary" title="Done"
 		*ngIf="item.isConfirmed && !item.isDone"
 		(click)="setDone()" [disabled]="hideBtn">
-		<mat-icon>done</mat-icon>
+		<mat-icon>check_circle_outline</mat-icon>
 	</button>
 	<a mat-icon-button matTooltip="Edit" aria-label="Edit" color="primary" title="Edit"
 		*ngIf="(!user.isParent && !item.isConfirmed && item.author == user._id) || (user.isParent && !item.isDone && item.author == user._id)"
