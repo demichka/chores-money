@@ -4,6 +4,7 @@ import { User } from "src/app/models/user.model";
 import { Subscription } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-main-page",
@@ -31,7 +32,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private userService: UserService
     ) {
         if (window.localStorage.getItem("saveChoice") === null) {
             window.localStorage.setItem("saveChoice", "false");
@@ -47,13 +49,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.isLoading = true;
-
-        this.userSubscription = this.authService.currentUser$.subscribe(
-            user => {
+        this.userService.getUser().subscribe(
+            data => {
+                this.user = data;
                 this.isLoading = false;
-                this.user = user;
             },
-            error => {}
+            error => {
+                console.error(error);
+            }
         );
     }
 

@@ -5,6 +5,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { Message } from "@angular/compiler/src/i18n/i18n_ast";
 import { Subscription, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-start-page",
@@ -20,7 +21,8 @@ export class StartPageComponent implements OnInit {
     unreadMessages$: Observable<any>;
     constructor(
         private apiService: ApiService,
-        private authService: AuthService
+        private authService: AuthService,
+        private userService: UserService
     ) {
         this.unreadMessages$ = this.apiService.getMessages().pipe(
             map(data => {
@@ -32,7 +34,14 @@ export class StartPageComponent implements OnInit {
             })
         );
         this.checkData();
-        this.isParent = this.authService.currentUserValue.isParent;
+        this.userService.getUser().subscribe(
+            data => {
+                this.isParent = data.isParent;
+            },
+            error => {
+                console.error(error);
+            }
+        );
     }
 
     ngOnInit() {}

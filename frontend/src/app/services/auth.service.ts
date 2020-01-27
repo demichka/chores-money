@@ -10,8 +10,6 @@ import { restPath } from "../../../../config/path.config";
     providedIn: "root"
 })
 export class AuthService {
-    private userSubject: BehaviorSubject<User>;
-    public currentUser$: Observable<User>;
     user: User;
 
     httpOptions = {
@@ -23,38 +21,25 @@ export class AuthService {
     };
 
     constructor(private http: HttpClient) {
-        this.userSubject = new BehaviorSubject<User>(
-            JSON.parse(localStorage.getItem("user")) || null
-        );
-        this.currentUser$ = this.userSubject.asObservable();
-        this.checkAuth();
-        setInterval(() => {
-            this.checkAuth();
-        }, 60000);
-    }
-
-    public get currentUserValue(): User {
-        return this.userSubject.value;
+        // this.checkAuth();
+        // setInterval(() => {
+        //     this.checkAuth();
+        // }, 60000);
     }
 
     public checkAuth() {
         this.checkLogin()
             .pipe(first())
-            .subscribe(data => {
-                if (data) {
-                    this.userSubject.next(data);
-                    localStorage.setItem("user", JSON.stringify(data));
+            .subscribe(res => {
+                if (res) {
+                    console.log(res);
                 } else {
-                    localStorage.removeItem("user");
-                    return false;
+                    console.error(res);
                 }
-            }),
-            error => {
-                console.error(error);
-            };
+            });
     }
-    checkLogin() {
-        let path = restPath + "/api/login";
+    public checkLogin(): Observable<any> {
+        let path = restPath + "/api/check-login";
         return this.http.get<User>(path, this.httpOptions).pipe();
     }
 
@@ -62,19 +47,11 @@ export class AuthService {
         let path = restPath + "/api/login";
         return this.http
             .post<User>(path, JSON.stringify(login), this.httpOptions)
-            .pipe(
-                map(user => {
-                    localStorage.setItem("user", JSON.stringify(user));
-                    this.userSubject.next(user);
-                })
-            );
+            .pipe();
     }
 
     logout() {
         let path = restPath + "/api/logout";
-        localStorage.removeItem("user");
-        return this.http
-            .get(path, { withCredentials: true })
-            .pipe(map(res => this.userSubject.next(null)));
+        return this.http.get(path, { withCredentials: true });
     }
 }
