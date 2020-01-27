@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="!isLoading">
 	<h3>{{title}}</h3>
 	<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()" class="col s12 m8 push-m2">
 		<div>

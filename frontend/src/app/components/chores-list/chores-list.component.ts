@@ -6,7 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { TransactionInterface } from "src/app/models/transaction.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "src/app/services/message.service";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-chores-list",
@@ -17,6 +17,7 @@ export class ChoresListComponent implements OnInit {
     choresList: { data: Chore[] };
     errors: { error: "" };
     isLoading: boolean;
+    isUserLoading: boolean;
     user: User;
     selectedTab: number;
 
@@ -43,7 +44,12 @@ export class ChoresListComponent implements OnInit {
         private messageService: MessageService,
         private userService: UserService
     ) {
-        this.userService.getUser().subscribe(user => (this.user = user));
+        this.isUserLoading = true;
+        this.userService.currentUser$.subscribe(user => {
+            this.user = user;
+            this.isUserLoading = false;
+        });
+
         this.getChoresList();
         this.selectedTab = +this.route.snapshot.queryParams.tab;
         if (!this.route.snapshot.queryParams.tab) {

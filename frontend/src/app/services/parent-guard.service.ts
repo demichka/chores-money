@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router, CanActivate } from "@angular/router";
 import { User } from "../models/user.model";
-import { UserService } from "../user.service";
+import { UserService } from "./user.service";
 import { map } from "rxjs/operators";
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ParentGuardService implements CanActivate {
 
     //this parent guard check if user is parent or not and give access or not to some routes (add-child, children etc)
     canActivate() {
-        return this.userService.getUser().pipe(
+        return this.userService.currentUser$.pipe(
             map(user => {
                 if (user.isParent) {
                     return true;

@@ -6,7 +6,7 @@ import { ApiService } from "src/app/services/api.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "src/app/services/message.service";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-chore-form",
@@ -64,7 +64,7 @@ export class ChoreFormComponent implements OnInit {
         private userService: UserService
     ) {
         this.isLoading = true;
-        this.userService.getUser().subscribe(user => {
+        this.userService.currentUser$.subscribe(user => {
             this.user = user;
             if (this.user.isParent) {
                 this.getChildren();

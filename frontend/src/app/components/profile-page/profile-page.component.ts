@@ -4,7 +4,7 @@ import { ApiService } from "src/app/services/api.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-profile-page",
@@ -14,6 +14,7 @@ import { UserService } from "src/app/user.service";
 export class ProfilePageComponent implements OnInit {
     title: String = "User profile";
     user: User;
+    isLoading: boolean;
     name = new FormControl("", [
         Validators.required,
         Validators.minLength(3),
@@ -38,14 +39,15 @@ export class ProfilePageComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private router: Router,
         private userService: UserService
-    ) {
-        this.userService.currentUser$.subscribe(user => (this.user = user));
-    }
+    ) {}
 
     ngOnInit() {
-        if (this.user) {
+        this.isLoading = true;
+        this.userService.currentUser$.subscribe(user => {
+            this.user = user;
             this.fillFormWithUserInfo(this.user);
-        }
+            this.isLoading = false;
+        });
     }
 
     fillFormWithUserInfo(user: User) {
@@ -92,9 +94,7 @@ export class ProfilePageComponent implements OnInit {
         }
         this.apiService.updateProfile(this.updateProfileForm.value).subscribe(
             res => {
-                this.userService
-                    .getUser()
-                    .subscribe(user => (this.user = user));
+                this.userService.reloadUser();
                 this.openSnackBar("Profile is updated successfully", "close");
             },
             error => {

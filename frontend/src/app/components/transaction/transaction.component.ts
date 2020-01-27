@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Transaction } from "src/app/models/transaction.model";
 import { AuthService } from "src/app/services/auth.service";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-transaction",

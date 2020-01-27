@@ -1,5 +1,5 @@
 <!-- Tabs for user as a child -->
-<mat-tab-group [selectedIndex]="selectedTab" *ngIf="!isLoading && !user.isParent"
+<mat-tab-group [selectedIndex]="selectedTab" *ngIf="!isLoading && !isUserLoading && !user.isParent"
 	(selectedIndexChange)="updateParams($event)">
 	<mat-tab label="To do">
 
@@ -41,7 +41,7 @@
 <!-- Tabs for user as a parent -->
 
 <mat-tab-group [selectedIndex]="selectedTab" (selectedIndexChange)="updateParams($event)"
-	*ngIf="!isLoading && user.isParent">
+	*ngIf="!isLoading && !isUserLoading && user.isParent">
 	<mat-tab label="Doing">
 
 		<p *ngIf="_filteredChores.toDo.length === 0">No chores in Doing</p>

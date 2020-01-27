@@ -33,7 +33,7 @@ import { FormatMinusValue } from "./helpers/formatMinusValue.pipe";
 import { ShortcutButtonComponent } from "./components/shortcut-button/shortcut-button.component";
 import { MessageComponent } from "./components/message/message.component";
 import { MessagesPageComponent } from "./components/messages-page/messages-page.component";
-import { UserService } from "./user.service";
+import { UserService } from "./services/user.service";
 import { ParentGuardService } from "./services/parent-guard.service";
 import { MessageService } from "./services/message.service";
 import { ApiService } from "./services/api.service";

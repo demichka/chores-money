@@ -5,7 +5,7 @@ import { first, map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ApiService } from "src/app/services/api.service";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-login",

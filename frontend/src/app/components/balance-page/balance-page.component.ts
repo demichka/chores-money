@@ -4,7 +4,7 @@ import { Transaction } from "src/app/models/transaction.model";
 import { User } from "src/app/models/user.model";
 import { Chore } from "src/app/models/chore.model";
 import { FormatMinusValue } from "src/app/helpers/formatMinusValue.pipe";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-balance-page",
@@ -23,7 +23,7 @@ export class BalancePageComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = true;
-        this.userService.getUser().subscribe(user => {
+        this.userService.currentUser$.subscribe(user => {
             this.user = user;
             this.getTransactions();
             this.getChores();

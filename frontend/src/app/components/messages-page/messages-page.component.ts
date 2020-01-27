@@ -22,6 +22,4 @@ export class MessagesPageComponent implements OnInit {
             })
         );
     }
-
-    getMessages() {}
 }

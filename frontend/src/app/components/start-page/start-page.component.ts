@@ -4,7 +4,7 @@ import { Chore } from "src/app/models/chore.model";
 import { Message } from "@angular/compiler/src/i18n/i18n_ast";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: "app-start-page",
@@ -32,7 +32,7 @@ export class StartPageComponent implements OnInit {
             })
         );
         this.checkData();
-        this.userService.getUser().subscribe(
+        this.userService.currentUser$.subscribe(
             data => {
                 this.isParent = data.isParent;
             },
