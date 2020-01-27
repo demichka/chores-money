@@ -1,9 +1,9 @@
 import { Component, OnDestroy, ChangeDetectorRef, OnInit } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
 import { User } from "src/app/models/user.model";
-import { Subscription } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-main-page",
@@ -21,8 +21,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     user: User;
 
-    userSubscription: Subscription;
-
     private _mobileQueryListener: () => void;
 
     isLoading: boolean = false;
@@ -31,7 +29,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private userService: UserService
     ) {
         if (window.localStorage.getItem("saveChoice") === null) {
             window.localStorage.setItem("saveChoice", "false");
@@ -47,14 +46,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.isLoading = true;
-
-        this.userSubscription = this.authService.currentUser$.subscribe(
-            user => {
-                this.isLoading = false;
-                this.user = user;
-            },
-            error => {}
-        );
+        this.userService.currentUser$.subscribe(user => {
+            (this.user = user), (this.isLoading = false);
+        });
     }
 
     toggleNotice() {
@@ -70,12 +64,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.mobileQuery.removeListener(this._mobileQueryListener);
-        this.userSubscription.unsubscribe();
     }
 
     logout() {
-        this.authService
-            .logout()
-            .subscribe(result => this.router.navigate(["/login"]));
+        this.authService.logout().subscribe(result => {
+            this.router.navigate(["/login"]);
+        });
     }
 }

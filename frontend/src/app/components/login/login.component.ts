@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { AuthService } from "src/app/services/auth.service";
-import { first } from "rxjs/operators";
+import { first, map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ApiService } from "src/app/services/api.service";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-login",
@@ -33,14 +34,17 @@ export class LoginComponent implements OnInit {
         private authService: AuthService,
         private router: Router,
         private _snackBar: MatSnackBar,
-        private apiService: ApiService
-    ) {
-        if (this.authService.currentUserValue) {
-            this.router.navigate(["/"]);
-        }
-    }
+        private apiService: ApiService,
+        private userService: UserService
+    ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.userService.currentUser$.subscribe(user => {
+            if (user) {
+                this.router.navigate(["/"]);
+            }
+        });
+    }
 
     onSubmit() {
         if (this.email.invalid) {
@@ -60,7 +64,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(["/"]);
                 },
                 error => {
-                    this.openSnackBar(error.error.error, "close");
+                    this.openSnackBar("An error occured.", "close");
                 }
             );
     }

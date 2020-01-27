@@ -1,20 +1,19 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { User } from "src/app/models/user.model";
 import { Chore } from "src/app/models/chore.model";
 import { ApiService } from "src/app/services/api.service";
-import { AuthService } from "src/app/services/auth.service";
-import { Subscription } from "rxjs";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "src/app/services/message.service";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-chore-form",
     templateUrl: "./chore-form.component.html",
     styleUrls: ["./chore-form.component.scss"]
 })
-export class ChoreFormComponent implements OnInit, OnDestroy {
+export class ChoreFormComponent implements OnInit {
     relatives: User[];
     user: User;
     desc = new FormControl("", [Validators.required, Validators.maxLength(50)]);
@@ -31,8 +30,7 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
         receiver: this.receiver
     });
 
-    userSubscription: Subscription;
-    isLoading: boolean = false;
+    isLoading: boolean;
 
     errors = { error: "" };
 
@@ -59,31 +57,30 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
     }
     constructor(
         private apiService: ApiService,
-        private authService: AuthService,
         private _snackBar: MatSnackBar,
         private route: ActivatedRoute,
         private router: Router,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private userService: UserService
     ) {
         this.isLoading = true;
-        this.userSubscription = this.authService.currentUser$.subscribe(
-            user => {
-                this.user = user;
-                this.isLoading = false;
+        this.userService.getUser().subscribe(user => {
+            this.user = user;
+            if (this.user.isParent) {
+                this.getChildren();
+                if (this.route.snapshot.queryParams.child) {
+                    this.receiver.setValue(
+                        this.route.snapshot.queryParams.child
+                    );
+                }
+            } else {
+                this.getParents();
             }
-        );
+            this.isLoading = false;
+        });
     }
 
     ngOnInit() {
-        if (!this.isLoading && this.user.isParent) {
-            this.getChildren();
-            if (this.route.snapshot.queryParams.child) {
-                this.receiver.setValue(this.route.snapshot.queryParams.child);
-            }
-        } else {
-            this.getParents();
-        }
-
         if (this.route.snapshot.queryParams.chore) {
             this.editMode = true;
             this.apiService
@@ -100,10 +97,6 @@ export class ChoreFormComponent implements OnInit, OnDestroy {
                     });
                 });
         }
-    }
-
-    ngOnDestroy() {
-        this.userSubscription.unsubscribe();
     }
 
     getChildren() {

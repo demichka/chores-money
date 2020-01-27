@@ -29,19 +29,12 @@ module.exports = useLogin = app => {
 	});
 
 
-	app.get("/api/login", async (req, res) => {
+	app.get("/api/check-login", async (req, res) => {
 		if(req.session.user) {
-			const user = await User.findById(req.session.user._id);
-			req.session.user = user;
-			req.session.save(function(err) {
-				if(err) {
-					throw error(err);
-				}
-			});
-			res.status(200).json(user);
+			res.status(200).send(true);
 		}
 		else {
-			res.status(400).json(null);
+			res.status(200).send(false);
 		}
 	});
 
@@ -54,4 +47,15 @@ module.exports = useLogin = app => {
 			res.status(400).end();
 		}
 	});
+
+	app.get("/api/get-user", async (req, res) => {
+		const {user} = req.session;
+		if(user) {
+			var userInstance = await User.findById(user._id);
+			res.status(200).json(userInstance);
+		}
+		else {
+			res.status(401).send('No logged in user');
+		}
+	})
 };
