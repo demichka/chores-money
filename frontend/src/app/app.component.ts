@@ -1,8 +1,4 @@
-import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
-import { MediaMatcher } from "@angular/cdk/layout";
-import { User } from "./models/user.model";
-import { Router } from "@angular/router";
-import { AuthService } from "./services/auth.service";
+import { Component } from "@angular/core";
 
 @Component({
     selector: "app-root",
@@ -10,7 +6,5 @@ import { AuthService } from "./services/auth.service";
     styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-    currentUser: User;
-
-    constructor(private router: Router, private authService: AuthService) {}
+    constructor() {}
 }

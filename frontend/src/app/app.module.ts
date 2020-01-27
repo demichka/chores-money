@@ -30,9 +30,13 @@ import { BalancePageComponent } from "./components/balance-page/balance-page.com
 import { TransactionComponent } from "./components/transaction/transaction.component";
 import { CreateTransactionComponent } from "./components/create-transaction/create-transaction.component";
 import { FormatMinusValue } from "./helpers/formatMinusValue.pipe";
-import { ShortcutButtonComponent } from './components/shortcut-button/shortcut-button.component';
-import { MessageComponent } from './components/message/message.component';
-import { MessagesPageComponent } from './components/messages-page/messages-page.component';
+import { ShortcutButtonComponent } from "./components/shortcut-button/shortcut-button.component";
+import { MessageComponent } from "./components/message/message.component";
+import { MessagesPageComponent } from "./components/messages-page/messages-page.component";
+import { UserService } from "./user.service";
+import { ParentGuardService } from "./services/parent-guard.service";
+import { MessageService } from "./services/message.service";
+import { ApiService } from "./services/api.service";
 
 @NgModule({
     declarations: [
@@ -70,7 +74,14 @@ import { MessagesPageComponent } from './components/messages-page/messages-page.
         ReactiveFormsModule,
         HttpClientModule
     ],
-    providers: [AuthService, AuthGuardService],
+    providers: [
+        AuthService,
+        AuthGuardService,
+        UserService,
+        ParentGuardService,
+        MessageService,
+        ApiService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

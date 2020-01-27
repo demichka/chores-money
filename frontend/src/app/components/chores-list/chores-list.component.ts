@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Chore } from "src/app/models/chore.model";
 import { ApiService } from "src/app/services/api.service";
-import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { TransactionInterface } from "src/app/models/transaction.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "src/app/services/message.service";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-chores-list",
@@ -37,13 +37,13 @@ export class ChoresListComponent implements OnInit {
     }
     constructor(
         private apiService: ApiService,
-        private authService: AuthService,
         private _snackBar: MatSnackBar,
         private route: ActivatedRoute,
         private router: Router,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private userService: UserService
     ) {
-        this.authService.currentUser$.subscribe(user => (this.user = user));
+        this.userService.getUser().subscribe(user => (this.user = user));
         this.getChoresList();
         this.selectedTab = +this.route.snapshot.queryParams.tab;
         if (!this.route.snapshot.queryParams.tab) {

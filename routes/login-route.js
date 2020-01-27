@@ -30,24 +30,11 @@ module.exports = useLogin = app => {
 
 
 	app.get("/api/check-login", async (req, res) => {
-		// if(req.session.user) {
-		// 	const user = await User.findById(req.session.user._id);
-		// 	req.session.user = user;
-		// 	req.session.save(function(err) {
-		// 		if(err) {
-		// 			throw error(err);
-		// 		}
-		// 	});
-		// 	res.status(200).json(user);
-		// }
-		// else {
-		// 	res.status(400).json(null);
-		// }
 		if(req.session.user) {
 			res.status(200).send(true);
 		}
 		else {
-			res.status(401).send(false);
+			res.status(200).send(false);
 		}
 	});
 

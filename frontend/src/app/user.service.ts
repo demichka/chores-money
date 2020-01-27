@@ -2,28 +2,31 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { restPath } from "../../../config/keys.dev";
-import { AuthService } from "./services/auth.service";
+import { map, retry } from "rxjs/operators";
+import { User } from "./models/user.model";
 
 @Injectable({
     providedIn: "root"
 })
 export class UserService {
-    currentUser;
+    currentUser$: Observable<User>;
     httpOptions = {
         headers: new HttpHeaders({
             "Content-Type": "application/json"
         }),
         withCredentials: true
     };
-    constructor(private http: HttpClient, private authService: AuthService) {}
-
-    // public getCurrentUser() {
-    // 	this.authService.checkLogin
-    // }
+    constructor(private http: HttpClient) {
+        this.currentUser$ = this.getUser().pipe(
+            map(user => {
+                return user;
+            })
+        );
+    }
 
     getUser(): Observable<any> {
         return this.http
-            .get(restPath + "/api/get-user", this.httpOptions)
-            .pipe();
+            .get<any>(restPath + "/api/get-user", this.httpOptions)
+            .pipe(retry(2));
     }
 }

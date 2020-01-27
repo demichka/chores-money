@@ -1,10 +1,10 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
-import { AuthService } from "src/app/services/auth.service";
 import { ApiService } from "src/app/services/api.service";
 import { User } from "src/app/models/user.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-profile-page",
@@ -34,12 +34,12 @@ export class ProfilePageComponent implements OnInit {
     });
 
     constructor(
-        private authService: AuthService,
         private apiService: ApiService,
         private _snackBar: MatSnackBar,
-        private router: Router
+        private router: Router,
+        private userService: UserService
     ) {
-        this.authService.currentUser$.subscribe(user => (this.user = user));
+        this.userService.currentUser$.subscribe(user => (this.user = user));
     }
 
     ngOnInit() {
@@ -92,7 +92,9 @@ export class ProfilePageComponent implements OnInit {
         }
         this.apiService.updateProfile(this.updateProfileForm.value).subscribe(
             res => {
-                this.authService.checkAuth();
+                this.userService
+                    .getUser()
+                    .subscribe(user => (this.user = user));
                 this.openSnackBar("Profile is updated successfully", "close");
             },
             error => {

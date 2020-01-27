@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { Transaction } from "src/app/models/transaction.model";
-import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/models/user.model";
 import { Chore } from "src/app/models/chore.model";
 import { FormatMinusValue } from "src/app/helpers/formatMinusValue.pipe";
+import { UserService } from "src/app/user.service";
 
 @Component({
     selector: "app-balance-page",
@@ -18,16 +18,15 @@ export class BalancePageComponent implements OnInit {
     calculations = {};
     constructor(
         private apiService: ApiService,
-        private authService: AuthService
+        private userService: UserService
     ) {}
 
     ngOnInit() {
         this.isLoading = true;
-        this.authService.checkLogin().subscribe(user => {
+        this.userService.getUser().subscribe(user => {
             this.user = user;
             this.getTransactions();
             this.getChores();
-            console.log(user);
             this.isLoading = false;
         });
     }

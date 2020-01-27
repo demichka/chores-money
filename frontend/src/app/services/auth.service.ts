@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { User } from "../models/user.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Login } from "../models/login.model";
-import { map, first, retry } from "rxjs/operators";
+import { retry } from "rxjs/operators";
 import { restPath } from "../../../../config/path.config";
 
 @Injectable({
@@ -20,27 +20,11 @@ export class AuthService {
         Accept: "application/json"
     };
 
-    constructor(private http: HttpClient) {
-        // this.checkAuth();
-        // setInterval(() => {
-        //     this.checkAuth();
-        // }, 60000);
-    }
+    constructor(private http: HttpClient) {}
 
-    public checkAuth() {
-        this.checkLogin()
-            .pipe(first())
-            .subscribe(res => {
-                if (res) {
-                    console.log(res);
-                } else {
-                    console.error(res);
-                }
-            });
-    }
     public checkLogin(): Observable<any> {
         let path = restPath + "/api/check-login";
-        return this.http.get<User>(path, this.httpOptions).pipe();
+        return this.http.get(path, this.httpOptions).pipe(retry(2));
     }
 
     login(login: Login) {

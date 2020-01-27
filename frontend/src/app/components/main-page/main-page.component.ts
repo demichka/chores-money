@@ -1,7 +1,6 @@
 import { Component, OnDestroy, ChangeDetectorRef, OnInit } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
 import { User } from "src/app/models/user.model";
-import { Subscription } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 import { UserService } from "src/app/user.service";
@@ -21,8 +20,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     saveChoice: boolean = false;
 
     user: User;
-
-    userSubscription: Subscription;
 
     private _mobileQueryListener: () => void;
 
@@ -49,15 +46,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.isLoading = true;
-        this.userService.getUser().subscribe(
-            data => {
-                this.user = data;
-                this.isLoading = false;
-            },
-            error => {
-                console.error(error);
-            }
-        );
+        this.userService.currentUser$.subscribe(user => {
+            (this.user = user), (this.isLoading = false);
+        });
     }
 
     toggleNotice() {
@@ -73,12 +64,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.mobileQuery.removeListener(this._mobileQueryListener);
-        this.userSubscription.unsubscribe();
     }
 
     logout() {
-        this.authService
-            .logout()
-            .subscribe(result => this.router.navigate(["/login"]));
+        this.authService.logout().subscribe(result => {
+            this.router.navigate(["/login"]);
+        });
     }
 }

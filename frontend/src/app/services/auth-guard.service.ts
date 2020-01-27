@@ -14,24 +14,12 @@ import { map } from "rxjs/operators";
     providedIn: "root"
 })
 export class AuthGuardService implements CanActivate, CanActivateChild {
-    isLoggedIn;
-
-    constructor(private router: Router, private authService: AuthService) {
-        // console.log(this.isLoggedIn, "loggend in");
-        // this.authService.checkLogin().subscribe(res => {
-        //     if (res) {
-        //         this.isLoggedIn = true;
-        //     } else {
-        //         this.isLoggedIn = false;
-        //     }
-        // });
-    }
+    constructor(private router: Router, private authService: AuthService) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.authService.checkLogin().pipe(
             map(auth => {
                 if (auth) {
-                    console.log(auth, "auth");
                     return true;
                 } else {
                     this.router.navigate(["/login"]);

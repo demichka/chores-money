@@ -1,9 +1,8 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { Chore } from "src/app/models/chore.model";
-import { AuthService } from "src/app/services/auth.service";
 import { Message } from "@angular/compiler/src/i18n/i18n_ast";
-import { Subscription, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { UserService } from "src/app/user.service";
 
@@ -18,10 +17,9 @@ export class StartPageComponent implements OnInit {
     isLoading: boolean = true;
     isParent: boolean;
 
-    unreadMessages$: Observable<any>;
+    unreadMessages$: Observable<any>; // observable for awaiting messages data
     constructor(
         private apiService: ApiService,
-        private authService: AuthService,
         private userService: UserService
     ) {
         this.unreadMessages$ = this.apiService.getMessages().pipe(
@@ -46,6 +44,7 @@ export class StartPageComponent implements OnInit {
 
     ngOnInit() {}
 
+    //function to check chores data for shortcuts, if there are some undone, done and unpaid chores, chores to confirm
     checkData() {
         this.apiService.getChoresList().subscribe(
             data => {
@@ -61,6 +60,7 @@ export class StartPageComponent implements OnInit {
         );
     }
 
+    //func to calculate quantities of chores for each type to show them in contrast badge on the shortcut
     calculateStatistic(data: Chore[]) {
         let result = { toPay: 0, toConfirm: 0, toDo: 0 };
         if (!data.length) {
