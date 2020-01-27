@@ -9,7 +9,7 @@ const transactionSchema = new Schema({
 	desc: {
 		type: String,
 		required: true,
-		maxlength: 30
+		maxlength: 50
 	},
 	date: {
 		type: Date,
