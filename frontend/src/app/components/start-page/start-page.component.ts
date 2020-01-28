@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { Chore } from "src/app/models/chore.model";
 import { Message } from "@angular/compiler/src/i18n/i18n_ast";
@@ -34,7 +34,9 @@ export class StartPageComponent implements OnInit {
         this.checkData();
         this.userService.currentUser$.subscribe(
             data => {
-                this.isParent = data.isParent;
+                if (data) {
+                    this.isParent = data.isParent;
+                }
             },
             error => {
                 console.error(error);

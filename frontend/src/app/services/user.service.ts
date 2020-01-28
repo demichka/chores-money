@@ -32,6 +32,10 @@ export class UserService {
         });
     }
 
+    public removeCurrentUser() {
+        this.subject.next(null as User);
+    }
+
     private fetchUser() {
         return this.http.get<any>(restPath + "/api/get-user", this.httpOptions);
     }
