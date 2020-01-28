@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Login } from "../models/login.model";
 import { retry } from "rxjs/operators";
 import { restPath } from "../../../../config/path.config";
+import { UserService } from "./user.service";
 
 @Injectable({
     providedIn: "root"

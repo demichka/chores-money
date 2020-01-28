@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     this.router.navigate(["/"]);
+                    this.userService.reloadUser();
                 },
                 error => {
                     this.openSnackBar("An error occured.", "close");

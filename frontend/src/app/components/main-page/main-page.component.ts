@@ -72,6 +72,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     logout() {
         this.authService.logout().subscribe(result => {
             this.router.navigate(["/login"]);
+            this.userService.removeCurrentUser();
         });
     }
 }
