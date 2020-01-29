@@ -26,10 +26,13 @@ How to test:
 15. Log in as a child (from step 5)
 16. Repeat steps 6-14.
 17. Open menu, click on Add transaction, fill form and click on Create transaction. This feature is added to give an opportunity to keep balance up-to-date. Only decrement transactions available. Only child has access to create transactions.
-18. Open Balance page and check incoming transactions (from parent) and outgoing transactions (created by child)
-19.Open menu, click on profile - you can change your profile info, but you can't duplicate email address or phone number.
-20.Create donation transaction by a child, log in as a Parent (it is possible to do simultaneously in alternative browser (ex. Chrome and Opera or Firefox).
-21.As a parent click on shortcut TO confirm. You can reject pending chore and delete it directly.
+18. Open Balance page and check incoming transactions (from parent) and outgoing transactions (created by child).
+19. Open menu, click on profile - you can change your profile info, but you can't duplicate email address or phone number.
+20. Create donation transaction by a child, log in as a Parent (it is possible to do simultaneously in alternative browser (ex. Chrome and Opera or Firefox.
+21. As a parent click on shortcut To confirm. You can reject pending chore and delete it directly.
+22. Open menu, click on Add chore, create new chore, then open Chores, click on 'Edit' button on the chore line, chore-form opens. Edit desc, cost or choose another child (if you have more than 1). Click on Save changes button. Open this chore again - chore is updated.
+23. Open menu, click on Chores, choose a chore and click on 'Edit' button, click on 'Delete chore' button. Chore has been deleted.
+24. Open menu, click on Children. Click on 'Delete' (red man) button. Child has been deleted from your list.
 
 
 Happy testing!
