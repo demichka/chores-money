@@ -65,7 +65,12 @@ export class LoginComponent implements OnInit {
                     this.userService.reloadUser();
                 },
                 error => {
-                    this.openSnackBar("An error occured.", "close");
+                    this.openSnackBar(
+                        error.error.error
+                            ? error.error.error
+                            : "An error occured",
+                        "close"
+                    );
                 }
             );
     }
