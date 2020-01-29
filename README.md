@@ -5,7 +5,15 @@ Change directory tp /frontend and run `npm install` there
 If you don't have installed Angular CLI, install it via `npm install -g @angular/cli`
 
 Change directory to root folder and create a folder /config, save there config files which you can ask me about or create them by your own)
-You must have running mongod and  mongo db.
+You must have running mongod and  mongo db if you use local database.
+
+## Tester on MacOS: 
+before you running application be sure that "start" script in in package.json in the root has appropriate value:
+"start": "NODE_ENV=development && concurrently \"npm:backend\" \"npm:frontend\""
+
+then check index.js in the root row 17, remove .trim() after 'process.env.NODE_ENV'.
+
+This application runs in development environment.
 In root directory run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
 
 How to test:
