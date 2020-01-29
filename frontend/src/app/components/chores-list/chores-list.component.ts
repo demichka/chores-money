@@ -46,6 +46,9 @@ export class ChoresListComponent implements OnInit {
     ) {
         this.isUserLoading = true;
         this.userService.currentUser$.subscribe(user => {
+            if (user === null) {
+                return;
+            }
             this.user = user;
             this.isUserLoading = false;
         });
@@ -111,33 +114,23 @@ export class ChoresListComponent implements OnInit {
         if ($event.confirm) {
             let choreAction = $event.chore.isDonation ? "done" : "confirmed";
 
-            this.apiService.confirmChore($event.chore._id).subscribe(
-                res => {
-                    this.messageService.sendMessage(
-                        $event.chore.performer,
-                        `${this.user.name} confirmed your chore.`,
-                        choreAction
-                    );
-                    this.openSnackBar("Chore was confirmed", "close");
-                },
-                error => {
-                    console.error(error.error);
-                }
-            );
+            this.apiService.confirmChore($event.chore._id).subscribe(res => {
+                this.messageService.sendMessage(
+                    $event.chore.performer,
+                    `${this.user.name} confirmed your chore.`,
+                    choreAction
+                );
+                this.openSnackBar("Chore was confirmed", "close");
+            });
         } else {
-            this.apiService.rejectChore($event.chore._id).subscribe(
-                res => {
-                    this.messageService.sendMessage(
-                        $event.chore.performer,
-                        `${this.user.name} rejected your chore.`,
-                        "rejected"
-                    );
-                    this.openSnackBar("Chore was rejected", "close");
-                },
-                error => {
-                    console.log(error.error);
-                }
-            );
+            this.apiService.rejectChore($event.chore._id).subscribe(res => {
+                this.messageService.sendMessage(
+                    $event.chore.performer,
+                    `${this.user.name} rejected your chore.`,
+                    "rejected"
+                );
+                this.openSnackBar("Chore was rejected", "close");
+            });
         }
     }
 

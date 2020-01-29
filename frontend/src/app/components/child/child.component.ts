@@ -32,7 +32,6 @@ export class ChildComponent implements OnInit {
                     error.error.error ? error.error.error : "An error occured",
                     "Close"
                 );
-                console.error(error, "Error on remove child");
             }
         );
     }

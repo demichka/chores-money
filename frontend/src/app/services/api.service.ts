@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { restPath } from "../../../../config/path.config";
+import { restPath } from "../../../../config/keys";
 import {
     HttpClient,
     HttpHeaders,
@@ -36,7 +36,6 @@ export class ApiService {
                 }`
             );
         }
-
         return throwError("Error occured. Please try later");
     }
 
@@ -79,7 +78,7 @@ export class ApiService {
     getChildrenList(): Observable<any> {
         return this.http
             .get<any>(restPath + "/api/my-children", this.httpOptions)
-            .pipe(retry(2));
+            .pipe(retry(2), catchError(this.handleError));
     }
 
     //remove a child from children list
@@ -116,28 +115,28 @@ export class ApiService {
                 JSON.stringify(data),
                 this.httpOptions
             )
-            .pipe(retry(1));
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //remove a chore
     removeChore(id: string): Observable<any> {
         return this.http
             .delete(restPath + "/api/remove-chore/" + id, this.httpOptions)
-            .pipe(retry(1));
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //get parents list
     getParentsList(): Observable<any> {
         return this.http
             .get<any>(restPath + "/api/my-parents", this.httpOptions)
-            .pipe(retry(2));
+            .pipe(retry(2), catchError(this.handleError));
     }
 
     //get chores list
     getChoresList(): Observable<any> {
         return this.http
             .get<any>(restPath + "/api/my-chores", this.httpOptions)
-            .pipe(retry(2));
+            .pipe(retry(2), catchError(this.handleError));
     }
 
     //confirm a chore
@@ -148,14 +147,14 @@ export class ApiService {
                 { isConfirmed: true },
                 this.httpOptions
             )
-            .pipe(retry(1));
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //reject a chore
     rejectChore(id): Observable<any> {
         return this.http
             .delete<any>(restPath + "/api/reject-chore/" + id, this.httpOptions)
-            .pipe(retry(1));
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //set a chore as Done
@@ -195,7 +194,7 @@ export class ApiService {
     getTransactions(): Observable<any> {
         return this.http
             .get<any>(restPath + "/api/my-transactions", this.httpOptions)
-            .pipe(retry(1));
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //update user profile
@@ -217,14 +216,14 @@ export class ApiService {
                 JSON.stringify(data),
                 this.httpOptions
             )
-            .pipe(retry(1));
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //get messages
     getMessages(): Observable<any> {
         return this.http
             .get(restPath + "/api/my-messages", this.httpOptions)
-            .pipe(retry(2));
+            .pipe(retry(2), catchError(this.handleError));
     }
 
     //read message
@@ -237,10 +236,9 @@ export class ApiService {
 
     //remove message
     removeMessage(id: string): Observable<any> {
-        return this.http.delete(
-            restPath + "/api/remove-message/" + id,
-            this.httpOptions
-        );
+        return this.http
+            .delete(restPath + "/api/remove-message/" + id, this.httpOptions)
+            .pipe(retry(1), catchError(this.handleError));
     }
 
     //forgot your password on login page
@@ -252,6 +250,6 @@ export class ApiService {
                 JSON.stringify({ email: email }),
                 this.httpOptions
             )
-            .pipe();
+            .pipe(retry(1));
     }
 }

@@ -41,7 +41,7 @@ export class AddChildComponent implements OnInit {
 
     onSubmit() {
         if (this.addChildForm.invalid) {
-            throw "form is invalid";
+            return;
         }
         this.errors.error = "";
         this.apiService.addChild(this.addChildForm.value).subscribe(
@@ -50,7 +50,6 @@ export class AddChildComponent implements OnInit {
             },
             error => {
                 this.errors = error.error;
-                console.log(error);
                 this.openSnackBar(this.errors.error, "close");
             }
         );

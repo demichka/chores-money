@@ -16,24 +16,14 @@ export class MessageComponent implements OnInit {
     ngOnInit() {}
 
     onRead() {
-        this.apiService.readMessage(this.item._id).subscribe(
-            res => {
-                this.item.unread = false;
-            },
-            error => {
-                console.error(error);
-            }
-        );
+        this.apiService.readMessage(this.item._id).subscribe(res => {
+            this.item.unread = false;
+        });
     }
 
     onRemove() {
-        this.apiService.removeMessage(this.item._id).subscribe(
-            res => {
-                this.hideItem = true;
-            },
-            error => {
-                console.error(error);
-            }
-        );
+        this.apiService.removeMessage(this.item._id).subscribe(res => {
+            this.hideItem = true;
+        });
     }
 }
