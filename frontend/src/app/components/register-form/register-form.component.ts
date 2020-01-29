@@ -90,7 +90,7 @@ export class RegisterFormComponent implements OnInit {
 
     onSubmit() {
         if (this.registerForm.invalid) {
-            throw "form is invalid";
+            return;
         }
         this.data = this.registerForm.value;
         if (this.isParent) {
@@ -109,7 +109,6 @@ export class RegisterFormComponent implements OnInit {
                             errors: error.error.code
                         });
                     }
-                    console.log(error);
                     this.openSnackBar(error.error.errMsg, "close");
                 }
             );
@@ -129,7 +128,6 @@ export class RegisterFormComponent implements OnInit {
                             errors: error.error.code
                         });
                     }
-                    console.log(error);
                     this.openSnackBar(error.error.errMsg, "close");
                 }
             );
@@ -139,7 +137,7 @@ export class RegisterFormComponent implements OnInit {
     //func to open snackbar (material component) to show error which returns as response from server
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
-            duration: 5000
+            duration: 2000
         });
     }
 

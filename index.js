@@ -11,7 +11,10 @@ const app = express();
 const salt = "Not a big secret";
 app.use(express.json());
 
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+//process.env.NODE_ENV.trim() - .trim() to fix bug on Windows
+const origin = process.env.NODE_ENV.trim() === 'development' ? 'http://localhost:4200' : '/';
 mongoose
 	.connect(connectionDB, {
 		useNewUrlParser: true,
@@ -38,7 +41,7 @@ app.use(
 );
 
 //Add middleware to get access to send request from frontend server to backend server
-app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
+app.use(cors({ credentials: true, origin: origin }));
 
 
 //create common REST routes according with Mongoose models

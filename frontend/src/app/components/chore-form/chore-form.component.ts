@@ -65,6 +65,9 @@ export class ChoreFormComponent implements OnInit {
     ) {
         this.isLoading = true;
         this.userService.currentUser$.subscribe(user => {
+            if (user === null) {
+                return;
+            }
             this.user = user;
             if (this.user.isParent) {
                 this.getChildren();
@@ -132,7 +135,7 @@ export class ChoreFormComponent implements OnInit {
 
     onSubmit() {
         if (this.choreForm.invalid) {
-            throw "form is invalid";
+            return;
         }
 
         if (this.editMode) {
@@ -145,10 +148,9 @@ export class ChoreFormComponent implements OnInit {
                     },
                     error => {
                         this.openSnackBar(
-                            `Something went wrong. Try later`,
+                            `Error occured. Check form and try again`,
                             "Close"
                         );
-                        console.error(error, "error on submit");
                     }
                 );
             return;
@@ -174,8 +176,10 @@ export class ChoreFormComponent implements OnInit {
                 );
             },
             error => {
-                this.openSnackBar(`Something went wrong. Try later`, "Close");
-                console.error(error, "error on submit");
+                this.openSnackBar(
+                    `Error occured. Check form and try again`,
+                    "Close"
+                );
             }
         );
     }
@@ -188,8 +192,7 @@ export class ChoreFormComponent implements OnInit {
                 this.openSnackBar(`The chore was removed`, "Done");
             },
             error => {
-                this.openSnackBar(`Something went wrong. Try later`, "Close");
-                console.error(error, "error on remove");
+                this.openSnackBar(`Error occured. Try later`, "Close");
             }
         );
     }

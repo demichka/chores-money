@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { User } from "../models/user.model";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {
+    HttpClient,
+    HttpHeaders,
+    HttpErrorResponse
+} from "@angular/common/http";
 import { Login } from "../models/login.model";
 import { retry } from "rxjs/operators";
-import { restPath } from "../../../../config/path.config";
-import { UserService } from "./user.service";
+import { restPath } from "../../../../config/keys";
 
 @Injectable({
     providedIn: "root"
@@ -23,6 +26,20 @@ export class AuthService {
 
     constructor(private http: HttpClient) {}
 
+    handleError(error: HttpErrorResponse) {
+        if (error.error instanceof ErrorEvent) {
+            console.error("An error occured:", error.error.message);
+        } else {
+            const { errorCode } = error.error;
+            console.error(
+                `Error status: ${error.status}, body: ${
+                    errorCode ? errorCode : error.error
+                }`
+            );
+        }
+        return throwError("Error occured. Please try later");
+    }
+
     public checkLogin(): Observable<any> {
         let path = restPath + "/api/check-login";
         return this.http.get(path, this.httpOptions).pipe(retry(2));
@@ -32,7 +49,7 @@ export class AuthService {
         let path = restPath + "/api/login";
         return this.http
             .post<User>(path, JSON.stringify(login), this.httpOptions)
-            .pipe();
+            .pipe(retry(1));
     }
 
     logout() {

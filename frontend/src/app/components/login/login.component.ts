@@ -48,10 +48,10 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         if (this.email.invalid) {
-            throw "email is invalid";
+            return;
         }
         if (this.password.invalid) {
-            throw "password is invalid";
+            return;
         }
         this.login.email = this.email.value;
         this.login.password = this.password.value;
@@ -78,10 +78,18 @@ export class LoginComponent implements OnInit {
     resetPassword() {
         this.apiService.resetPassword(this.loginForm.value.email).subscribe(
             res => {
-                console.log(res);
+                this.openSnackBar(
+                    "Check your mailbox. New password has been sent",
+                    "done"
+                );
             },
             error => {
-                console.error(error);
+                this.openSnackBar(
+                    error.error.error
+                        ? error.error.error
+                        : "Error occured. Try later",
+                    "close"
+                );
             }
         );
     }
@@ -89,7 +97,7 @@ export class LoginComponent implements OnInit {
     //func to open snackbar (material component) to show error which returns as response from server
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
-            duration: 5000
+            duration: 1500
         });
     }
 }

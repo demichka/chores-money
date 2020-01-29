@@ -1,4 +1,10 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
+import {
+    Component,
+    OnInit,
+    OnChanges,
+    SimpleChanges,
+    OnDestroy
+} from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { ApiService } from "src/app/services/api.service";
 import { User } from "src/app/models/user.model";
@@ -44,6 +50,9 @@ export class ProfilePageComponent implements OnInit {
     ngOnInit() {
         this.isLoading = true;
         this.userService.currentUser$.subscribe(user => {
+            if (user === null) {
+                return;
+            }
             this.user = user;
             this.fillFormWithUserInfo(this.user);
             this.isLoading = false;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { Chore } from "src/app/models/chore.model";
 import { Message } from "@angular/compiler/src/i18n/i18n_ast";
@@ -32,34 +32,24 @@ export class StartPageComponent implements OnInit {
             })
         );
         this.checkData();
-        this.userService.currentUser$.subscribe(
-            data => {
-                if (data) {
-                    this.isParent = data.isParent;
-                }
-            },
-            error => {
-                console.error(error);
+        this.userService.currentUser$.subscribe(data => {
+            if (data) {
+                this.isParent = data.isParent;
             }
-        );
+        });
     }
 
     ngOnInit() {}
 
     //function to check chores data for shortcuts, if there are some undone, done and unpaid chores, chores to confirm
     checkData() {
-        this.apiService.getChoresList().subscribe(
-            data => {
-                if (!data.data) {
-                    throw "No data returned";
-                }
-                this.choresHighights = this.calculateStatistic(data.data);
-                this.isLoading = false;
-            },
-            error => {
-                console.error(error);
+        this.apiService.getChoresList().subscribe(data => {
+            if (!data.data) {
+                throw "No data returned";
             }
-        );
+            this.choresHighights = this.calculateStatistic(data.data);
+            this.isLoading = false;
+        });
     }
 
     //func to calculate quantities of chores for each type to show them in contrast badge on the shortcut

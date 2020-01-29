@@ -13,7 +13,9 @@ export class TransactionComponent implements OnInit {
     currency: string;
     constructor(private userService: UserService) {
         this.userService.currentUser$.subscribe(user => {
-            this.currency = user.currency;
+            if (user) {
+                this.currency = user.currency;
+            }
         });
     }
 

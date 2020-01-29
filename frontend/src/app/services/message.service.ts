@@ -15,11 +15,6 @@ export class MessageService {
             receiverId: receiverId
         };
 
-        this.apiService.createMessage(message).subscribe(
-            res => {},
-            error => {
-                console.error(error);
-            }
-        );
+        this.apiService.createMessage(message).subscribe(res => {});
     }
 }

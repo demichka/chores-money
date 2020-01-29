@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { restPath } from "../../../../config/keys.dev";
+import { restPath } from "../../../../config/keys";
 import { skipWhile } from "rxjs/operators";
 import { User } from "../models/user.model";
 

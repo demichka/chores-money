@@ -24,6 +24,9 @@ export class BalancePageComponent implements OnInit {
     ngOnInit() {
         this.isLoading = true;
         this.userService.currentUser$.subscribe(user => {
+            if (user === null) {
+                return;
+            }
             this.user = user;
             this.getTransactions();
             this.getChores();
@@ -32,30 +35,20 @@ export class BalancePageComponent implements OnInit {
     }
 
     getTransactions() {
-        this.apiService.getTransactions().subscribe(
-            data => {
-                this.transactions = data;
-            },
-            error => {
-                console.error(error);
-            }
-        );
+        this.apiService.getTransactions().subscribe(data => {
+            this.transactions = data;
+        });
     }
 
     getChores() {
-        this.apiService.getChoresList().subscribe(
-            data => {
-                if (!data.data) {
-                    throw "No data returned";
-                }
-                this.calculations = {
-                    ...this.calculateChores(data.data)
-                };
-            },
-            error => {
-                console.error(error);
+        this.apiService.getChoresList().subscribe(data => {
+            if (!data.data) {
+                return;
             }
-        );
+            this.calculations = {
+                ...this.calculateChores(data.data)
+            };
+        });
     }
 
     calculateChores(data: Chore[]) {

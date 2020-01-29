@@ -15,7 +15,7 @@ export class ParentGuardService implements CanActivate {
     canActivate() {
         return this.userService.currentUser$.pipe(
             map(user => {
-                if (user.isParent) {
+                if (user && user.isParent) {
                     return true;
                 } else {
                     this.router.navigate(["/"]);

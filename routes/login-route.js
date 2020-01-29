@@ -55,7 +55,7 @@ module.exports = useLogin = app => {
 			res.status(200).json(userInstance);
 		}
 		else {
-			res.status(401).send('No logged in user');
+			res.status(401).end();
 		}
 	})
 };
