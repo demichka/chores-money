@@ -112,6 +112,13 @@ export class ApiService {
             .pipe(retry(1));
     }
 
+    //remove a chore
+    removeChore(id: string): Observable<any> {
+        return this.http
+            .delete(restPath + "/api/remove-chore/" + id, this.httpOptions)
+            .pipe(retry(1));
+    }
+
     //get parents list
     getParentsList(): Observable<any> {
         return this.http
