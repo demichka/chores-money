@@ -1,9 +1,12 @@
-<mat-list-item>
+<mat-list-item *ngIf="!hide">
 	<mat-icon mat-list-icon>face</mat-icon>
 	<h4 mat-line>{{item.name}}</h4>
 	<p mat-line>{{item.phone}}</p>
 	<a mat-icon-button title="add a chore" [routerLink]="['/chores/add-chore']" [queryParams]="{child: item._id}">
 		<mat-icon>send</mat-icon>
 	</a>
+	<button (click)="removeChild()" mat-icon-button color="warn" aria-label="Remove child from list">
+		<mat-icon>emoji_people</mat-icon>
+	</button>
 	<mat-divider></mat-divider>
 </mat-list-item>

@@ -82,6 +82,13 @@ export class ApiService {
             .pipe(retry(2));
     }
 
+    //remove a child from children list
+
+    removeChildFromList(id: string): Observable<any> {
+        return this.http
+            .get(restPath + "/api/remove-child/" + id, this.httpOptions)
+            .pipe();
+    }
     //add a chore
     addChore(data): Observable<any> {
         return this.http
@@ -109,6 +116,13 @@ export class ApiService {
                 JSON.stringify(data),
                 this.httpOptions
             )
+            .pipe(retry(1));
+    }
+
+    //remove a chore
+    removeChore(id: string): Observable<any> {
+        return this.http
+            .delete(restPath + "/api/remove-chore/" + id, this.httpOptions)
             .pipe(retry(1));
     }
 

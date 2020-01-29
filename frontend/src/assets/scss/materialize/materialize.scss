@@ -1,20 +1,19 @@
 @charset "UTF-8";
-
 // Color
-@import "components/color-variables";
-@import "components/color-classes";
+@import "~materialize-css/sass/components/color-variables";
+@import "~materialize-css/sass/components/color-classes";
 
 // Variables;
-@import "components/variables";
+@import "~materialize-css/sass/components/variables";
 
 // Reset
-@import "components/normalize";
+@import "~materialize-css/sass/components/normalize";
 
 // components
 // @import "components/global";
 // @import "components/badges";
 // @import "components/icons-material-design";
-@import "components/grid";
+@import "~materialize-css/sass/components/grid";
 // @import "components/navbar";
 // @import "components/typography";
 // @import "components/transitions";

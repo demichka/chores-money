@@ -135,8 +135,6 @@ export class ChoreFormComponent implements OnInit {
             throw "form is invalid";
         }
 
-        this.errors.error = "";
-
         if (this.editMode) {
             this.apiService
                 .updateChore(this.editableChore._id, this.choreForm.value)
@@ -146,11 +144,11 @@ export class ChoreFormComponent implements OnInit {
                         this.editMode = false;
                     },
                     error => {
-                        this.errors.error = error.error;
                         this.openSnackBar(
                             `Something went wrong. Try later`,
                             "Close"
                         );
+                        console.error(error, "error on submit");
                     }
                 );
             return;
@@ -176,9 +174,22 @@ export class ChoreFormComponent implements OnInit {
                 );
             },
             error => {
-                this.errors.error = error.error;
                 this.openSnackBar(`Something went wrong. Try later`, "Close");
-                console.error(this.errors);
+                console.error(error, "error on submit");
+            }
+        );
+    }
+
+    //delete chore
+
+    removeChore() {
+        this.apiService.removeChore(this.editableChore._id).subscribe(
+            res => {
+                this.openSnackBar(`The chore was removed`, "Done");
+            },
+            error => {
+                this.openSnackBar(`Something went wrong. Try later`, "Close");
+                console.error(error, "error on remove");
             }
         );
     }
@@ -192,7 +203,6 @@ export class ChoreFormComponent implements OnInit {
             .afterOpened()
             .subscribe(done => {
                 this.resetForm();
-
                 this.router.navigate(["/"]);
             });
     }

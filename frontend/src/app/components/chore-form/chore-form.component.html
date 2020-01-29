@@ -9,7 +9,9 @@
 		<mat-error *ngIf="cost.invalid">{{getErrorMessageCost()}}</mat-error>
 	</mat-form-field>
 	<mat-form-field>
-		<mat-label>Select {{user.isParent ? 'child who works' : 'parent who pays'}}</mat-label>
+		<mat-label>
+			{{relatives && !relatives.length ? 'You don\'t have relatives yet' : user.isParent ? 'Select child to assign' :  'Select parent who pays'}}
+		</mat-label>
 		<mat-select formControlName="receiver" name="relative" required>
 			<mat-option *ngFor="let relative of relatives" [value]="relative._id">
 				{{relative.name}}
@@ -23,5 +25,9 @@
 	<div class="my-1">
 		<button mat-raised-button color=primary
 			[title]="editMode ? 'Save changes' : 'Create new chore'">{{editMode ? 'Save changes' : 'Create new chore'}}</button>
+	</div>
+	<div class="my-1">
+		<button *ngIf="editMode" type="button" mat-stroked-button color=primary
+			title="Delete chore" (click)="removeChore()">Delete chore</button>
 	</div>
 </form>

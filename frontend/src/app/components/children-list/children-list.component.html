@@ -2,5 +2,6 @@
 	<h3 class="col s12">Children list</h3>
 </div>
 <mat-list *ngIf="childrenList$ | async; let children">
+	<p *ngIf="!children.length">You haven't added children in a list yet</p>
 	<app-child *ngFor="let childEl of children" [item]="childEl"></app-child>
 </mat-list>

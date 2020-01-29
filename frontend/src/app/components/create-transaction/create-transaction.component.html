@@ -1,6 +1,6 @@
 <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
 	<h3>Create a transaction</h3>
-	<p>If you spent money, please create a transaction to balance your count</p>
+	<p>If you spent money, please create a transaction to balance your account</p>
 	<mat-form-field>
 		<textarea matInput placeholder="Description" formControlName="desc"></textarea>
 		<mat-error *ngIf="desc.invalid">{{getErrorMessageDesc()}}</mat-error>
