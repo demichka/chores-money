@@ -4,8 +4,6 @@ import { User } from "src/app/models/user.model";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 import { UserService } from "src/app/services/user.service";
-import { Subscription, Observable } from "rxjs";
-import { map } from "rxjs/operators";
 
 @Component({
     selector: "app-main-page",
