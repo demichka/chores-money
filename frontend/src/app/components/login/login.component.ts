@@ -76,6 +76,10 @@ export class LoginComponent implements OnInit {
     }
 
     resetPassword() {
+        if (this.loginForm.value.email === "") {
+            this.openSnackBar("Enter your email", "close");
+            return;
+        }
         this.apiService.resetPassword(this.loginForm.value.email).subscribe(
             res => {
                 this.openSnackBar(
