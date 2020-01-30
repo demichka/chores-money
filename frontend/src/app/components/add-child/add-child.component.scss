@@ -1,0 +1,7 @@
+a {
+    &.mat-raised-button {
+        @media (min-width: 1280px) {
+            width: 220px;
+        }
+    }
+}

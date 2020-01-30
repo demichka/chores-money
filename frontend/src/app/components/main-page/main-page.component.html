@@ -1,5 +1,5 @@
 <div *ngIf="!isLoading">
-	<section class="containerf" *ngIf="!onNotice || mobileQuery.matches">
+	<section class="containerf">
 
 		<mat-toolbar color="primary" class="toolbar">
 			<button mat-icon-button class="btn-menu btn-flat" (click)="snav.toggle()">
@@ -22,18 +22,5 @@
 				</div>
 			</mat-sidenav-content>
 		</mat-sidenav-container>
-	</section>
-
-
-	<section fxLayout="column" fxLayoutAlign="center center" class="non-mobile-container"
-		*ngIf="onNotice || !mobileQuery.matches">
-		<h3>Welcome to Chores&Money App!</h3>
-		<h3>This application is designed to work on mobile devices</h3>
-		<h3>Please toggle device toolbar or open it on mobile device with portrait orientation</h3>
-		<p>or</p>
-		<button mat-raised-button (click)="toggleNotice()">Continue to desktop version</button>
-		<div style="margin-top: 20px;">
-			<mat-checkbox (click)="setSaveChoice()">Open desktop version always</mat-checkbox>
-		</div>
 	</section>
 </div>
